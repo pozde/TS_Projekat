@@ -35,7 +35,8 @@ public class Korisnik {
     private String spol;
 
     @ManyToOne
-    @JoinColumn(name="clanarina_id", nullable = false)
+    //@JoinColumn(name="clanarina_id", nullable = false)
+    @JoinColumn(name="clanarina_id")
     private Clanarina clanarina;
 
     @OneToMany(mappedBy = "korisnik")

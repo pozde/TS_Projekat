@@ -20,23 +20,23 @@ public class KorisnikController {
         return korisnikService.getSviKorisnici();
     }
 
-    @GetMapping(value = "/korisnici/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/korisnik/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getById(@PathVariable int id) {
         return korisnikService.getKorisnikByID(id);
     }
 
-    @GetMapping(value = "/korisnici/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/korisnik/mail/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getByEmail(@PathVariable String email) {
         return korisnikService.getKorisnikByEmail(email);
     }
 
-    @PostMapping(value = "/korisnik", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/dodajKorisnika", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity dodajKorisnika(@Valid @RequestBody Korisnik noviKorisnik) {
         return korisnikService.spasiKorisnika(noviKorisnik);
     }
 
     @PutMapping(value = "/azurirajKorisnika/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity dodajKorisnika(@Valid @RequestBody Korisnik korisnik, @PathVariable int id) {
+    public ResponseEntity azurirajKorisnika(@Valid @RequestBody Korisnik korisnik, @PathVariable int id) {
         return korisnikService.azurirajKorisnika(id, korisnik);
     }
 

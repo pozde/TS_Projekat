@@ -11,7 +11,7 @@ import java.util.List;
 public class Clanarina {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
 
     @Column
     @FutureOrPresent(message = "Datum isteka članarine mora ne smije biti u prošlosti!")
@@ -33,7 +33,7 @@ public class Clanarina {
     }
 
     public Clanarina(int id, Date datumIsteka, String vrsta, List<Korisnik> korisnici) {
-        this.id = id;
+        this.ID = id;
         this.datumIsteka = datumIsteka;
         this.vrsta = vrsta;
         this.korisnici = korisnici;
@@ -46,11 +46,11 @@ public class Clanarina {
     }
 
     public int getId() {
-        return id;
+        return ID;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.ID = id;
     }
 
     public Date getDatumIsteka() {
