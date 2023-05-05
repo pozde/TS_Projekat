@@ -1,32 +1,18 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Services;
 
 import ba.tim2.preporucivanjesadrzajapogodnosti.Models.Zanr;
-import ba.tim2.preporucivanjesadrzajapogodnosti.Repositories.ZanrRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
-@Service
-public class ZanrService {
-    @Autowired
-    private ZanrRepository repository;
+import java.util.List;
 
-    @EventListener
-    public void appReady(ApplicationReadyEvent event) {
-        //repository.save(new Zanr("akcija"));
+public interface ZanrService {
+    List<Zanr> getSviZanrovi();
 
+    ResponseEntity getZanrByID(int id);
 
+    ResponseEntity spasiZanr(Zanr Zanr);
 
+    ResponseEntity azurirajZanr(int id, Zanr Zanr);
 
-        //var clanarina = clanarinaRepository.findById(1).orElse(null);
-        //if (clanarina != null) {
-        //    Korisnik korisnik = new Korisnik("Benjamin", "Pasic", null, "bpasic1@etf.unsa.ba",
-        //            "062623259", "M", clanarina);
-        //    repository.save(korisnik);
-        //    //clanarina.dodajKorisnika(korisnik);
-        //    //clanarinaRepository.save(clanarina);
-
-        //}
-    }
+    ResponseEntity obrisiZanr(int id);
 }

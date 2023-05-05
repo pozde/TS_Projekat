@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface ClanarinaService {
     List<Clanarina> getSveClanarine();
+
     ResponseEntity getClanarinaByID(int id);
+
     ResponseEntity spasiClanarinu(Clanarina clanarina);
+
     ResponseEntity azurirajClanarinu(int id, Clanarina clanarina);
+
     ResponseEntity obrisiClanarinu(int id);
 }

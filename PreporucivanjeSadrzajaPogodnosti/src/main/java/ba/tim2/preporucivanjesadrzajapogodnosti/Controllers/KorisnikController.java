@@ -21,12 +21,12 @@ public class KorisnikController {
     }
 
     @GetMapping(value = "/korisnik/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getById(@PathVariable int id) {
+    public ResponseEntity getKorisnikById(@PathVariable int id) {
         return korisnikService.getKorisnikByID(id);
     }
 
     @GetMapping(value = "/korisnik/mail/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getByEmail(@PathVariable String email) {
+    public ResponseEntity getKorisnikByEmail(@PathVariable String email) {
         return korisnikService.getKorisnikByEmail(email);
     }
 

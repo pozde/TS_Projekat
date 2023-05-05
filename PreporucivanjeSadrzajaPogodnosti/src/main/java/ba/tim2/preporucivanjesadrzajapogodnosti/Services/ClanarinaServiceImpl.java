@@ -29,8 +29,7 @@ public class ClanarinaServiceImpl implements ClanarinaService {
     public ResponseEntity getClanarinaByID(int id) {
         if (clanarinaRepository.existsById(id)) {
             return new ResponseEntity(clanarinaRepository.findByID(id), HttpStatus.OK);
-        }
-        else {
+        } else {
             throw new NePostojiException("Clanarina sa id-em " + id + " ne postoji!");
         }
     }
@@ -40,14 +39,14 @@ public class ClanarinaServiceImpl implements ClanarinaService {
         clanarinaRepository.save(clanarina);
         JSONObject objekat = new JSONObject();
         try {
-            objekat.put("message", "Članarina uspješno dodana!");
+            objekat.put("message", "Članarina je uspješno dodana!");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Clanarina> request = new HttpEntity<>(clanarina, headers);
-        Clanarina clanarina1 = restTemplate.postForObject("http://localhost/dodajClanarinu", request, Clanarina.class);
+        Clanarina clanarina1 = restTemplate.postForObject("http://localhost:8081/dodajClanarinu", request, Clanarina.class);
         return new ResponseEntity(clanarina, HttpStatus.CREATED);
     }
 
@@ -72,7 +71,7 @@ public class ClanarinaServiceImpl implements ClanarinaService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Clanarina> request = new HttpEntity<>(clanarina, httpHeaders);
-        restTemplate.put("http://localhost/azurirajClanarinu/" + id, request);
+        restTemplate.put("http://localhost:8081/azurirajClanarinu/" + id, request);
         clanarinaRepository.save(clanarina);
         try {
             objekat.put("message", "Članarina je uspješno ažurirana!");
@@ -92,10 +91,9 @@ public class ClanarinaServiceImpl implements ClanarinaService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            restTemplate.delete("http://localhost/obrisiClanarinu/" + id);
+            restTemplate.delete("http://localhost:8081/obrisiClanarinu/" + id);
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
-        }
-        else {
+        } else {
             throw new NePostojiException("Članarina sa id-em " + id + " ne postoji!");
         }
     }

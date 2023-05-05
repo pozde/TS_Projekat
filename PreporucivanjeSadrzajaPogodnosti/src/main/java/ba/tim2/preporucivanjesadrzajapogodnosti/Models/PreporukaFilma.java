@@ -7,22 +7,22 @@ import javax.persistence.*;
 public class PreporukaFilma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "zanr_id", referencedColumnName = "id")
+    @JoinColumn(name = "zanr_id", referencedColumnName = "ID")
     private Zanr zanr;
 
     @ManyToOne
-    @JoinColumn(name="korisnik_id", nullable = false)
+    @JoinColumn(name = "korisnik_id", nullable = false)
     private Korisnik korisnik;
 
     public PreporukaFilma() {
 
     }
 
-    public PreporukaFilma(int id, Zanr zanr, Korisnik korisnik) {
-        this.id = id;
+    public PreporukaFilma(int ID, Zanr zanr, Korisnik korisnik) {
+        this.ID = ID;
         this.zanr = zanr;
         this.korisnik = korisnik;
     }
@@ -32,12 +32,12 @@ public class PreporukaFilma {
         this.korisnik = korisnik;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public Zanr getZanr() {

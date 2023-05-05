@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 public class Zanr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
 
     @Column
     @NotEmpty(message = "Naziv žanra ne smije biti prazan!")
@@ -18,20 +18,21 @@ public class Zanr {
 
     @ManyToOne
     //@JoinColumn(name="film_id", nullable = false)
-    @JoinColumn(name="film_id")
+    @JoinColumn(name = "film_id")
     private Film film;
 
     @OneToOne(mappedBy = "zanr")
     private PreporukaFilma preporukaFilma;
 
-    public Zanr() {}
+    public Zanr() {
+    }
 
     public Zanr(String naziv) {
         this.naziv = naziv;
     }
 
-    public Zanr(int id, String naziv, Film film, PreporukaFilma preporukaFilma) {
-        this.id = id;
+    public Zanr(int ID, String naziv, Film film, PreporukaFilma preporukaFilma) {
+        this.ID = ID;
         this.naziv = naziv;
         this.film = film;
         this.preporukaFilma = preporukaFilma;
@@ -43,12 +44,12 @@ public class Zanr {
         this.preporukaFilma = preporukaFilma;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getNaziv() {

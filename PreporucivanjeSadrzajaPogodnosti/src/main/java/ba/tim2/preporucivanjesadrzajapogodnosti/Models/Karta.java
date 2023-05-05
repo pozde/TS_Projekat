@@ -7,25 +7,25 @@ import javax.persistence.*;
 public class Karta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
 
     @ManyToOne
-    @JoinColumn(name="korisnik_id", nullable = false)
+    @JoinColumn(name = "korisnik_id", nullable = false)
     private Korisnik korisnik;
 
     @OneToOne(mappedBy = "karta")
     private Film film;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "popust_id", referencedColumnName = "id")
+    @JoinColumn(name = "popust_id", referencedColumnName = "ID")
     private Popust popust;
 
     public Karta() {
 
     }
 
-    public Karta(int id, Korisnik korisnik, Film film, Popust popust) {
-        this.id = id;
+    public Karta(int ID, Korisnik korisnik, Film film, Popust popust) {
+        this.ID = ID;
         this.korisnik = korisnik;
         this.film = film;
         this.popust = popust;
@@ -37,12 +37,12 @@ public class Karta {
         this.popust = popust;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public Korisnik getKorisnik() {

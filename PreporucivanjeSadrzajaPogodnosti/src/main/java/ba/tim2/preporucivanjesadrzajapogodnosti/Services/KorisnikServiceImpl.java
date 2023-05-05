@@ -31,8 +31,7 @@ public class KorisnikServiceImpl implements KorisnikService {
     public ResponseEntity getKorisnikByID(int id) {
         if (korisnikRepository.existsById(id)) {
             return new ResponseEntity(korisnikRepository.findByID(id), HttpStatus.OK);
-        }
-        else {
+        } else {
             throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
         }
     }
@@ -41,9 +40,8 @@ public class KorisnikServiceImpl implements KorisnikService {
     public ResponseEntity getKorisnikByEmail(String email) {
         if (korisnikRepository.existsByEmail(email)) {
             return new ResponseEntity(korisnikRepository.findByEmail(email), HttpStatus.OK);
-        }
-        else {
-            throw new NePostojiException("Korisnik sa email-om " + email + "ne postoji!");
+        } else {
+            throw new NePostojiException("Korisnik sa email-om " + email + " ne postoji!");
         }
     }
 
@@ -59,14 +57,14 @@ public class KorisnikServiceImpl implements KorisnikService {
         korisnikRepository.save(korisnik);
         JSONObject objekat = new JSONObject();
         try {
-            objekat.put("message", "Korisnik uspješno dodan!");
+            objekat.put("message", "Korisnik je uspješno dodan!");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, headers);
-        Korisnik korisnik1 = restTemplate.postForObject("http://localhost/dodajKorisnika", request, Korisnik.class);
+        restTemplate.postForObject("http://localhost:8081/dodajKorisnika", request, Korisnik.class);
         return new ResponseEntity(korisnik, HttpStatus.CREATED);
     }
 
@@ -77,7 +75,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         if (k == null || !korisnikRepository.existsById(id)) {
             throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
         }
-        
+
         List<Korisnik> sviKorisnici = korisnikRepository.findAll();
         for (int i = 0; i < sviKorisnici.size(); i++) {
             Korisnik korisnik1 = sviKorisnici.get(i);
@@ -85,7 +83,7 @@ public class KorisnikServiceImpl implements KorisnikService {
                 throw new VecPostojiException("Korisnik sa tim email-om već postoji!");
             }
         }
-        
+
         if (!korisnik.getIme().isEmpty()) {
             k.setIme(korisnik.getIme());
         }
@@ -101,12 +99,12 @@ public class KorisnikServiceImpl implements KorisnikService {
         if (!korisnik.getSpol().isEmpty()) {
             k.setSpol(korisnik.getSpol());
         }
-        
-        
+
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, httpHeaders);
-        restTemplate.put("http://localhost/azurirajKorisnika/" + id, request);
+        restTemplate.put("http://localhost:8081/azurirajKorisnika/" + id, request);
         korisnikRepository.save(korisnik);
         try {
             objekat.put("message", "Korisnik je uspješno ažuriran!");
@@ -126,10 +124,9 @@ public class KorisnikServiceImpl implements KorisnikService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            restTemplate.delete("http://localhost/obrisiKorisnika/" + id);
+            restTemplate.delete("http://localhost:8081/obrisiKorisnika/" + id);
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
-        }
-        else {
+        } else {
             throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
         }
     }

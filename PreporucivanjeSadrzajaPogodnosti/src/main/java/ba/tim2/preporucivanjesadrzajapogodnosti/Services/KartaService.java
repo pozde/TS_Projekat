@@ -1,11 +1,18 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Services;
 
-import ba.tim2.preporucivanjesadrzajapogodnosti.Repositories.KartaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import ba.tim2.preporucivanjesadrzajapogodnosti.Models.Karta;
+import org.springframework.http.ResponseEntity;
 
-@Service
-public class KartaService {
-    @Autowired
-    private KartaRepository repository;
+import java.util.List;
+
+public interface KartaService {
+    List<Karta> getSveKarte();
+
+    ResponseEntity getKartaByID(int id);
+
+    ResponseEntity spasiKartu(Karta karta);
+
+    ResponseEntity azurirajKartu(int id, Karta karta);
+
+    ResponseEntity obrisiKartu(int id);
 }

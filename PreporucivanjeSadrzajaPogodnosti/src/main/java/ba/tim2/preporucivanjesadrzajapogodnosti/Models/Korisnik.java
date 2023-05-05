@@ -36,7 +36,7 @@ public class Korisnik {
 
     @ManyToOne
     //@JoinColumn(name="clanarina_id", nullable = false)
-    @JoinColumn(name="clanarina_id")
+    @JoinColumn(name = "clanarina_id")
     private Clanarina clanarina;
 
     @OneToMany(mappedBy = "korisnik")
@@ -45,7 +45,8 @@ public class Korisnik {
     @OneToMany(mappedBy = "korisnik")
     private List<PreporukaFilma> preporukeFilmova;
 
-    public Korisnik() {}
+    public Korisnik() {
+    }
 
     public Korisnik(int id, String ime, String prezime, Date datumRodjenja,
                     String email, String brojTelefona, String spol, Clanarina clanarina,

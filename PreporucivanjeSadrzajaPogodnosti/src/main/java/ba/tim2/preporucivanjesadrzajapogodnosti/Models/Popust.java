@@ -9,7 +9,7 @@ import javax.validation.constraints.Positive;
 public class Popust {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
 
     @OneToOne(mappedBy = "popust")
     private Karta karta;
@@ -22,8 +22,8 @@ public class Popust {
     public Popust() {
     }
 
-    public Popust(int id, Karta karta, double vrijednostPopusta) {
-        this.id = id;
+    public Popust(int ID, Karta karta, double vrijednostPopusta) {
+        this.ID = ID;
         this.karta = karta;
         this.vrijednostPopusta = vrijednostPopusta;
     }
@@ -33,12 +33,12 @@ public class Popust {
         this.vrijednostPopusta = vrijednostPopusta;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public Karta getKarta() {

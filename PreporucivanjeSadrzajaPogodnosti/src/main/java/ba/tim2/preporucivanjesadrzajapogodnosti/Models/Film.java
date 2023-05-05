@@ -11,27 +11,28 @@ import java.util.List;
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
     @Column
     @NotEmpty(message = "Naziv filma ne može biti prazan!")
     @Size(min = 3, max = 255, message = "Naziv filma mora imati između 3 i 255 znakova!")
     private String nazivFilma;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "karta_id", referencedColumnName = "id")
+    @JoinColumn(name = "karta_id", referencedColumnName = "ID")
     private Karta karta;
 
     @OneToMany(mappedBy = "film")
     private List<Zanr> zanrovi;
 
-    public Film() {}
+    public Film() {
+    }
 
     public Film(String naziv) {
         this.nazivFilma = naziv;
     }
 
-    public Film(int id, String nazivFilma, Karta karta, List<Zanr> zanrovi) {
-        this.id = id;
+    public Film(int ID, String nazivFilma, Karta karta, List<Zanr> zanrovi) {
+        this.ID = ID;
         this.nazivFilma = nazivFilma;
         this.karta = karta;
         this.zanrovi = zanrovi;
@@ -43,12 +44,12 @@ public class Film {
         this.zanrovi = zanrovi;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getNazivFilma() {

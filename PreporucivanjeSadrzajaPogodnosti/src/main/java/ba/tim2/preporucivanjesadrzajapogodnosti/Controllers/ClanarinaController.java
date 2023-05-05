@@ -21,7 +21,7 @@ public class ClanarinaController {
     }
 
     @GetMapping(value = "/clanarina/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getById(@PathVariable int id) {
+    public ResponseEntity getClanarinaById(@PathVariable int id) {
         return clanarinaService.getClanarinaByID(id);
     }
 

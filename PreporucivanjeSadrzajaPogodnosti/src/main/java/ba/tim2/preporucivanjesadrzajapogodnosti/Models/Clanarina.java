@@ -24,7 +24,8 @@ public class Clanarina {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "clanarina")
     private List<Korisnik> korisnici;
 
-    public Clanarina() {}
+    public Clanarina() {
+    }
 
     public Clanarina(Date datumIsteka, String vrsta) {
         //korisnici = new ArrayList<>();
@@ -32,8 +33,8 @@ public class Clanarina {
         this.vrsta = vrsta;
     }
 
-    public Clanarina(int id, Date datumIsteka, String vrsta, List<Korisnik> korisnici) {
-        this.ID = id;
+    public Clanarina(int ID, Date datumIsteka, String vrsta, List<Korisnik> korisnici) {
+        this.ID = ID;
         this.datumIsteka = datumIsteka;
         this.vrsta = vrsta;
         this.korisnici = korisnici;
@@ -45,12 +46,12 @@ public class Clanarina {
         this.korisnici = korisnici;
     }
 
-    public int getId() {
+    public int getID() {
         return ID;
     }
 
-    public void setId(int id) {
-        this.ID = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public Date getDatumIsteka() {
