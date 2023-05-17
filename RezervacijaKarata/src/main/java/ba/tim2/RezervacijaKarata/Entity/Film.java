@@ -14,7 +14,7 @@ public class Film {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
     @Column
     @NotEmpty(message = "Naziv filma mora postojati!")
     private String nazivFilma;
@@ -36,12 +36,12 @@ public class Film {
         this.duration = duration;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int id) {
+        this.ID = id;
     }
 
     public int getDuration() {

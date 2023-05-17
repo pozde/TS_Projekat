@@ -3,6 +3,7 @@ package ba.tim2.RezervacijaKarata.Controller;
 import ba.tim2.RezervacijaKarata.Entity.Film;
 import ba.tim2.RezervacijaKarata.Service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,35 +11,35 @@ import java.util.List;
 @RestController
 public class FilmController {
     @Autowired
-    private FilmService service;
+    private FilmService filmService;
 
     @PostMapping("/dodajFilm")
-    public Film dodajFilm(@RequestBody Film film) {
-        return service.spasiFilm(film);
+    public ResponseEntity dodajFilm(@RequestBody Film film) {
+        return filmService.spasiFilm(film);
     }
 
-    @PostMapping("/dodajFilmove")
-    public List<Film> dodajFilmove(@RequestBody List<Film> filmovi) {
-        return service.spasiFilmove(filmovi);
-    }
+//    @PostMapping("/dodajFilmove")
+//    public List<Film> dodajFilmove(@RequestBody List<Film> filmovi) {
+//        return filmService.spasiFilmove(filmovi);
+//    }
 
     @GetMapping("/filmovi")
     public List<Film> getSviFilmovi() {
-        return service.getSviFilmovi();
+        return filmService.getSviFilmovi();
     }
 
     @GetMapping("/film/{id}")
-    public Film getFilmById(@PathVariable int id) {
-        return service.getFilmById(id);
+    public ResponseEntity getFilmById(@PathVariable int id) {
+        return filmService.getFilmByID(id);
     }
 
-    @PutMapping("/updateFilm")
-    public Film azuzirajFilm(@RequestBody Film film) {
-        return service.azurirajFilm(film);
+    @PutMapping("/azurirajFilm")
+    public ResponseEntity azuzirajFilm(@PathVariable int id, @RequestBody Film film) {
+        return filmService.azurirajFilm(id, film);
     }
 
     @DeleteMapping("/deleteFilm/{id}")
-    public String obrisiFilm(@PathVariable int id) {
-        return service.obrisiFilm(id);
+    public ResponseEntity obrisiFilm(@PathVariable int id) {
+        return filmService.obrisiFilm(id);
     }
 }

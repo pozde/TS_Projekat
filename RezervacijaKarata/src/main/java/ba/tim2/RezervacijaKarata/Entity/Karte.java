@@ -1,7 +1,6 @@
 package ba.tim2.RezervacijaKarata.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -10,7 +9,7 @@ public class Karte {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
     @Column
     private int brojKarte;
 
@@ -31,8 +30,8 @@ public class Karte {
     public Karte() {
     }
 
-    public Karte(int id, int brojKarte) {
-        this.id = id;
+    public Karte(int ID, int brojKarte) {
+        this.ID = ID;
         this.brojKarte = brojKarte;
     }
 
@@ -43,12 +42,12 @@ public class Karte {
         this.terminSaProjekcijom = terminSaProjekcijom;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int id) {
+        this.ID = id;
     }
 
     public int getBrojKarte() {

@@ -1,56 +1,20 @@
 package ba.tim2.RezervacijaKarata.Service;
 
 import ba.tim2.RezervacijaKarata.Entity.Korisnik;
-import ba.tim2.RezervacijaKarata.Repository.KorisnikRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-@Service
-public class KorisnikService {
-    @Autowired
-    private KorisnikRepository repository;
+public interface KorisnikService {
+    ResponseEntity getKorisnikByEmail(String email);
 
-    @EventListener
-    public void appReady(ApplicationReadyEvent event) {
-    //    repository.save(new Korisnik("Benjamin", "Pasic", new Date(2000, Calendar.FEBRUARY,24),"bpasic1@etf.unsa.ba","062623259","M"));
-    }
+    ResponseEntity getKorisnikById(int id);
 
-    public Korisnik spasiKorisnika(Korisnik korisnik) {
-        return repository.save(korisnik);
-    }
+    ResponseEntity spasiKorisnika(Korisnik korisnik);
 
-    public List<Korisnik> spasiKorisnike(List<Korisnik> korisnici) {
-        return repository.saveAll(korisnici);
-    }
+    List<Korisnik> getSviKorisnici();
 
-    public List<Korisnik> getSviKorisnici() {
-        return repository.findAll();
-    }
+    ResponseEntity obrisiKorisnika(int id);
 
-    public Korisnik getKorisnikById(int id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    //public Korisnik getKorisnikByName(String name) {
-    //  return repository.findByName(name);
-    //}
-
-    public String obrisiKorisnika(int id) {
-        repository.deleteById(id);
-        return "Korisnik removed !!" + id;
-    }
-
-    public Korisnik azurirajKorisnika(Korisnik korisnik) {
-        Korisnik existingKorisnik = repository.findById(korisnik.getId()).orElse(null);
-        //existingKorisnik.setName(Korisnik.getName());
-        //existingKorisnik.setPrice(Korisnik.getPrice());
-        //existingKorisnik.setQuantity(Korisnik.getQuantity());
-        return repository.save(existingKorisnik);
-    }
+    ResponseEntity azurirajKorisnika(int id, Korisnik korisnik);
 }

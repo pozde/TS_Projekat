@@ -27,7 +27,7 @@ public class TerminSaProjekcijom {
     //@JoinColumn(name="film_id", nullable=false)
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name="film_id", referencedColumnName="id"),
+            @JoinColumn(name="film_id", referencedColumnName="ID"),
             @JoinColumn(name="duration_film", referencedColumnName="duration")
     })
     private Film film;

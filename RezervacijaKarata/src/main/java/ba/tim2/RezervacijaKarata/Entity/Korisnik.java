@@ -12,7 +12,7 @@ public class Korisnik {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
     @Column
     @NotBlank(message = "Ime ne smije biti prazno!")
     @Size(min = 3, max = 255, message = "Ime mora imati barem 3 karaktera")
@@ -23,7 +23,7 @@ public class Korisnik {
     private String prezime;
     @Column
     private Date datumRodjenja;
-    @Column(unique = true)
+    @Column
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @NotBlank(message = "Mail ne smije biti prazan")
     private String email;
@@ -38,7 +38,7 @@ public class Korisnik {
     }
 
     public Korisnik(int id, String ime, String prezime, Date datumRodjenja, String email, String brojTelefona, String spol) {
-        this.id = id;
+        this.ID = id;
         this.ime = ime;
         this.prezime = prezime;
         this.datumRodjenja = datumRodjenja;
@@ -56,12 +56,20 @@ public class Korisnik {
         this.spol = spol;
     }
 
-    public int getId() {
-        return id;
+    public Korisnik(String ime, String prezime, Date datumRodjenja, String brojTelefona, String spol) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.datumRodjenja = datumRodjenja;
+        this.brojTelefona = brojTelefona;
+        this.spol = spol;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int id) {
+        this.ID = id;
     }
 
     public String getIme() {

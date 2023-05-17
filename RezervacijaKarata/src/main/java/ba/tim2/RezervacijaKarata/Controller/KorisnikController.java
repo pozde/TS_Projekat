@@ -1,8 +1,11 @@
 package ba.tim2.RezervacijaKarata.Controller;
 
 import ba.tim2.RezervacijaKarata.Entity.Korisnik;
-import ba.tim2.RezervacijaKarata.Service.KorisnikService;
+import ba.tim2.RezervacijaKarata.Service.KorisnikServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,35 +13,40 @@ import java.util.List;
 @RestController
 public class KorisnikController {
     @Autowired
-    private KorisnikService service;
+    private KorisnikServiceImpl service;
 
-    @PostMapping("/dodajKorisnika")
-    public Korisnik dodajKorisnika(@RequestBody Korisnik korisnik) {
+    @PostMapping(value = "/dodajKorisnika", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity dodajKorisnika(@RequestBody Korisnik korisnik) {
         return service.spasiKorisnika(korisnik);
     }
 
-    @PostMapping("/dodajKorisnike")
-    public List<Korisnik> dodajKorisnike(@RequestBody List<Korisnik> korisnici) {
-        return service.spasiKorisnike(korisnici);
-    }
+//    @PostMapping("/dodajKorisnike")
+//    public List<Korisnik> dodajKorisnike(@RequestBody List<Korisnik> korisnici) {
+//        return service.spasiKorisnike(korisnici);
+//    }
 
-    @GetMapping("/korisnici")
+    @GetMapping(value = "/korisnici", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Korisnik> getSviKorisnici() {
         return service.getSviKorisnici();
     }
 
-    @GetMapping("/korisnik/{id}")
-    public Korisnik getKorisnikById(@PathVariable int id) {
+    @GetMapping(value = "/korisnik/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getKorisnikById(@PathVariable int id) {
         return service.getKorisnikById(id);
     }
 
-    @PutMapping("/updateKorisnik")
-    public Korisnik azuzirajKorisnika(@RequestBody Korisnik korisnik) {
-        return service.azurirajKorisnika(korisnik);
+    @GetMapping(value = "/korisnik/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getKorisnikByEmail(@PathVariable String email) {
+        return service.getKorisnikByEmail(email);
     }
 
-    @DeleteMapping("/deleteKorisnik/{id}")
-    public String obrisiKorisnika(@PathVariable int id) {
+    @PutMapping(value = "/azurirajKorisnika/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity azuzirajKorisnika(@PathVariable int id, @RequestBody Korisnik korisnik) {
+        return service.azurirajKorisnika(id, korisnik);
+    }
+
+    @DeleteMapping(value = "/obrisiKorisnika/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity obrisiKorisnika(@PathVariable int id) {
         return service.obrisiKorisnika(id);
     }
 }
