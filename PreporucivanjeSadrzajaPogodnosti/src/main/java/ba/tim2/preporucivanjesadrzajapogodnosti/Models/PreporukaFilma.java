@@ -1,6 +1,6 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table

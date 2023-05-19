@@ -47,7 +47,7 @@ public class FilmServiceImpl implements FilmService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Film> request = new HttpEntity<>(film, headers);
-        restTemplate.postForObject("http:://localhost:8081/dodajFilm", request, Film.class);
+        //restTemplate.postForObject("http:://localhost:8081/dodajFilm", request, Film.class);
         return new ResponseEntity(film, HttpStatus.CREATED);
     }
 
@@ -79,7 +79,7 @@ public class FilmServiceImpl implements FilmService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Film> request = new HttpEntity<>(film, headers);
-        restTemplate.put("http:://localhost:8081/azurirajFilm", request, Film.class);
+        //restTemplate.put("http:://localhost:8081/azurirajFilm", request, Film.class);
         return new ResponseEntity(film, HttpStatus.OK);
     }
 
@@ -93,7 +93,7 @@ public class FilmServiceImpl implements FilmService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            restTemplate.delete("http://localhost:8081/obrisiFilm" + id);
+            //restTemplate.delete("http://localhost:8081/obrisiFilm" + id);
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         } else {
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");

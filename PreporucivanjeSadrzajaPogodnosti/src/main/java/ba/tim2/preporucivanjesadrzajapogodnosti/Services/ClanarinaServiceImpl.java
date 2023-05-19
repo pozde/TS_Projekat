@@ -46,7 +46,7 @@ public class ClanarinaServiceImpl implements ClanarinaService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Clanarina> request = new HttpEntity<>(clanarina, headers);
-        Clanarina clanarina1 = restTemplate.postForObject("http://localhost:8081/dodajClanarinu", request, Clanarina.class);
+        //restTemplate.postForObject("http://localhost:8081/dodajClanarinu", request, Clanarina.class);
         return new ResponseEntity(clanarina, HttpStatus.CREATED);
     }
 
@@ -71,8 +71,8 @@ public class ClanarinaServiceImpl implements ClanarinaService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Clanarina> request = new HttpEntity<>(clanarina, httpHeaders);
-        restTemplate.put("http://localhost:8081/azurirajClanarinu/" + id, request);
-        clanarinaRepository.save(clanarina);
+        //restTemplate.put("http://localhost:8081/azurirajClanarinu/" + id, request);
+        clanarinaRepository.save(c);
         try {
             objekat.put("message", "Članarina je uspješno ažurirana!");
         } catch (JSONException e) {
@@ -91,7 +91,7 @@ public class ClanarinaServiceImpl implements ClanarinaService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            restTemplate.delete("http://localhost:8081/obrisiClanarinu/" + id);
+            //restTemplate.delete("http://localhost:8081/obrisiClanarinu/" + id);
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         } else {
             throw new NePostojiException("Članarina sa id-em " + id + " ne postoji!");

@@ -47,7 +47,7 @@ public class ZanrServiceImpl implements ZanrService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Zanr> request = new HttpEntity<>(zanr, headers);
-        restTemplate.postForObject("http:://localhost:8081/dodajZanr", request, Zanr.class);
+        //restTemplate.postForObject("http:://localhost:8081/dodajZanr", request, Zanr.class);
         return new ResponseEntity(zanr, HttpStatus.CREATED);
     }
 
@@ -79,7 +79,8 @@ public class ZanrServiceImpl implements ZanrService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Zanr> request = new HttpEntity<>(zanr, headers);
-        restTemplate.put("http:://localhost:8081/azurirajZanr", request, Zanr.class);
+        //restTemplate.put("http:://localhost:8081/azurirajZanr", request, Zanr.class);
+        zanrRepository.save(z);
         return new ResponseEntity(zanr, HttpStatus.OK);
     }
 
@@ -93,7 +94,7 @@ public class ZanrServiceImpl implements ZanrService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            restTemplate.delete("http://localhost:8081/obrisiZanr" + id);
+            //restTemplate.delete("http://localhost:8081/obrisiZanr" + id);
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         } else {
             throw new NePostojiException("Žanr sa id-em " + id + " ne postoji!");

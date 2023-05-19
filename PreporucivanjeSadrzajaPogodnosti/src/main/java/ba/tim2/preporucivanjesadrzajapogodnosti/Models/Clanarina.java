@@ -1,7 +1,8 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Date;
 import java.util.List;
