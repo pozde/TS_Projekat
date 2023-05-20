@@ -62,9 +62,9 @@ public class ZanrServiceImpl implements ZanrService {
         if (!zanr.getNaziv().isEmpty()) {
             z.setNaziv(zanr.getNaziv());
         }
-        if (zanr.getFilm() != null) {
+        /*if (zanr.getFilm() != null) {
             z.setFilm(zanr.getFilm());
-        }
+        }*/
         if (zanr.getPreporukaFilma() != null) {
             z.setPreporukaFilma(zanr.getPreporukaFilma());
         }

@@ -2,12 +2,12 @@ package ba.tim2.preporucivanjesadrzajapogodnosti.Controllers;
 
 import ba.tim2.preporucivanjesadrzajapogodnosti.Models.Zanr;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Services.ZanrService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController

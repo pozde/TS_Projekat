@@ -10,14 +10,14 @@ public class Karta {
     private int ID;
 
     @ManyToOne
-    @JoinColumn(name = "korisnik_id", nullable = false)
+    @JoinColumn(name = "korisnik_id")
     private Korisnik korisnik;
 
     @OneToOne(mappedBy = "karta")
     private Film film;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "popust_id", referencedColumnName = "ID")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "popust_id")
     private Popust popust;
 
     public Karta() {

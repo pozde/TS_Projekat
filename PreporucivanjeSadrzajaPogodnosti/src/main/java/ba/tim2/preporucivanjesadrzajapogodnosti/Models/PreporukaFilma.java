@@ -14,7 +14,7 @@ public class PreporukaFilma {
     private Zanr zanr;
 
     @ManyToOne
-    @JoinColumn(name = "korisnik_id", nullable = false)
+    @JoinColumn(name = "korisnik_id")
     private Korisnik korisnik;
 
     public PreporukaFilma() {

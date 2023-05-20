@@ -1,8 +1,11 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,10 +25,11 @@ public class Korisnik {
     @Size(min = 3, max = 255, message = "Prezime mora imati između 3 i 255 znakova!")
     private String prezime;
     @Column
-    @Past(message = "Datum mora biti u prošlosti!")
+    //@Past(message = "Datum mora biti u prošlosti!")
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private Date datumRodjenja;
 
-    @Column(unique = true)
+    @Column
     @Email(message = "E-mail nije validan!", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @NotBlank(message = "E-mail ne smije biti prazan!")
     private String email;
@@ -34,16 +38,18 @@ public class Korisnik {
     @Column
     private String spol;
 
+    @JsonIgnore
     @ManyToOne
-    //@JoinColumn(name="clanarina_id", nullable = false)
     @JoinColumn(name = "clanarina_id")
     private Clanarina clanarina;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "korisnik")
-    private List<Karta> karte;
+    private List<Karta> karte = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "korisnik")
-    private List<PreporukaFilma> preporukeFilmova;
+    private List<PreporukaFilma> preporukeFilmova = new ArrayList<>();
 
     public Korisnik() {
     }
@@ -184,5 +190,13 @@ public class Korisnik {
 
     public void setPreporukeFilmova(List<PreporukaFilma> preporukeFilmova) {
         this.preporukeFilmova = preporukeFilmova;
+    }
+
+    public void dodajKartu(Karta karta) {
+        karte.add(karta);
+    }
+
+    public void dodajKarte(List<Karta> listaKarti) {
+        karte.addAll(listaKarti);
     }
 }

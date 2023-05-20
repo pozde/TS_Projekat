@@ -1,5 +1,6 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 
@@ -10,7 +11,9 @@ public class Popust {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
-    @OneToOne(mappedBy = "popust")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "karta_id")
     private Karta karta;
 
     @Column
