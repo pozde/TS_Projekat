@@ -4,6 +4,7 @@ import ba.tim2.preporucivanjesadrzajapogodnosti.ErrorHandling.NePostojiException
 import ba.tim2.preporucivanjesadrzajapogodnosti.ErrorHandling.VecPostojiException;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Models.Korisnik;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Repositories.KorisnikRepository;
+import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     @Override
     public List<Korisnik> getSviKorisnici() {
-        //grpcKorisnikService.action("korisnik", "GET", "/korisnici", "SUCCESS", new TimeStamp(System.currentTimeMillis()));
+        GrpcClient.log("korisnik", "GET /korisnici", "SUCCESS");
         return korisnikRepository.findAll();
     }
 

@@ -36,6 +36,7 @@ public class PreporucivanjeSadrzajaPogodnostiService {
 
     @Transactional
     public void insertStaticData() {
+        /*
         Korisnik korisnik1 = new Korisnik();
         Korisnik korisnik2 = new Korisnik();
         Korisnik korisnik3 = new Korisnik();
@@ -312,5 +313,6 @@ public class PreporucivanjeSadrzajaPogodnostiService {
         zanrRepository.save(zanr7);
         zanrRepository.save(zanr8);
         zanrRepository.save(zanr9);
+         */
     }
 }
