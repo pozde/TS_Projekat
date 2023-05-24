@@ -42,7 +42,7 @@ public class FilmServiceImpl implements FilmService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Film> request = new HttpEntity<>(film, headers);
-        //restTemplate.postForObject("http:://localhost:8080/dodajFilm", request, Film.class);
+        restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/filmovi/dodaj", request, Film.class);
         return new ResponseEntity(film, HttpStatus.CREATED);
     }
 
@@ -118,7 +118,7 @@ public class FilmServiceImpl implements FilmService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Film> request = new HttpEntity<>(film, headers);
-        restTemplate.put("http:://localhost:8080/azurirajFilm", request, Film.class);
+        //restTemplate.put("http://preporucivanje-sadrzaja-pogodnosti/filmovi/dodaj", request, Film.class);
         return new ResponseEntity(film, HttpStatus.OK);
     }
 }

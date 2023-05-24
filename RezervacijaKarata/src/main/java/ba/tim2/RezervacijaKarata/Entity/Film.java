@@ -20,7 +20,7 @@ public class Film {
     private String nazivFilma;
 
     @Column
-    @NotEmpty(message = "Trajanje filma mora postojati!")
+//    @NotEmpty(message = "Trajanje filma mora postojati!")
     private int duration;
 
     @OneToMany(mappedBy = "film")

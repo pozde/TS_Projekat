@@ -32,8 +32,10 @@ public class KorisnikServiceImpl implements KorisnikService {
     @Override
     public ResponseEntity getKorisnikByEmail(String email) {
         if (korisnikRepository.existsByEmail(email)) {
+            GrpcClient.log("Korisnik", "Get /korisnik/email/{email}", "Success");
             return new ResponseEntity(korisnikRepository.findByEmail(email), HttpStatus.OK);
         } else {
+            GrpcClient.log("Korisnik", "Get /korisnik/email/{email}", "Fail");
             throw new NePostojiException("Korisnik sa email-om " + email + " ne postoji!");
         }
     }
@@ -41,11 +43,11 @@ public class KorisnikServiceImpl implements KorisnikService {
     @Override
     public ResponseEntity getKorisnikById(int id) {
         if (korisnikRepository.existsById(id)) {
-            GrpcClient.log("Korisnik", "Get", "Success");
+            GrpcClient.log("Korisnik", "Get /korisnik/{id}", "Success");
             return new ResponseEntity(korisnikRepository.findById(id), HttpStatus.OK);
         }
         else {
-            GrpcClient.log("Korisnik", "Get", "Fail");
+            GrpcClient.log("Korisnik", "Get /korisnik/{id}", "Fail");
             throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
         }
     }
@@ -56,13 +58,12 @@ public class KorisnikServiceImpl implements KorisnikService {
         for (int i = 0; i < sviKorisnici.size(); i++) {
             Korisnik k = sviKorisnici.get(i);
             if (korisnik.getEmail().equals(k.getEmail())) {
-                System.out.println("evo me u petljici");
+                GrpcClient.log("Korisnik", "Create /dodajKorisnika", "Fail");
                 throw new VecPostojiException("Korisnik sa tim email-om već postoji!");
             }
         }
-        System.out.println("Van petlje sam");
         korisnikRepository.save(korisnik);
-        System.out.println("ispis nakon dodavanja korisnika");
+        GrpcClient.log("Korisnik", "Create /dodajKorisnika", "Success");
         JSONObject objekat = new JSONObject();
         try {
             objekat.put("message", "Korisnik je uspješno dodan!");
@@ -73,7 +74,6 @@ public class KorisnikServiceImpl implements KorisnikService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, headers);
         //restTemplate.postForObject("http://localhost:8080/dodajKorisnika", request, Korisnik.class);
-        System.out.println("ok evo me iza resta");
         return new ResponseEntity(korisnik, HttpStatus.CREATED);
     }
 
@@ -83,6 +83,7 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     @Override
     public List<Korisnik> getSviKorisnici() {
+        GrpcClient.log("Korisnik", "Get /korisnici", "Success");
         return korisnikRepository.findAll();
     }
 
@@ -94,6 +95,7 @@ public class KorisnikServiceImpl implements KorisnikService {
     public ResponseEntity obrisiKorisnika(int id) {
         if(korisnikRepository.existsById(id)){
             JSONObject objekat = new JSONObject();
+            GrpcClient.log("Korisnik", "Delete /obrisiKorisnika/{id}", "Success");
             korisnikRepository.deleteById(id);
             try {
                 objekat.put("message", "Korisnik je uspješno obrisan!");
@@ -104,6 +106,7 @@ public class KorisnikServiceImpl implements KorisnikService {
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         }
         else {
+            GrpcClient.log("Korisnik", "Delete /obrisiKorisnika/{id}", "Fail");
             throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
         }
     }
@@ -119,6 +122,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         for (int i = 0; i < sviKorisnici.size(); i++) {
             Korisnik korisnik1 = sviKorisnici.get(i);
             if (k.getID() != korisnik1.getID() && korisnik1.getEmail().equals(korisnik.getEmail())) {
+                GrpcClient.log("Korisnik", "Update /azurirajKorisnika/{id}", "Fail");
                 throw new VecPostojiException("Korisnik sa tim email-om već postoji!");
             }
         }
@@ -142,6 +146,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, httpHeaders);
         //restTemplate.put("http://localhost:8080/azurirajKorisnika/" + id, request);
+        GrpcClient.log("Korisnik", "Update /azurirajKorisnika/{id}", "Success");
         korisnikRepository.save(k);
         try {
             objekat.put("message", "Korisnik je uspješno ažuriran!");
