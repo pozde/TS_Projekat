@@ -47,7 +47,7 @@ public class KartaServiceImpl implements KartaService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Karta> request = new HttpEntity<>(karta, headers);
-        restTemplate.postForObject("http:://localhost:8081/dodajKartu", request, Karta.class);
+        //restTemplate.postForObject("http:://localhost:8081/dodajKartu", request, Karta.class);
         return new ResponseEntity(karta, HttpStatus.CREATED);
     }
 
@@ -81,7 +81,8 @@ public class KartaServiceImpl implements KartaService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Karta> request = new HttpEntity<>(karta, headers);
-        restTemplate.put("http:://localhost:8081/azurirajKartu", request, Karta.class);
+        //restTemplate.put("http:://localhost:8081/azurirajKartu", request, Karta.class);
+        kartaRepository.save(k);
         return new ResponseEntity(karta, HttpStatus.OK);
     }
 
@@ -95,7 +96,7 @@ public class KartaServiceImpl implements KartaService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            restTemplate.delete("http://localhost:8081/obrisiKartu" + id);
+            //restTemplate.delete("http://localhost:8081/obrisiKartu" + id);
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         } else {
             throw new NePostojiException("Karta sa id-em " + id + " ne postoji!");

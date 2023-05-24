@@ -1,8 +1,12 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -16,12 +20,12 @@ public class Zanr {
     @Size(min = 3, max = 255, message = "Naziv žanra mora imati između 3 i 255 znakova!")
     private String naziv;
 
-    @ManyToOne
-    //@JoinColumn(name="film_id", nullable = false)
-    @JoinColumn(name = "film_id")
-    private Film film;
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "zanrovi")
+    private List<Film> filmovi = new ArrayList<>();
 
-    @OneToOne(mappedBy = "zanr")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "preporukaFilma_id")
     private PreporukaFilma preporukaFilma;
 
     public Zanr() {
@@ -31,18 +35,6 @@ public class Zanr {
         this.naziv = naziv;
     }
 
-    public Zanr(int ID, String naziv, Film film, PreporukaFilma preporukaFilma) {
-        this.ID = ID;
-        this.naziv = naziv;
-        this.film = film;
-        this.preporukaFilma = preporukaFilma;
-    }
-
-    public Zanr(String naziv, Film film, PreporukaFilma preporukaFilma) {
-        this.naziv = naziv;
-        this.film = film;
-        this.preporukaFilma = preporukaFilma;
-    }
 
     public int getID() {
         return ID;
@@ -60,12 +52,12 @@ public class Zanr {
         this.naziv = naziv;
     }
 
-    public Film getFilm() {
-        return film;
+    public List<Film> getFilmovi() {
+        return filmovi;
     }
 
-    public void setFilm(Film film) {
-        this.film = film;
+    public void setFilmovi(List<Film> filmovi) {
+        this.filmovi = filmovi;
     }
 
     public PreporukaFilma getPreporukaFilma() {
@@ -74,5 +66,13 @@ public class Zanr {
 
     public void setPreporukaFilma(PreporukaFilma preporukaFilma) {
         this.preporukaFilma = preporukaFilma;
+    }
+
+    public void dodajFilm(Film film) {
+        filmovi.add(film);
+    }
+
+    public void dodajFilmove(List<Film> listaFilmova) {
+        filmovi.addAll(listaFilmova);
     }
 }

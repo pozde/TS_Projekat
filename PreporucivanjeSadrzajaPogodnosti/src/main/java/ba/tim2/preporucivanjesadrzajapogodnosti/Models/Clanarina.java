@@ -1,8 +1,10 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotEmpty;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +23,8 @@ public class Clanarina {
     @NotEmpty(message = "Vrsta članarine ne smije biti prazna!")
     private String vrsta;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "clanarina")
-    private List<Korisnik> korisnici;
+    @OneToMany(mappedBy = "clanarina")
+    private List<Korisnik> korisnici = new ArrayList<>();
 
     public Clanarina() {
     }
@@ -76,5 +78,13 @@ public class Clanarina {
 
     public void setKorisnici(List<Korisnik> korisnici) {
         this.korisnici = korisnici;
+    }
+
+    public void dodajKorisnika(Korisnik korisnik) {
+        korisnici.add(korisnik);
+    }
+
+    public void dodajKorisnike(List<Korisnik> listaKorisnika) {
+        korisnici.addAll(listaKorisnika);
     }
 }

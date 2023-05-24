@@ -1,8 +1,8 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table
@@ -11,11 +11,13 @@ public class Popust {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
-    @OneToOne(mappedBy = "popust")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "karta_id")
     private Karta karta;
 
     @Column
-    @NotEmpty(message = "Vrijednost popusta ne može biti prazna!")
+    //@NotEmpty(message = "Vrijednost popusta ne može biti prazna!")
     @Positive(message = "Vrijednost popusta ne može biti negativna!")
     double vrijednostPopusta;
 

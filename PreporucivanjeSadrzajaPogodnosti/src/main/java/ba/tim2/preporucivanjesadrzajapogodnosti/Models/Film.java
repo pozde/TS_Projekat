@@ -1,10 +1,13 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table
@@ -17,12 +20,18 @@ public class Film {
     @Size(min = 3, max = 255, message = "Naziv filma mora imati između 3 i 255 znakova!")
     private String nazivFilma;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "karta_id", referencedColumnName = "ID")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "karta_id")
     private Karta karta;
 
-    @OneToMany(mappedBy = "film")
-    private List<Zanr> zanrovi;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "film_zanrovi",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "zanr_id")
+    )
+    private List<Zanr> zanrovi = new ArrayList<>();
 
     public Film() {
     }
@@ -74,5 +83,13 @@ public class Film {
 
     public void setZanrovi(List<Zanr> zanrovi) {
         this.zanrovi = zanrovi;
+    }
+
+    public void dodajZanr(Zanr zanr) {
+        zanrovi.add(zanr);
+    }
+
+    public void dodajZanrove(List<Zanr> listaZanrova) {
+        zanrovi.addAll(listaZanrova);
     }
 }

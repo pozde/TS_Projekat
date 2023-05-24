@@ -48,7 +48,7 @@ public class PopustServiceImpl implements PopustService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Popust> request = new HttpEntity<>(popust, headers);
-        restTemplate.postForObject("http:://localhost:8081/dodajPopust", request, Popust.class);
+        //restTemplate.postForObject("http:://localhost:8081/dodajPopust", request, Popust.class);
         return new ResponseEntity(popust, HttpStatus.CREATED);
     }
 
@@ -78,7 +78,8 @@ public class PopustServiceImpl implements PopustService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Popust> request = new HttpEntity<>(popust, headers);
-        restTemplate.put("http:://localhost:8081/azurirajPopust", request, Popust.class);
+        //restTemplate.put("http:://localhost:8081/azurirajPopust", request, Popust.class);
+        popustRepository.save(p);
         return new ResponseEntity(popust, HttpStatus.OK);
     }
 

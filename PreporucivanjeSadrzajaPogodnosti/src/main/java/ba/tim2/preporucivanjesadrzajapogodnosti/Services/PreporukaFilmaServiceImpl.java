@@ -47,7 +47,7 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<PreporukaFilma> request = new HttpEntity<>(preporukaFilma, headers);
-        restTemplate.postForObject("http:://localhost:8081/dodajPreporukuFilma", request, PreporukaFilma.class);
+        //restTemplate.postForObject("http:://localhost:8081/dodajPreporukuFilma", request, PreporukaFilma.class);
         return new ResponseEntity(preporukaFilma, HttpStatus.CREATED);
     }
 
@@ -77,7 +77,8 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<PreporukaFilma> request = new HttpEntity<>(preporukaFilma, headers);
-        restTemplate.put("http:://localhost:8081/azurirajPreporukuFilma", request, PreporukaFilma.class);
+        //restTemplate.put("http:://localhost:8081/azurirajPreporukuFilma", request, PreporukaFilma.class);
+        preporukaFilmaRepository.save(p);
         return new ResponseEntity(preporukaFilma, HttpStatus.OK);
     }
 
@@ -91,7 +92,7 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            restTemplate.delete("http://localhost:8081/obrisiPreporukuFilma" + id);
+            //restTemplate.delete("http://localhost:8081/obrisiPreporukuFilma" + id);
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         } else {
             throw new NePostojiException("Preporuka filma sa id-em " + id + " ne postoji!");
