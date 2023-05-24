@@ -11,31 +11,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/filmovi")
 public class FilmController {
     @Autowired
     private FilmService filmService;
 
-    @GetMapping(value = "/filmovi", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Film> sviFilmovi() {
         return filmService.getSviFilmovi();
     }
 
-    @GetMapping(value = "/film/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getFilmById(@PathVariable int id) {
         return filmService.getFilmByID(id);
     }
 
-    @PostMapping(value = "/dodajFilm", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/dodaj", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity dodajFilm(@Valid @RequestBody Film noviFilm) {
         return filmService.spasiFilm(noviFilm);
     }
 
-    @PutMapping(value = "/azurirajFilm/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/azuriraj/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity azurirajFilm(@Valid @RequestBody Film film, @PathVariable int id) {
         return filmService.azurirajFilm(id, film);
     }
 
-    @DeleteMapping(value = "/obrisiFilm/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity obrisiFilm(@PathVariable int id) {
         return filmService.obrisiFilm(id);
     }

@@ -11,31 +11,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/karte")
 public class KartaController {
     @Autowired
     private KartaService kartaService;
 
-    @GetMapping(value = "/karte", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Karta> sveKarte() {
         return kartaService.getSveKarte();
     }
 
-    @GetMapping(value = "/karte/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getKartaById(@PathVariable int id) {
         return kartaService.getKartaByID(id);
     }
 
-    @PostMapping(value = "/dodajKartu", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/dodaj", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity dodajKartu(@Valid @RequestBody Karta novaKarta) {
         return kartaService.spasiKartu(novaKarta);
     }
 
-    @PutMapping(value = "/azurirajKartu/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/azuriraj/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity azurirajKartu(@Valid @RequestBody Karta karta, @PathVariable int id) {
         return kartaService.azurirajKartu(id, karta);
     }
 
-    @DeleteMapping(value = "/obrisiKartu/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity obrisiKartu(@PathVariable int id) {
         return kartaService.obrisiKartu(id);
     }
