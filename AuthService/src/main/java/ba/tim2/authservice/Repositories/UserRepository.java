@@ -1,5 +1,6 @@
-package ba.tim2.authservice.Models.User;
+package ba.tim2.authservice.Repositories;
 
+import ba.tim2.authservice.Models.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

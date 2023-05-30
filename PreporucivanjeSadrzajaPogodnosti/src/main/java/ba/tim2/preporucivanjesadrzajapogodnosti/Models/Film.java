@@ -20,6 +20,10 @@ public class Film {
     @Size(min = 3, max = 255, message = "Naziv filma mora imati između 3 i 255 znakova!")
     private String nazivFilma;
 
+    @Column
+    @NotEmpty(message = "Trajanje filma ne može biti prazno!")
+    private int trajanje;
+
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "karta_id")
@@ -36,23 +40,6 @@ public class Film {
     public Film() {
     }
 
-    public Film(String naziv) {
-        this.nazivFilma = naziv;
-    }
-
-    public Film(int ID, String nazivFilma, Karta karta, List<Zanr> zanrovi) {
-        this.ID = ID;
-        this.nazivFilma = nazivFilma;
-        this.karta = karta;
-        this.zanrovi = zanrovi;
-    }
-
-    public Film(String nazivFilma, Karta karta, List<Zanr> zanrovi) {
-        this.nazivFilma = nazivFilma;
-        this.karta = karta;
-        this.zanrovi = zanrovi;
-    }
-
     public int getID() {
         return ID;
     }
@@ -67,6 +54,14 @@ public class Film {
 
     public void setNazivFilma(String nazivFilma) {
         this.nazivFilma = nazivFilma;
+    }
+
+    public int getTrajanje() {
+        return trajanje;
+    }
+
+    public void setTrajanje(int trajanje) {
+        this.trajanje = trajanje;
     }
 
     public Karta getKarta() {

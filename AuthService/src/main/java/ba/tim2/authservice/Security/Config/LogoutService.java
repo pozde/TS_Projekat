@@ -1,6 +1,6 @@
 package ba.tim2.authservice.Security.Config;
 
-import ba.tim2.authservice.Models.Token.TokenRepository;
+import ba.tim2.authservice.Repositories.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LogoutService implements LogoutHandler {
     private final TokenRepository tokenRepository;
+
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
         }
         jwt = authHeader.substring(7);

@@ -16,13 +16,14 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register( @RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> register( @RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.login(request));
     }
 

@@ -1,7 +1,7 @@
 package ba.tim2.authservice.Services;
 
 import ba.tim2.authservice.Models.User.User;
-import ba.tim2.authservice.Models.User.UserRepository;
+import ba.tim2.authservice.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

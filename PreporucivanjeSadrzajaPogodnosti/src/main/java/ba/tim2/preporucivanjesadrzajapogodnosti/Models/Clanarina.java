@@ -29,25 +29,6 @@ public class Clanarina {
     public Clanarina() {
     }
 
-    public Clanarina(Date datumIsteka, String vrsta) {
-        //korisnici = new ArrayList<>();
-        this.datumIsteka = datumIsteka;
-        this.vrsta = vrsta;
-    }
-
-    public Clanarina(int ID, Date datumIsteka, String vrsta, List<Korisnik> korisnici) {
-        this.ID = ID;
-        this.datumIsteka = datumIsteka;
-        this.vrsta = vrsta;
-        this.korisnici = korisnici;
-    }
-
-    public Clanarina(Date datumIsteka, String vrsta, List<Korisnik> korisnici) {
-        this.datumIsteka = datumIsteka;
-        this.vrsta = vrsta;
-        this.korisnici = korisnici;
-    }
-
     public int getID() {
         return ID;
     }

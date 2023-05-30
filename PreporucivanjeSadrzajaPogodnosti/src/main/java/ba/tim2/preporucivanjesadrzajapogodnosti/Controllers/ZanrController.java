@@ -16,7 +16,7 @@ public class ZanrController {
     @Autowired
     private ZanrService zanrService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Zanr> sviZanrovi() {
         return zanrService.getSviZanrovi();
     }

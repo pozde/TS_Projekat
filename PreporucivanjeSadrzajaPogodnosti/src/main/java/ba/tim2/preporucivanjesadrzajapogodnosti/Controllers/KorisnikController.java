@@ -16,7 +16,7 @@ public class KorisnikController {
     @Autowired
     private KorisnikService korisnikService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Korisnik> sviKorisnici() {
         return korisnikService.getSviKorisnici();
     }

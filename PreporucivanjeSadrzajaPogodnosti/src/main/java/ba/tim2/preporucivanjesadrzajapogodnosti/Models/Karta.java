@@ -24,19 +24,6 @@ public class Karta {
 
     }
 
-    public Karta(int ID, Korisnik korisnik, Film film, Popust popust) {
-        this.ID = ID;
-        this.korisnik = korisnik;
-        this.film = film;
-        this.popust = popust;
-    }
-
-    public Karta(Korisnik korisnik, Film film, Popust popust) {
-        this.korisnik = korisnik;
-        this.film = film;
-        this.popust = popust;
-    }
-
     public int getID() {
         return ID;
     }

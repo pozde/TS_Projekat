@@ -16,7 +16,7 @@ public class KartaController {
     @Autowired
     private KartaService kartaService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Karta> sveKarte() {
         return kartaService.getSveKarte();
     }

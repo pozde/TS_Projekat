@@ -16,14 +16,17 @@ public class Korisnik {
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
+
     @Column
     @NotEmpty(message = "Ime ne može biti prazno!")
     @Size(min = 3, max = 255, message = "Ime mora imati između 3 i 255 znakova!")
     private String ime;
+
     @Column
     @NotEmpty(message = "Prezime ne može biti prazno!")
     @Size(min = 3, max = 255, message = "Prezime mora imati između 3 i 255 znakova!")
     private String prezime;
+
     @Column
     //@Past(message = "Datum mora biti u prošlosti!")
     @JsonFormat(pattern = "dd.MM.yyyy")
@@ -31,6 +34,7 @@ public class Korisnik {
 
     @Column
     private String brojTelefona;
+
     @Column
     private String spol;
 
@@ -59,8 +63,8 @@ public class Korisnik {
         return ID;
     }
 
-    public void setID(int id) {
-        this.ID = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getIme() {
@@ -87,14 +91,6 @@ public class Korisnik {
         this.datumRodjenja = datumRodjenja;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getBrojTelefona() {
         return brojTelefona;
     }
@@ -109,6 +105,14 @@ public class Korisnik {
 
     public void setSpol(String spol) {
         this.spol = spol;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Clanarina getClanarina() {

@@ -9,8 +9,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public enum Role {
-    USER("USER"),
-    ADMIN("ADMIN");
+    USER("ROLE_USER"),
+    ADMIN("ROLE_ADMIN");
 
     @Getter
     private final String roleName;

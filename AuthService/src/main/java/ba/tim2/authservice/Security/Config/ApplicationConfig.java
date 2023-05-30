@@ -1,6 +1,6 @@
 package ba.tim2.authservice.Security.Config;
 
-import ba.tim2.authservice.Models.User.UserRepository;
+import ba.tim2.authservice.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,8 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Korisnik sa datim emailom ne postoji!"));
+        return username -> userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Korisnik sa datim emailom ne postoji!"));
     }
 
     @Bean

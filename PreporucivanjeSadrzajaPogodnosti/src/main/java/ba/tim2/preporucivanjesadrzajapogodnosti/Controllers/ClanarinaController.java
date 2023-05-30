@@ -16,7 +16,7 @@ public class ClanarinaController {
     @Autowired
     private ClanarinaService clanarinaService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Clanarina> sveClanarine() {
         return clanarinaService.getSveClanarine();
     }

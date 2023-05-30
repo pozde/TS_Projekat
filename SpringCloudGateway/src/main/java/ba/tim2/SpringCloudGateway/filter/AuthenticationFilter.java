@@ -1,7 +1,6 @@
 package ba.tim2.SpringCloudGateway.Filter;
 
 import ba.tim2.SpringCloudGateway.Util.JwtUtil;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;

@@ -1,11 +1,11 @@
 package ba.tim2.authservice.Security.Authentication;
 
-import ba.tim2.authservice.Security.Config.JwtService;
 import ba.tim2.authservice.Models.Token.Token;
-import ba.tim2.authservice.Models.Token.TokenRepository;
+import ba.tim2.authservice.Repositories.TokenRepository;
 import ba.tim2.authservice.Models.Token.TokenType;
 import ba.tim2.authservice.Models.User.User;
-import ba.tim2.authservice.Models.User.UserRepository;
+import ba.tim2.authservice.Repositories.UserRepository;
+import ba.tim2.authservice.Security.Config.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -107,7 +107,7 @@ public class AuthenticationService {
             return;
         }
         refreshToken = authHeader.substring(7);
-        userEmail =jwtService.extractUsername(refreshToken);
+        userEmail = jwtService.extractUsername(refreshToken);
         if (userEmail != null) {
             var user = this.userRepository.findByEmail(userEmail)
                     .orElseThrow();

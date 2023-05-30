@@ -18,18 +18,6 @@ public class PreporukaFilma {
     private Korisnik korisnik;
 
     public PreporukaFilma() {
-
-    }
-
-    public PreporukaFilma(int ID, Zanr zanr, Korisnik korisnik) {
-        this.ID = ID;
-        this.zanr = zanr;
-        this.korisnik = korisnik;
-    }
-
-    public PreporukaFilma(Zanr zanr, Korisnik korisnik) {
-        this.zanr = zanr;
-        this.korisnik = korisnik;
     }
 
     public int getID() {
