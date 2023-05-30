@@ -1,5 +1,6 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Authentication;
 
+import ba.tim2.preporucivanjesadrzajapogodnosti.Models.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,4 +20,5 @@ public class RegisterRequest {
     private Date datumRodjenja;
     private String brojTelefona;
     private String spol;
+    private Role role;
 }

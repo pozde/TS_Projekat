@@ -1,5 +1,6 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
+import ba.tim2.preporucivanjesadrzajapogodnosti.Token.Token;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -61,6 +62,10 @@ public class Korisnik implements UserDetails {
     @JsonIgnore
     @OneToMany(mappedBy = "korisnik")
     private List<PreporukaFilma> preporukeFilmova = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "korisnik")
+    private List<Token> tokeni = new ArrayList<>();
 
     public Korisnik() {
     }
