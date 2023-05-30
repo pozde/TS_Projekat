@@ -16,7 +16,7 @@ public class FilmController {
     @Autowired
     private FilmService filmService;
 
-    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Film> sviFilmovi() {
         return filmService.getSviFilmovi();
     }

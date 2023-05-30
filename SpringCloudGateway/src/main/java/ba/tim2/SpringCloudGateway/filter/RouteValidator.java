@@ -1,4 +1,4 @@
-package ba.tim2.SpringCloudGateway.filter;
+package ba.tim2.SpringCloudGateway.Filter;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -6,20 +6,18 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.function.Predicate;
 
-    @Component
-    public class RouteValidator {
+@Component
+public class RouteValidator {
 
-        //ovdje rute odgovarajuce zamijenit sa nasim
-        public static final List<String> openApiEndpoints = List.of(
-                "/auth/register",
-                "/auth/token",
-                "/eureka"
-        );
+    public static final List<String> openApiEndpoints = List.of(
+            "/api/v1/auth/register",
+            "/api/v1/auth/authenticate",
+            "/api/v1/auth/refresh-token"
+    );
 
-        public Predicate<ServerHttpRequest> isSecured =
-                request -> openApiEndpoints
-                        .stream()
-                        .noneMatch(uri -> request.getURI().getPath().contains(uri));
+    public Predicate<ServerHttpRequest> isSecured =
+            request -> openApiEndpoints
+                    .stream()
+                    .noneMatch(uri -> request.getURI().getPath().contains(uri));
 
-    }
-
+}

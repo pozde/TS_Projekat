@@ -16,7 +16,7 @@ public class PopustController {
     @Autowired
     private PopustService popustService;
 
-    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Popust> sviPopusti() {
         return popustService.getSviPopusti();
     }

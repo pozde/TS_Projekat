@@ -1,22 +1,17 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
-import ba.tim2.preporucivanjesadrzajapogodnosti.Token.Token;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table
-public class Korisnik implements UserDetails {
+public class Korisnik {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,12 +39,6 @@ public class Korisnik implements UserDetails {
     @NotBlank(message = "E-mail ne smije biti prazan!")
     private String email;
 
-    @Column
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "clanarina_id")
@@ -63,69 +52,7 @@ public class Korisnik implements UserDetails {
     @OneToMany(mappedBy = "korisnik")
     private List<PreporukaFilma> preporukeFilmova = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "korisnik")
-    private List<Token> tokeni = new ArrayList<>();
-
     public Korisnik() {
-    }
-
-    public Korisnik(int id, String ime, String prezime, Date datumRodjenja,
-                    String email, String brojTelefona, String spol, Clanarina clanarina,
-                    List<Karta> karte, List<PreporukaFilma> preporukeFilmova) {
-        this.ID = id;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.datumRodjenja = datumRodjenja;
-        this.email = email;
-        this.brojTelefona = brojTelefona;
-        this.spol = spol;
-        this.clanarina = clanarina;
-        this.karte = karte;
-        this.preporukeFilmova = preporukeFilmova;
-    }
-
-    public Korisnik(String ime, String prezime, Date datumRodjenja,
-                    String email, String brojTelefona, String spol, Clanarina clanarina,
-                    List<Karta> karte, List<PreporukaFilma> preporukeFilmova) {
-        this.ime = ime;
-        this.prezime = prezime;
-        this.datumRodjenja = datumRodjenja;
-        this.email = email;
-        this.brojTelefona = brojTelefona;
-        this.spol = spol;
-        this.clanarina = clanarina;
-        this.karte = karte;
-        this.preporukeFilmova = preporukeFilmova;
-    }
-
-    public Korisnik(int id, String ime, String prezime, Date datumRodjenja, String email, String brojTelefona, String spol) {
-        this.ID = id;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.datumRodjenja = datumRodjenja;
-        this.email = email;
-        this.brojTelefona = brojTelefona;
-        this.spol = spol;
-    }
-
-    public Korisnik(String ime, String prezime, Date datumRodjenja, String email, String brojTelefona, String spol) {
-        this.ime = ime;
-        this.prezime = prezime;
-        this.datumRodjenja = datumRodjenja;
-        this.email = email;
-        this.brojTelefona = brojTelefona;
-        this.spol = spol;
-    }
-
-    public Korisnik(String ime, String prezime, Date datumRodjenja, String email, String brojTelefona, String spol, Clanarina clanarina) {
-        this.ime = ime;
-        this.prezime = prezime;
-        this.datumRodjenja = datumRodjenja;
-        this.email = email;
-        this.brojTelefona = brojTelefona;
-        this.spol = spol;
-        this.clanarina = clanarina;
     }
 
     public int getID() {
@@ -215,52 +142,4 @@ public class Korisnik implements UserDetails {
     public void dodajKarte(List<Karta> listaKarti) {
         karte.addAll(listaKarti);
     }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
 }

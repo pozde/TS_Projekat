@@ -1,6 +1,7 @@
-package ba.tim2.SpringCloudGateway.filter;
+package ba.tim2.SpringCloudGateway.Filter;
 
-import ba.tim2.SpringCloudGateway.util.JwtUtil;
+import ba.tim2.SpringCloudGateway.Util.JwtUtil;
+import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -28,22 +29,21 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             if (validator.isSecured.test(exchange.getRequest())) {
                 //header contains token or not
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                    throw new RuntimeException("missing authorization header");
+                    throw new RuntimeException("Missing authorization header");
                 }
 
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
+                System.out.println("AuthHeader: " + authHeader);
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
                     authHeader = authHeader.substring(7);
                 }
                 try {
-//                    //REST call to AUTH service
-//                    template.getForObject("http://IDENTITY-SERVICE//validate?token" + authHeader, String.class);
                     jwtUtil.validateToken(authHeader);
-
                 } catch (Exception e) {
                     System.out.println("invalid access...!");
-                    throw new RuntimeException("un authorized access to application");
+                    throw new RuntimeException("Unauthorized access to application!");
                 }
+                System.out.println("AuthHeader: SUCCESS");
             }
             return chain.filter(exchange);
         });
