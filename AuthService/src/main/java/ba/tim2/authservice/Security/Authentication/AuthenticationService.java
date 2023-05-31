@@ -10,11 +10,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
@@ -27,12 +30,17 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
 
+    private final RestTemplate restTemplate;
+
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
+                .ime(request.getIme())
+                .prezime(request.getPrezime())
+                .datumRodjenja(request.getDatumRodjenja())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .brojTelefona(request.getBrojTelefona())
+                .spol(request.getSpol())
                 .role(request.getRole())
                 .build();
 
@@ -40,7 +48,24 @@ public class AuthenticationService {
 
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
+
         saveUserToken(savedUser, jwtToken);
+
+        var restUser = new User();
+        restUser.setIme(request.getIme());
+        restUser.setPrezime(request.getPrezime());
+        restUser.setDatumRodjenja(request.getDatumRodjenja());
+        restUser.setBrojTelefona(request.getBrojTelefona());
+        restUser.setEmail(request.getEmail());
+        restUser.setRole(request.getRole());
+        restUser.setSpol(request.getSpol());
+
+        var token = tokenRepository.findAllValidTokenByUser(user.getID()).get(0).token;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Bearer " + token);
+        HttpEntity<User> headerForRest = new HttpEntity<>(restUser, headers);
+        restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/korisnici/dodaj", headerForRest, User.class);
 
         //GrpcClient.log(user.getId(),"AuthService","register","Success");
 
@@ -74,7 +99,7 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getID());
 
         if (validUserTokens.isEmpty())
             return;

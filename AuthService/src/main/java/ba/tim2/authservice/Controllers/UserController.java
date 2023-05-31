@@ -28,7 +28,7 @@ public class UserController {
     private ResponseEntity<Integer> getId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User userDetails = (User) authentication.getPrincipal();
-        Integer userId = userDetails.getId();
+        Integer userId = userDetails.getID();
         return ResponseEntity.status(HttpStatus.OK).body(userId);
     }
 }

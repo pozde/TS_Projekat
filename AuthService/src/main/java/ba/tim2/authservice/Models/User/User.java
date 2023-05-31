@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -22,11 +23,18 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String firstname;
-    private String lastname;
+    private Integer ID;
+    private String ime;
+    private String prezime;
+
+    private Date datumRodjenja;
+
+    private String brojTelefona;
+
     private String email;
     private String password;
+
+    private String spol;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -74,11 +82,13 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "{" +
-                "\"id\":\"" + id + "\"," +
-                "\"first_name\":\"" + firstname + "\"," +
-                "\"last_name\":\"" + lastname + "\"," +
-                "\"email\":\"" + email + "\"," +
-                "\"role\":\"" + (role != null ? role.name() : "") + "\"," +
+                //"\"id\":\"" + ID + "\"," +
+                "\"ime\":\"" + ime + "\"," +
+                "\"prezime\":\"" + prezime + "\"," +
+                "\"datumRodjenja\":" + null + "," +
+                "\"brojTelefona\":\"" + brojTelefona + "\"," +
+                "\"spol\":\"" + spol + "\"," +
+                "\"email\":\"" + email + "\"" +
                 "}";
     }
 }
