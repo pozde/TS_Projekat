@@ -1,9 +1,11 @@
 package ba.tim2.RezervacijaKarata.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -21,13 +23,15 @@ public class Korisnik {
     @NotBlank(message = "Prezime ne smije biti prazno!")
     @Size(min = 2, max = 255, message = "Prezime mora imati barem 2 karaktera")
     private String prezime;
-    @Column
-    private Date datumRodjenja;
+    @Column(name = "datum_rodjenja")
+    @Past(message = "Datum mora biti u prošlosti!")
+    @JsonFormat(pattern = "dd.MM.yyyy.")
+    private LocalDate datumRodjenja;
     @Column
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @NotBlank(message = "Mail ne smije biti prazan")
     private String email;
-    @Column
+    @Column(name = "broj_telefona")
     private String brojTelefona;
     @Column
     private String spol;
@@ -37,7 +41,7 @@ public class Korisnik {
     public Korisnik() {
     }
 
-    public Korisnik(int id, String ime, String prezime, Date datumRodjenja, String email, String brojTelefona, String spol) {
+    public Korisnik(int id, String ime, String prezime, LocalDate datumRodjenja, String email, String brojTelefona, String spol) {
         this.ID = id;
         this.ime = ime;
         this.prezime = prezime;
@@ -47,7 +51,7 @@ public class Korisnik {
         this.spol = spol;
     }
 
-    public Korisnik(String ime, String prezime, Date datumRodjenja, String email, String brojTelefona, String spol) {
+    public Korisnik(String ime, String prezime, LocalDate datumRodjenja, String email, String brojTelefona, String spol) {
         this.ime = ime;
         this.prezime = prezime;
         this.datumRodjenja = datumRodjenja;
@@ -56,7 +60,7 @@ public class Korisnik {
         this.spol = spol;
     }
 
-    public Korisnik(String ime, String prezime, Date datumRodjenja, String brojTelefona, String spol) {
+    public Korisnik(String ime, String prezime, LocalDate datumRodjenja, String brojTelefona, String spol) {
         this.ime = ime;
         this.prezime = prezime;
         this.datumRodjenja = datumRodjenja;
@@ -88,11 +92,11 @@ public class Korisnik {
         this.prezime = prezime;
     }
 
-    public Date getDatumRodjenja() {
+    public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(LocalDate datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 

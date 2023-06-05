@@ -1,4 +1,4 @@
-package ba.tim2.SpringCloudGateway.Util;
+package ba.tim2.SpringCloudGateway.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

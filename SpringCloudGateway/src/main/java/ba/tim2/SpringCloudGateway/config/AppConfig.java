@@ -1,4 +1,4 @@
-package ba.tim2.SpringCloudGateway.Config;
+package ba.tim2.SpringCloudGateway.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class AppConfig {
+public class AppConfig { 
 
     @Bean
     @LoadBalanced
-    public RestTemplate template() {
+    public RestTemplate template(){
         return new RestTemplate();
     }
 }

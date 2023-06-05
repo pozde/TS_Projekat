@@ -1,6 +1,7 @@
-package ba.tim2.SpringCloudGateway.Filter;
+package ba.tim2.SpringCloudGateway.filter;
 
-import ba.tim2.SpringCloudGateway.Util.JwtUtil;
+import ba.tim2.SpringCloudGateway.util.JwtUtil;
+import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -24,6 +25,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     @Override
     public GatewayFilter apply(Config config) {
+
+
         return ((exchange, chain) -> {
             if (validator.isSecured.test(exchange.getRequest())) {
                 //header contains token or not

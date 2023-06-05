@@ -1,4 +1,4 @@
-package ba.tim2.SpringCloudGateway.Filter;
+package ba.tim2.SpringCloudGateway.filter;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
