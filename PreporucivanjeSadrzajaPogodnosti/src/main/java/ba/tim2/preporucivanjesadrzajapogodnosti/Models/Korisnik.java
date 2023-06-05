@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,12 +27,12 @@ public class Korisnik {
     @Size(min = 3, max = 255, message = "Prezime mora imati između 3 i 255 znakova!")
     private String prezime;
 
-    @Column
-    //@Past(message = "Datum mora biti u prošlosti!")
-    @JsonFormat(pattern = "dd.MM.yyyy")
-    private Date datumRodjenja;
+    @Column(name = "datum_rodjenja")
+    @Past(message = "Datum mora biti u prošlosti!")
+    @JsonFormat(pattern = "dd.MM.yyyy.")
+    private LocalDate datumRodjenja;
 
-    @Column
+    @Column(name = "broj_telefona")
     private String brojTelefona;
 
     @Column
@@ -83,11 +83,11 @@ public class Korisnik {
         this.prezime = prezime;
     }
 
-    public Date getDatumRodjenja() {
+    public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(LocalDate datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 

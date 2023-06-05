@@ -1,11 +1,12 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti.Models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,9 +16,10 @@ public class Clanarina {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
-    @Column
+    @Column(name = "datum_isteka")
     @FutureOrPresent(message = "Datum isteka članarine mora ne smije biti u prošlosti!")
-    private Date datumIsteka;
+    @JsonFormat(pattern = "dd.MM.yyyy.")
+    private LocalDate datumIsteka;
 
     @Column
     @NotEmpty(message = "Vrsta članarine ne smije biti prazna!")
@@ -37,11 +39,11 @@ public class Clanarina {
         this.ID = ID;
     }
 
-    public Date getDatumIsteka() {
+    public LocalDate getDatumIsteka() {
         return datumIsteka;
     }
 
-    public void setDatumIsteka(Date datumIsteka) {
+    public void setDatumIsteka(LocalDate datumIsteka) {
         this.datumIsteka = datumIsteka;
     }
 

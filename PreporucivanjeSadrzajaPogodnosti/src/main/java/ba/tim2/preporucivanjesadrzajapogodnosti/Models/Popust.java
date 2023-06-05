@@ -16,23 +16,11 @@ public class Popust {
     @JoinColumn(name = "karta_id")
     private Karta karta;
 
-    @Column
-    //@NotEmpty(message = "Vrijednost popusta ne može biti prazna!")
+    @Column(name = "vrijednost_popusta")
     @Positive(message = "Vrijednost popusta ne može biti negativna!")
     double vrijednostPopusta;
 
     public Popust() {
-    }
-
-    public Popust(int ID, Karta karta, double vrijednostPopusta) {
-        this.ID = ID;
-        this.karta = karta;
-        this.vrijednostPopusta = vrijednostPopusta;
-    }
-
-    public Popust(Karta karta, double vrijednostPopusta) {
-        this.karta = karta;
-        this.vrijednostPopusta = vrijednostPopusta;
     }
 
     public int getID() {

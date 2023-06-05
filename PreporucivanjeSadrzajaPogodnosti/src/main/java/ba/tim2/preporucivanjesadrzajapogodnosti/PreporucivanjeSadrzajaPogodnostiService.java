@@ -6,10 +6,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-
 
 @Service
 public class PreporucivanjeSadrzajaPogodnostiService {
@@ -36,7 +34,7 @@ public class PreporucivanjeSadrzajaPogodnostiService {
 
     @Transactional
     public void insertStaticData() {
-        /*
+    /*
         Korisnik korisnik1 = new Korisnik();
         Korisnik korisnik2 = new Korisnik();
         Korisnik korisnik3 = new Korisnik();
@@ -87,21 +85,21 @@ public class PreporucivanjeSadrzajaPogodnostiService {
 
         korisnik1.setIme("Muhamed");
         korisnik1.setPrezime("Borovac");
-        korisnik1.setDatumRodjenja(new Date(100, Calendar.FEBRUARY, 8));
+        korisnik1.setDatumRodjenja(LocalDate.of(2000, 2, 7));
         korisnik1.setEmail("mborovac1@etf.unsa.ba");
         korisnik1.setBrojTelefona("0603239393");
         korisnik1.setSpol("M");
 
         korisnik2.setIme("Benjamin");
         korisnik2.setPrezime("Pašić");
-        korisnik2.setDatumRodjenja(new Date(100, Calendar.FEBRUARY, 25));
+        korisnik2.setDatumRodjenja(LocalDate.of(2000, 2, 24));
         korisnik2.setEmail("bpasic1@etf.unsa.ba");
         korisnik2.setBrojTelefona("062623259");
         korisnik2.setSpol("M");
 
         korisnik3.setIme("Admir");
         korisnik3.setPrezime("Pozderac");
-        korisnik3.setDatumRodjenja(new Date(100, Calendar.MARCH, 24));
+        korisnik3.setDatumRodjenja(LocalDate.of(2000, 3, 23));
         korisnik3.setEmail("apozderac1@etf.unsa.ba");
         korisnik3.setBrojTelefona("062788916");
         korisnik3.setSpol("M");
@@ -172,13 +170,13 @@ public class PreporucivanjeSadrzajaPogodnostiService {
         zanr7.dodajFilm(film9);
 
 
-        clanarina1.setDatumIsteka(new Date(2023, Calendar.MARCH, 4));
+        clanarina1.setDatumIsteka(LocalDate.now().plusMonths(1));
         clanarina1.setVrsta("Porodična");
         clanarina1.dodajKorisnike(Arrays.asList(korisnik1, korisnik3));
         korisnik1.setClanarina(clanarina1);
         korisnik3.setClanarina(clanarina1);
 
-        clanarina2.setDatumIsteka(new Date(2022, Calendar.DECEMBER, 25));
+        clanarina2.setDatumIsteka(LocalDate.now().plusMonths(1).plusDays(5));
         clanarina2.setVrsta("Studentska");
         clanarina2.dodajKorisnika(korisnik2);
         korisnik2.setClanarina(clanarina2);
@@ -313,6 +311,6 @@ public class PreporucivanjeSadrzajaPogodnostiService {
         zanrRepository.save(zanr7);
         zanrRepository.save(zanr8);
         zanrRepository.save(zanr9);
-         */
+     */
     }
 }

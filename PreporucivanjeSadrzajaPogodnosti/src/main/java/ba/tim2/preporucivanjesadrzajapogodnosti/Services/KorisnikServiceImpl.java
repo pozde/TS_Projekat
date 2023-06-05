@@ -103,6 +103,9 @@ public class KorisnikServiceImpl implements KorisnikService {
         if (!korisnik.getSpol().isEmpty()) {
             k.setSpol(korisnik.getSpol());
         }
+        if (korisnik.getDatumRodjenja() != null) {
+            k.setDatumRodjenja(korisnik.getDatumRodjenja());
+        }
 
 
         HttpHeaders httpHeaders = new HttpHeaders();
