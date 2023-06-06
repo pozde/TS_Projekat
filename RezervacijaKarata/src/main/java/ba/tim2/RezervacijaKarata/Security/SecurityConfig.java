@@ -26,6 +26,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(GET, "/message").permitAll()
                 .requestMatchers(POST, "/dodajKorisnika").permitAll()
+                .requestMatchers(POST, "/dodajFilm").permitAll()
+                .requestMatchers(GET, "/filmovi").permitAll()
                 .requestMatchers(GET, "/korisnici").permitAll()
                 .requestMatchers(GET, "rezervacija-karata/korisnici").permitAll()
                 .requestMatchers(GET, "rezervacija-karata/**").permitAll()
