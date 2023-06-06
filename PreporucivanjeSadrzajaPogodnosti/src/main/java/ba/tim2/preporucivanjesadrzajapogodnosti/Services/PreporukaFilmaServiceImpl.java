@@ -3,6 +3,7 @@ package ba.tim2.preporucivanjesadrzajapogodnosti.Services;
 import ba.tim2.preporucivanjesadrzajapogodnosti.ErrorHandling.NePostojiException;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Models.PreporukaFilma;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Repositories.PreporukaFilmaRepository;
+import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,17 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
 
     @Override
     public List<PreporukaFilma> getSvePreporukeFilmova() {
+        GrpcClient.log("PreporukaFilma", "GET /preporukeFilmova/", "SUCCESS");
         return preporukaFilmaRepository.findAll();
     }
 
     @Override
     public ResponseEntity getPreporukaFilmaByID(int id) {
         if (preporukaFilmaRepository.existsById(id)) {
+            GrpcClient.log("PreporukaFilma", "GET /preporukeFilmova/{id}", "SUCCESS");
             return new ResponseEntity(preporukaFilmaRepository.findByID(id), HttpStatus.OK);
         } else {
+            GrpcClient.log("PreporukaFilma", "GET /preporukeFilmova/{id}", "FAIL");
             throw new NePostojiException("Preporuka filma sa id-em " + id + " ne postoji!");
         }
     }
@@ -48,6 +52,7 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<PreporukaFilma> request = new HttpEntity<>(preporukaFilma, headers);
         //restTemplate.postForObject("http:://localhost:8081/dodajPreporukuFilma", request, PreporukaFilma.class);
+        GrpcClient.log("PreporukaFilma", "POST /preporukeFilmova/dodaj", "SUCCESS");
         return new ResponseEntity(preporukaFilma, HttpStatus.CREATED);
     }
 
@@ -56,6 +61,7 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
         PreporukaFilma p = preporukaFilmaRepository.findByID(id);
 
         if (p == null || !preporukaFilmaRepository.existsById(id)) {
+            GrpcClient.log("PreporukaFilma", "PUT /preporukeFilmova/azuriraj/{id}", "FAIL");
             throw new NePostojiException("Preporuka filma sa id-em " + id + " ne postoji!");
         }
 
@@ -79,6 +85,7 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
         HttpEntity<PreporukaFilma> request = new HttpEntity<>(preporukaFilma, headers);
         //restTemplate.put("http:://localhost:8081/azurirajPreporukuFilma", request, PreporukaFilma.class);
         preporukaFilmaRepository.save(p);
+        GrpcClient.log("PreporukaFilma", "PUT /preporukeFilmova/azuriraj/{id}", "SUCCESS");
         return new ResponseEntity(preporukaFilma, HttpStatus.OK);
     }
 
@@ -93,8 +100,10 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
                 e.printStackTrace();
             }
             //restTemplate.delete("http://localhost:8081/obrisiPreporukuFilma" + id);
+            GrpcClient.log("PreporukaFilma", "DELETE /preporukeFilmova/obrisi/{id}", "SUCCESS");
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         } else {
+            GrpcClient.log("PreporukaFilma", "DELETE /preporukeFilmova/obrisi/{id}", "FAIL");
             throw new NePostojiException("Preporuka filma sa id-em " + id + " ne postoji!");
         }
     }

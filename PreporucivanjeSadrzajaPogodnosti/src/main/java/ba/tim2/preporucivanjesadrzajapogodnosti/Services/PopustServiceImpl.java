@@ -3,6 +3,7 @@ package ba.tim2.preporucivanjesadrzajapogodnosti.Services;
 import ba.tim2.preporucivanjesadrzajapogodnosti.ErrorHandling.NePostojiException;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Models.Popust;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Repositories.PopustRepository;
+import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,17 @@ public class PopustServiceImpl implements PopustService {
 
     @Override
     public List<Popust> getSviPopusti() {
+        GrpcClient.log("Popust", "GET /popusti/", "SUCCESS");
         return popustRepository.findAll();
     }
 
     @Override
     public ResponseEntity getPopustByID(int id) {
         if (popustRepository.existsById(id)) {
+            GrpcClient.log("Popust", "GET /popusti/{id}", "SUCCESS");
             return new ResponseEntity(popustRepository.findByID(id), HttpStatus.OK);
         } else {
+            GrpcClient.log("Popust", "GET /popusti/{id}", "FAIL");
             throw new NePostojiException("Popust sa id-em " + id + " ne postoji!");
         }
     }
@@ -49,6 +53,7 @@ public class PopustServiceImpl implements PopustService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Popust> request = new HttpEntity<>(popust, headers);
         //restTemplate.postForObject("http:://localhost:8081/dodajPopust", request, Popust.class);
+        GrpcClient.log("Popust", "POST /popusti/dodaj", "SUCCESS");
         return new ResponseEntity(popust, HttpStatus.CREATED);
     }
 
@@ -57,6 +62,7 @@ public class PopustServiceImpl implements PopustService {
         Popust p = popustRepository.findByID(id);
 
         if (p == null || !popustRepository.existsById(id)) {
+            GrpcClient.log("Popust", "PUT /popusti/azuriraj/{id}", "FAIL");
             throw new NePostojiException("Popust sa id-em " + id + " ne postoji!");
         }
 
@@ -80,6 +86,7 @@ public class PopustServiceImpl implements PopustService {
         HttpEntity<Popust> request = new HttpEntity<>(popust, headers);
         //restTemplate.put("http:://localhost:8081/azurirajPopust", request, Popust.class);
         popustRepository.save(p);
+        GrpcClient.log("Popust", "PUT /popusti/azuriraj/{id}", "SUCCESS");
         return new ResponseEntity(popust, HttpStatus.OK);
     }
 
@@ -94,8 +101,10 @@ public class PopustServiceImpl implements PopustService {
                 e.printStackTrace();
             }
             restTemplate.delete("http://localhost:8081/obrisiPopust" + id);
+            GrpcClient.log("Popust", "DELETE /popusti/obrisi/{id}", "SUCCESS");
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         } else {
+            GrpcClient.log("Popust", "DELETE /popusti/obrisi/{id}", "SUCCESS");
             throw new NePostojiException("Popust sa id-em " + id + " ne postoji!");
         }
     }

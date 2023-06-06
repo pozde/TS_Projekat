@@ -3,6 +3,7 @@ package ba.tim2.preporucivanjesadrzajapogodnosti.Services;
 import ba.tim2.preporucivanjesadrzajapogodnosti.ErrorHandling.NePostojiException;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Models.Clanarina;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Repositories.ClanarinaRepository;
+import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,17 @@ public class ClanarinaServiceImpl implements ClanarinaService {
 
     @Override
     public List<Clanarina> getSveClanarine() {
+        GrpcClient.log("Clanarina", "GET /clanarine/", "SUCCESS");
         return clanarinaRepository.findAll();
     }
 
     @Override
     public ResponseEntity getClanarinaByID(int id) {
         if (clanarinaRepository.existsById(id)) {
+            GrpcClient.log("Clanarina", "GET /clanarine/{id}", "SUCCESS");
             return new ResponseEntity(clanarinaRepository.findByID(id), HttpStatus.OK);
         } else {
+            GrpcClient.log("Clanarina", "GET /clanarine/{id}", "FAIL");
             throw new NePostojiException("Clanarina sa id-em " + id + " ne postoji!");
         }
     }
@@ -47,6 +51,7 @@ public class ClanarinaServiceImpl implements ClanarinaService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Clanarina> request = new HttpEntity<>(clanarina, headers);
         //restTemplate.postForObject("http://localhost:8081/dodajClanarinu", request, Clanarina.class);
+        GrpcClient.log("Clanarina", "POST /clanarine/dodaj", "SUCCESS");
         return new ResponseEntity(clanarina, HttpStatus.CREATED);
     }
 
@@ -55,6 +60,7 @@ public class ClanarinaServiceImpl implements ClanarinaService {
         Clanarina c = clanarinaRepository.findByID(id);
         JSONObject objekat = new JSONObject();
         if (c == null || !clanarinaRepository.existsById(id)) {
+            GrpcClient.log("Clanarina", "PUT /clanarine/azuriraj/{id}", "FAIL");
             throw new NePostojiException("Clanarina sa id-em " + id + " ne postoji!");
         }
 
@@ -78,6 +84,7 @@ public class ClanarinaServiceImpl implements ClanarinaService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        GrpcClient.log("Clanarina", "PUT /clanarine/azuriraj/{id}", "SUCCESS");
         return new ResponseEntity<>(clanarina, HttpStatus.OK);
     }
 
@@ -92,8 +99,10 @@ public class ClanarinaServiceImpl implements ClanarinaService {
                 e.printStackTrace();
             }
             //restTemplate.delete("http://localhost:8081/obrisiClanarinu/" + id);
+            GrpcClient.log("Clanarina", "DELETE /clanarine/obrisi/{id}", "SUCCESS");
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         } else {
+            GrpcClient.log("Clanarina", "DELETE /clanarine/obrisi/{id}", "FAIL");
             throw new NePostojiException("Članarina sa id-em " + id + " ne postoji!");
         }
     }

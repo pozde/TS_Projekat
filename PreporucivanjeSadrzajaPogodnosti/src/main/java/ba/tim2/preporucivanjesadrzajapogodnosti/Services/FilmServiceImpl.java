@@ -3,6 +3,7 @@ package ba.tim2.preporucivanjesadrzajapogodnosti.Services;
 import ba.tim2.preporucivanjesadrzajapogodnosti.ErrorHandling.NePostojiException;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Models.Film;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Repositories.FilmRepository;
+import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,17 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<Film> getSviFilmovi() {
+        GrpcClient.log("Film", "GET /filmovi/", "SUCCESS");
         return filmRepository.findAll();
     }
 
     @Override
     public ResponseEntity getFilmByID(int id) {
         if (filmRepository.existsById(id)) {
+            GrpcClient.log("Film", "GET /filmovi/{id}", "SUCCESS");
             return new ResponseEntity(filmRepository.findByID(id), HttpStatus.OK);
         } else {
+            GrpcClient.log("Film", "GET /filmovi/{id}", "FAIL");
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
         }
     }
@@ -48,6 +52,7 @@ public class FilmServiceImpl implements FilmService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Film> request = new HttpEntity<>(film, headers);
         //restTemplate.postForObject("http:://localhost:8081/dodajFilm", request, Film.class);
+        GrpcClient.log("Film", "GET /filmovi/dodaj", "SUCCESS");
         return new ResponseEntity(film, HttpStatus.CREATED);
     }
 
@@ -56,6 +61,7 @@ public class FilmServiceImpl implements FilmService {
         Film f = filmRepository.findByID(id);
 
         if (f == null || !filmRepository.existsById(id)) {
+            GrpcClient.log("Film", "PUT /filmovi/azuriraj/{id}", "FAIL");
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
         }
 
@@ -80,6 +86,7 @@ public class FilmServiceImpl implements FilmService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Film> request = new HttpEntity<>(film, headers);
         //restTemplate.put("http:://localhost:8081/azurirajFilm", request, Film.class);
+        GrpcClient.log("Film", "PUT /filmovi/azuriraj/{id}", "SUCCESS");
         return new ResponseEntity(film, HttpStatus.OK);
     }
 
@@ -94,8 +101,10 @@ public class FilmServiceImpl implements FilmService {
                 e.printStackTrace();
             }
             //restTemplate.delete("http://localhost:8081/obrisiFilm" + id);
+            GrpcClient.log("Film", "DELETE /filmovi/obrisi/{id}", "SUCCESS");
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         } else {
+            GrpcClient.log("Film", "DELETE /filmovi/obrisi/{id}", "FAIL");
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
         }
     }
