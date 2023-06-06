@@ -1,0 +1,154 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    volumes:
+      - ./database_scripts:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345678
+    ports:
+      - 33061:3306
+
+  config-server:
+    container_name: config-server
+    hostname: config-service
+    build:
+      context: ./ConfigService/
+      dockerfile: Dockerfile
+    image: config-service-image
+    restart: on-failure
+    ports: 
+      - 8888:8888
+
+  eureka-server:
+    container_name: eureka-server
+    hostname: eureka-server
+    build:
+      context: ./EurekaServer/
+      dockerfile: Dockerfile
+    image: eureka-server-image
+    restart: on-failure
+    ports: 
+      - 8761:8761
+    depends_on:
+      - config-server
+    healthcheck:
+      test: curl --fail http://localhost:8761 || exit 1
+      interval: 20s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./SpringCloudGateway/
+      dockerfile: Dockerfile
+    image: api-gateway-image
+    restart: on-failure
+    environment:
+      - EUREKA_SERVER=http://eureka-server:8761/eureka
+      - CONFIG_SERVER=http://config-server:8888
+    ports: 
+      - 8080:8080
+    depends_on:
+      - eureka-server
+      - config-server
+    healthcheck:
+      test: curl --fail http://localhost:8761 || exit 1
+      interval: 20s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+
+  rezervacija-karata:
+    container_name: rezervacija-karata
+    build:
+      context: ./RezervacijaKarata/
+      dockerfile: Dockerfile
+    image: rezervacija-karata-image
+    restart: on-failure
+    environment:
+      - DOCKER_ENV=true
+      - DB_HOST=mysql
+      - DB_USER=batim2
+      - DB_PASSWORD=password
+      - DB_NAME=rezervacijaKarata
+      - DB_PORT=3306
+      - EUREKA_SERVER=http://eureka-server:8761/eureka
+      - CONFIG_SERVER=http://config-server:8888
+    ports:
+      - 8081:8081
+    depends_on:
+      - config-server
+      - mysql
+      - eureka-server
+
+  auth-service:
+    container_name: auth-service
+    build:
+      context: ./AuthService/
+      dockerfile: Dockerfile
+    image: auth-service:latest
+    restart: on-failure
+    environment:
+      - DOCKER_ENV=true
+      - DB_HOST=mysql
+      - DB_USER=batim2
+      - DB_PASSWORD=password
+      - DB_NAME=auth_service
+      - DB_PORT=3306
+      - EUREKA_SERVER=http://eureka-server:8761/eureka
+      - CONFIG_SERVER=http://config-server:8888
+    ports:
+      - 8090:8090
+    depends_on:
+      - config-server
+      - eureka-server
+      - mysql
+
+  preporucivanje-sadrzaja-pogodnosti:
+    container_name: preporucivanje-sadrzaja-pogodnosti
+    build:
+      context: ./PreporucivanjeSadrzajaPogodnosti/
+      dockerfile: Dockerfile
+    image: preporucivanje-sadrzaja-pogodnosti-image
+    restart: on-failure
+    environment:
+      - DOCKER_ENV=true
+      - DB_HOST=mysql
+      - DB_USER=batim2
+      - DB_PASSWORD=password
+      - DB_NAME=preporucivanje_sadrzaja_pogodnosti
+      - DB_PORT=3306
+      - EUREKA_SERVER=http://eureka-server:8761/eureka
+      - CONFIG_SERVER=http://config-server:8888
+    ports:
+      - 8082:8082
+    depends_on:
+      - config-server
+      - mysql
+      - eureka-server
+
+  system-events:
+    container_name: system-events
+    build:
+      context: ./system-events/
+      dockerfile: Dockerfile
+    image: system-events:latest
+    restart: on-failure
+    environment:
+      - DOCKER_ENV=true
+      - DB_HOST=mysql
+      - DB_USER=batim2
+      - DB_PASSWORD=password
+      - DB_NAME=events
+      - DB_PORT=3306
+      - EUREKA_SERVER=http://eureka-server:8761/eureka
+      - CONFIG_SERVER=http://config-server:8888
+    ports:
+      - 7000:7000
+    depends_on:
+      - mysql
+      - config-server
+      - eureka-server

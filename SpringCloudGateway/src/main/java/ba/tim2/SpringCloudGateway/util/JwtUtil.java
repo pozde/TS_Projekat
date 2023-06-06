@@ -10,8 +10,8 @@ import java.security.Key;
 
 @Component
 public class JwtUtil {
-    @Value("${application.security.jwt.secret-key}")
-    private String secretKey;
+    //@Value("${application.security.jwt.secret-key}")
+    private String secretKey = "5367566B58703273357638792F423F4528482B4D6251655468576D5A71337436";
 
     public void validateToken(final String token) {
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
