@@ -1,0 +1,7 @@
+ba\tim2\SpringCloudGateway\filter\AuthenticationFilter.class
+ba\tim2\SpringCloudGateway\SpringCloudGatewayApplication.class
+ba\tim2\SpringCloudGateway\filter\AuthenticationFilter$Config.class
+ba\tim2\SpringCloudGateway\config\AppConfig.class
+ba\tim2\SpringCloudGateway\filter\RouteValidator.class
+ba\tim2\SpringCloudGateway\util\JwtUtil.class
+ba\tim2\SpringCloudGateway\MessageRestController.class
