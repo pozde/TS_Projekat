@@ -13,6 +13,8 @@ public interface TerminSaProjekcijomRepository extends JpaRepository<TerminSaPro
     @Query("SELECT t.sala.brojSale FROM TerminSaProjekcijom t WHERE t.sala.brojSale = :broj_sale")
     int findBrojSalePrekoTermina(@Param("broj_sale") int broj_sale);
 
+    TerminSaProjekcijom findByID(int id);
+
     @Query("SELECT t.pocetakProjekcije FROM TerminSaProjekcijom t WHERE t.film.nazivFilma = :naziv_filma")
     List<LocalDateTime> findTerminPrekoImenaFilma(@Param("naziv_filma") String naziv_filma);
 

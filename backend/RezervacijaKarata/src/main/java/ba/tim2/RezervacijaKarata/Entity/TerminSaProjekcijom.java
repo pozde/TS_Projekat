@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,7 +12,7 @@ public class TerminSaProjekcijom {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
 
     @Column
     @NotNull
@@ -40,7 +39,7 @@ public class TerminSaProjekcijom {
     }
 
     public TerminSaProjekcijom(int id, LocalDateTime pocetakProjekcije) {
-        this.id = id;
+        this.ID = id;
         this.pocetakProjekcije = pocetakProjekcije;
     }
 
@@ -50,12 +49,12 @@ public class TerminSaProjekcijom {
         this.film = film;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int id) {
+        this.ID = id;
     }
 
     public LocalDateTime getDatumProjekcije() {

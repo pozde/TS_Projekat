@@ -18,9 +18,9 @@ public class Sjedista {
     private Karte karta;
 
     @ManyToOne
-    @JsonIgnore
-    @JsonIgnoreProperties("sjedista")
-    @JoinColumn(name="sala_id", nullable=false)
+    //@JsonIgnore
+    //@JsonIgnoreProperties("sjedista")
+    @JoinColumn(name="sala_id", nullable = false)
     private Sala sala;
 
     public Sjedista() {

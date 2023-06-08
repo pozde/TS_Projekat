@@ -21,6 +21,7 @@ public class Sala {
     @JsonIgnore
     private List<TerminSaProjekcijom> terminSaProjekcijom;
     @OneToMany(mappedBy = "sala")
+    @JsonIgnore
     private List<Sjedista> sjedista;
 
     public Sala(int id, int brojSale) {

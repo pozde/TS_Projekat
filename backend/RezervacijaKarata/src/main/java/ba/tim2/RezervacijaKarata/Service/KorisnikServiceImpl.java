@@ -73,7 +73,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, headers);
-        //restTemplate.postForObject("http://localhost:8080/dodajKorisnika", request, Korisnik.class);
+        //restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/korisnici/dodaj", request, Korisnik.class);
         return new ResponseEntity(korisnik, HttpStatus.CREATED);
     }
 
@@ -116,6 +116,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         Korisnik k = korisnikRepository.findByID(id);
         JSONObject objekat = new JSONObject();
         if (k == null || !korisnikRepository.existsById(id)) {
+            GrpcClient.log("Korisnik", "Update /azurirajKorisnika/{id}", "Fail");
             throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
         }
         List<Korisnik> sviKorisnici = korisnikRepository.findAll();

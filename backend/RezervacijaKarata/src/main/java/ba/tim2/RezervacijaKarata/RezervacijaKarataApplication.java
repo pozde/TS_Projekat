@@ -1,7 +1,9 @@
 package ba.tim2.RezervacijaKarata;
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -23,13 +25,22 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 //@EnableSwagger2
 //@Configuration
-public class RezervacijaKarataApplication {
+public class RezervacijaKarataApplication implements CommandLineRunner {
+
+	@Autowired
+	private RezervacijaKarataService rezervacijaKarataService;
+
 	@Bean
 	@LoadBalanced
 	RestTemplate restTemplate() {
 		RestTemplate noviRest = new RestTemplate();
 		//noviRest.setErrorHandler(new RestTemplateResponseErrorHandler());
 		return noviRest;
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		rezervacijaKarataService.insertStaticData();
 	}
 
 	@RequestMapping(value = "/")

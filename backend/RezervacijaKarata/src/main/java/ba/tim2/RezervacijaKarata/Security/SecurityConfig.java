@@ -31,6 +31,12 @@ public class SecurityConfig {
                 .requestMatchers(GET, "/korisnici").permitAll()
                 .requestMatchers(GET, "rezervacija-karata/korisnici").permitAll()
                 .requestMatchers(GET, "rezervacija-karata/**").permitAll()
+                .requestMatchers(GET, "/sale").permitAll()
+                .requestMatchers(POST, "/dodajSalu").permitAll()
+                .requestMatchers(GET, "/sjedista").permitAll()
+                .requestMatchers(POST, "/dodajSjediste").permitAll()
+                .requestMatchers(GET, "/zanrovi/**").permitAll()
+
 //                // Film
 //                .requestMatchers(GET, "/filmovi").hasAnyRole("USER", "ADMIN")
 //                .requestMatchers(GET, "/filmovi/{id}").hasAnyRole("USER", "ADMIN")

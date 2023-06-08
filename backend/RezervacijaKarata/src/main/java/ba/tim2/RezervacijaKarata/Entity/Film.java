@@ -20,6 +20,13 @@ public class Film {
     private String nazivFilma;
 
     @Column
+    private String opis;
+
+
+    @ManyToMany(mappedBy = "film")
+    private List<Zanr> zanr;
+
+    @Column
 //    @NotEmpty(message = "Trajanje filma mora postojati!")
     private int duration;
 
@@ -34,6 +41,13 @@ public class Film {
         super();
         this.nazivFilma = naziv;
         this.duration = duration;
+    }
+
+    public Film(String naziv, int duration, String opis) {
+        super();
+        this.nazivFilma = naziv;
+        this.duration = duration;
+        this.opis = opis;
     }
 
     public int getID() {
@@ -60,11 +74,27 @@ public class Film {
         this.nazivFilma = nazivFilma;
     }
 
+    public List<Zanr> getZanr() {
+        return zanr;
+    }
+
+    public void setZanr(List<Zanr> zanr) {
+        this.zanr = zanr;
+    }
+
     public List<TerminSaProjekcijom> getTerminSaProjekcijama() {
         return terminSaProjekcijama;
     }
 
     public void setTerminSaProjekcijama(List<TerminSaProjekcijom> terminSaProjekcijama) {
         this.terminSaProjekcijama = terminSaProjekcijama;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 }
