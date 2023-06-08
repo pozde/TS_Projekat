@@ -1,0 +1,118 @@
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  margin-bottom: 5px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0058b8;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0c71e0;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.landing-page {
+  margin: 0;
+  padding: 20px;
+}
+
+.header {
+  background-color: #0058b8;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+.header h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 0;
+}
+
+.nav-buttons a {
+  margin: 0 10px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.nav-buttons a:hover {
+  text-decoration: underline;
+}
+
+.main-content {
+  margin-top: 60px; /* Adjust this value as needed */
+}
+
+.small-text {
+  font-size: 12px;
+}
+
+.text {
+  align-items: center;
+  flex-direction: column;
+}
+
+.content {
+  text-align: center;
+  margin-top: 50px;
+  justify-content: center;
+}
+
+.content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+}

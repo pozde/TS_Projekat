@@ -1,6 +1,7 @@
 package ba.tim2.authservice.Models.User;
 
 import ba.tim2.authservice.Models.Token.Token;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +29,8 @@ public class User implements UserDetails {
     private String ime;
     private String prezime;
 
-    private Date datumRodjenja;
+    @JsonFormat(pattern = "dd.MM.yyyy.")
+    private LocalDate datumRodjenja;
 
     private String brojTelefona;
 
@@ -85,7 +88,7 @@ public class User implements UserDetails {
                 //"\"id\":\"" + ID + "\"," +
                 "\"ime\":\"" + ime + "\"," +
                 "\"prezime\":\"" + prezime + "\"," +
-                "\"datumRodjenja\":" + null + "," +
+                "\"datumRodjenja\":" + datumRodjenja + "," +
                 "\"brojTelefona\":\"" + brojTelefona + "\"," +
                 "\"spol\":\"" + spol + "\"," +
                 "\"email\":\"" + email + "\"" +
