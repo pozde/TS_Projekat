@@ -8,4 +8,6 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, Integer> {
     Korisnik findByID(int id);
     Korisnik findByEmail(String email);
     boolean existsByEmail(String email);
+
+    Korisnik deleteByEmail(String email);
 }

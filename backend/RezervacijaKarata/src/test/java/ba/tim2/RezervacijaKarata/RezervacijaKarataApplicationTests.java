@@ -8,6 +8,7 @@ class RezervacijaKarataApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

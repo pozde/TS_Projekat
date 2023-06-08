@@ -3,6 +3,7 @@ package ba.tim2.RezervacijaKarata.Security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,20 +23,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers(GET, "/message").permitAll()
-                .requestMatchers(POST, "/dodajKorisnika").permitAll()
-                .requestMatchers(POST, "/dodajFilm").permitAll()
-                .requestMatchers(GET, "/filmovi").permitAll()
-                .requestMatchers(GET, "/korisnici").permitAll()
-                .requestMatchers(GET, "rezervacija-karata/korisnici").permitAll()
-                .requestMatchers(GET, "rezervacija-karata/**").permitAll()
-                .requestMatchers(GET, "/sale").permitAll()
-                .requestMatchers(POST, "/dodajSalu").permitAll()
-                .requestMatchers(GET, "/sjedista").permitAll()
-                .requestMatchers(POST, "/dodajSjediste").permitAll()
-                .requestMatchers(GET, "/zanrovi/**").permitAll()
+//        http.csrf().disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers(GET, "/message").permitAll()
+//                .requestMatchers(POST, "/dodajKorisnika").permitAll()
+//                .requestMatchers(POST, "/dodajFilm").permitAll()
+//                .requestMatchers(GET, "/filmovi").permitAll()
+//                .requestMatchers(GET, "/korisnici").permitAll()
+//                .requestMatchers(GET, "rezervacija-karata/korisnici").permitAll()
+//                .requestMatchers(GET, "rezervacija-karata/**").permitAll()
+//                .requestMatchers(GET, "/sale").permitAll()
+//                .requestMatchers(POST, "/dodajSalu").permitAll()
+//                .requestMatchers(GET, "/sjedista").permitAll()
+//                .requestMatchers(POST, "/dodajSjediste").permitAll()
+//                .requestMatchers(GET, "/zanrovi/**").permitAll()
 
 //                // Film
 //                .requestMatchers(GET, "/filmovi").hasAnyRole("USER", "ADMIN")
@@ -66,11 +67,21 @@ public class SecurityConfig {
 //                .requestMatchers(PUT, "/zanrovi/**").hasRole("ADMIN")
 //                .requestMatchers(DELETE, "/zanrovi/**").hasRole("ADMIN")
 //
-                .anyRequest()
-                .authenticated()
+        http.cors().and()
+                .csrf().disable()
+                .authorizeRequests()
+                .requestMatchers(request -> HttpMethod.GET.matches(request.getMethod()) ||
+                        HttpMethod.POST.matches(request.getMethod())).permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
          return http.build();
+
+
 
     }
 }

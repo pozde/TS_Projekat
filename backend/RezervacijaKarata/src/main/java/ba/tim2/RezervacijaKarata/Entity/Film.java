@@ -37,6 +37,11 @@ public class Film {
 
     }
 
+    public Film(String naziv) {
+        super();
+        this.nazivFilma = naziv;
+    }
+
     public Film(String naziv, int duration) {
         super();
         this.nazivFilma = naziv;

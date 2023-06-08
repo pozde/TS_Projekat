@@ -73,7 +73,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, headers);
-        //restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/korisnici/dodaj", request, Korisnik.class);
+        restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/korisnici/dodaj", request, Korisnik.class);
         return new ResponseEntity(korisnik, HttpStatus.CREATED);
     }
 
@@ -102,12 +102,32 @@ public class KorisnikServiceImpl implements KorisnikService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            restTemplate.delete("http://localhost:8080/obrisiKorisnika/" + id);
+            //restTemplate.delete("http://localhost:8080/obrisiKorisnika/" + id);
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         }
         else {
             GrpcClient.log("Korisnik", "Delete /obrisiKorisnika/{id}", "Fail");
             throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
+        }
+    }
+
+    @Override
+    public ResponseEntity obrisiKorisnikaPrekoMaila(String email){
+        if(korisnikRepository.existsByEmail(email)){
+            JSONObject objekat = new JSONObject();
+            GrpcClient.log("Korisnik", "Delete /obrisiKorisnika/{email}", "Success");
+            korisnikRepository.deleteByEmail(email);
+            try {
+                objekat.put("message", "Korisnik je uspješno obrisan!");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            restTemplate.delete("http://preporucivanje-sadrzaja-pogodnosti/korisnici/obrisiKorisnika/" + email);
+            return new ResponseEntity(objekat.toString(), HttpStatus.OK);
+        }
+        else {
+            GrpcClient.log("Korisnik", "Delete /obrisiKorisnika/{email}", "Fail");
+            throw new NePostojiException("Korisnik sa email-om " + email + " ne postoji!");
         }
     }
 

@@ -17,4 +17,6 @@ public interface KorisnikService {
     ResponseEntity obrisiKorisnika(int id);
 
     ResponseEntity azurirajKorisnika(int id, Korisnik korisnik);
+
+    ResponseEntity obrisiKorisnikaPrekoMaila(String email);
 }
