@@ -2,7 +2,7 @@ package ba.tim2.RezervacijaKarata.Service;
 
 import ba.tim2.RezervacijaKarata.Entity.Film;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
-import ba.tim2.RezervacijaKarata.Messaging.FilmoviMessage;
+import ba.tim2.RezervacijaKarata.Messaging.Consumer.FilmMessage;
 import ba.tim2.RezervacijaKarata.Messaging.RabbitConfig;
 import ba.tim2.RezervacijaKarata.Repository.FilmRepository;
 import org.json.JSONException;
@@ -26,7 +26,10 @@ public class FilmServiceImpl implements FilmService {
     private RestTemplate restTemplate;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private RabbitTemplate rabbitTemplate1;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate2;
 
     @EventListener
     public void appReady(ApplicationReadyEvent event) {
@@ -38,10 +41,17 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public ResponseEntity spasiFilm(Film film) {
         filmRepository.save(film);
-        FilmoviMessage filmRab = new FilmoviMessage();
+        FilmMessage filmRab = new FilmMessage();
         filmRab.setFilm_id(film.getID());
         filmRab.setNazivFilma(film.getNazivFilma());
-        rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.ROUTING_KEY, filmRab);
+        rabbitTemplate1.convertAndSend(RabbitConfig.EXCHANGE1, RabbitConfig.ROUTING_KEY1, filmRab);
+
+//        String correlationId = UUID.randomUUID().toString(); // Generate a unique correlation ID
+//        Message<FilmoviMessage> message = MessageBuilder
+//                .withPayload(filmRab)
+//                .setHeader(MessageHeaders.CORRELATION_ID, correlationId)
+//                .build();
+//        rabbitTemplate.send(RabbitConfig.EXCHANGE, RabbitConfig.ROUTING_KEY, message);
 
 
         JSONObject objekat = new JSONObject();
@@ -55,7 +65,6 @@ public class FilmServiceImpl implements FilmService {
         HttpEntity<Film> request = new HttpEntity<>(film, headers);
         //restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/filmovi/dodaj", request, Film.class);
         //filmRab.setFilm_id(film.getID());
-        System.out.println(filmRab);
 
 
         return new ResponseEntity(film, HttpStatus.CREATED);

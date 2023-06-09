@@ -12,23 +12,46 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    public static final String QUEUE = "film-queue";
-    public static final String EXCHANGE = "film-exchange";
-    public static final String ROUTING_KEY = "film-routingKey";
+    public static final String QUEUE1 = "film-queue";
+    public static final String EXCHANGE1 = "film-exchange";
+    public static final String ROUTING_KEY1 = "film-routingKey";
 
     @Bean
-    public Queue queue() {
-        return new Queue(QUEUE);
+    public Queue queue1() {
+        return new Queue(QUEUE1);
     }
     @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE, true, false);
+    public TopicExchange exchange1() {
+        return new TopicExchange(EXCHANGE1, true, false);
     }
 
     @Bean
-    public Binding binding(){
-        return BindingBuilder.bind(queue()).to(exchange()).with(ROUTING_KEY);
+    public Binding binding1(){
+        return BindingBuilder.bind(queue1()).to(exchange1()).with(ROUTING_KEY1);
     }
+
+
+
+
+    public static final String QUEUE2 = "response-film-queue";
+    public static final String EXCHANGE2 = "response-film-exchange";
+    public static final String ROUTING_KEY2 = "response-film-routingKey";
+
+    @Bean
+    public Queue queue2() {
+        return new Queue(QUEUE2);
+    }
+    @Bean
+    public TopicExchange exchange2() {
+        return new TopicExchange(EXCHANGE2, true, false);
+    }
+
+    @Bean
+    public Binding binding2(){
+        return BindingBuilder.bind(queue1()).to(exchange1()).with(ROUTING_KEY2);
+    }
+
+
     @Bean
     public Jackson2JsonMessageConverter converter() {
         return new Jackson2JsonMessageConverter();

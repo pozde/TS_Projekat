@@ -17,7 +17,7 @@ public class Film {
     private int ID;
     @Column(name = "naziv_filma")
     @NotEmpty(message = "Naziv filma ne može biti prazan!")
-    @Size(min = 3, max = 255, message = "Naziv filma mora imati između 3 i 255 znakova!")
+    @Size(min = 2, max = 255, message = "Naziv filma mora imati između 3 i 255 znakova!")
     private String nazivFilma;
 
     @JsonIgnore
