@@ -46,14 +46,6 @@ public class FilmServiceImpl implements FilmService {
         filmRab.setNazivFilma(film.getNazivFilma());
         rabbitTemplate1.convertAndSend(RabbitConfig.EXCHANGE1, RabbitConfig.ROUTING_KEY1, filmRab);
 
-//        String correlationId = UUID.randomUUID().toString(); // Generate a unique correlation ID
-//        Message<FilmoviMessage> message = MessageBuilder
-//                .withPayload(filmRab)
-//                .setHeader(MessageHeaders.CORRELATION_ID, correlationId)
-//                .build();
-//        rabbitTemplate.send(RabbitConfig.EXCHANGE, RabbitConfig.ROUTING_KEY, message);
-
-
         JSONObject objekat = new JSONObject();
         try {
             objekat.put("message", "Film je uspješno dodan!");
