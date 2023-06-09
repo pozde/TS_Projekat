@@ -27,8 +27,8 @@ import org.springframework.web.client.RestTemplate;
 //@Configuration
 public class RezervacijaKarataApplication implements CommandLineRunner {
 
-//	@Autowired
-//	private RezervacijaKarataService rezervacijaKarataService;
+	@Autowired
+	private RezervacijaKarataService rezervacijaKarataService;
 
 	@Bean
 	@LoadBalanced
@@ -40,7 +40,7 @@ public class RezervacijaKarataApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-//		rezervacijaKarataService.insertStaticData();
+		rezervacijaKarataService.insertStaticData();
 	}
 
 	@RequestMapping(value = "/")

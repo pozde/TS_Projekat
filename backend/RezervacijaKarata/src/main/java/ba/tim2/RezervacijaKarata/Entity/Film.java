@@ -22,6 +22,9 @@ public class Film {
     @Column
     private String opis;
 
+    @Column(name = "poster_path")
+    private String posterPath;
+
 
     @ManyToMany(mappedBy = "film")
     private List<Zanr> zanr;
@@ -101,5 +104,13 @@ public class Film {
 
     public void setOpis(String opis) {
         this.opis = opis;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 }
