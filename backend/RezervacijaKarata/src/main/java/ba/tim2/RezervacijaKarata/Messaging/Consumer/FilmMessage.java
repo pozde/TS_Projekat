@@ -1,3 +1,4 @@
+package ba.tim2.RezervacijaKarata.Messaging.Consumer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
