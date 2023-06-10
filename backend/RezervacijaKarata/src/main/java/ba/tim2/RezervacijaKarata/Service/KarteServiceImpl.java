@@ -1,9 +1,6 @@
 package ba.tim2.RezervacijaKarata.Service;
 
-import ba.tim2.RezervacijaKarata.Entity.Film;
-import ba.tim2.RezervacijaKarata.Entity.Karta;
-import ba.tim2.RezervacijaKarata.Entity.Korisnik;
-import ba.tim2.RezervacijaKarata.Entity.Sjediste;
+import ba.tim2.RezervacijaKarata.Entity.*;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.Repository.*;
 import org.json.JSONException;
@@ -64,15 +61,22 @@ public class KarteServiceImpl implements KarteService{
     }
 
     @Override
-    public ResponseEntity spasiKartu(int korisnik_id, int film_id, int sjediste_id) {
+    public ResponseEntity spasiKartu(int korisnik_id, int film_id, int sala_id, int sjediste_id) {
         Korisnik korisnik = korisnikRepository.findByID(korisnik_id);
         if (korisnik == null) {
             throw new NePostojiException("Korisnik sa id-em " + korisnik_id + " ne postoji!");
         }
+
         Film film = filmRepository.findByID(film_id);
         if (film == null) {
             throw new NePostojiException("Film sa id-em " + film_id + " ne postoji!");
         }
+
+        Sala sala = salaRepository.findByID(sala_id);
+        if (sala == null) {
+            throw new NePostojiException("Film sa id-em " + sala_id + " ne postoji!");
+        }
+
         Sjediste sjediste = sjedisteRepository.findByID(sjediste_id);
         if (sjediste == null) {
             throw new NePostojiException("Sjediste sa id-em " + sjediste_id + " ne postoji!");
@@ -80,16 +84,26 @@ public class KarteServiceImpl implements KarteService{
 
         Karta karta = new Karta();
         karta.setBrojKarte(karta.getID());
+
         karta.setKorisnik(korisnik);
-        korisnik.dodajKartu(karta);
         karta.setFilm(film);
-        film.setKarta(karta);
         karta.setSjediste(sjediste);
+
+        korisnik.dodajKartu(karta);
+
+        film.setKarta(karta);
+        film.dodajSalu(sala);
+
+        sala.dodajFilm(film);
+        sala.dodajSjediste(sjediste);
+
         sjediste.setKarta(karta);
+        sjediste.setSala(sala);
 
         kartaRepository.save(karta);
         korisnikRepository.save(korisnik);
         filmRepository.save(film);
+        salaRepository.save(sala);
         sjedisteRepository.save(sjediste);
 
         JSONObject objekat = new JSONObject();

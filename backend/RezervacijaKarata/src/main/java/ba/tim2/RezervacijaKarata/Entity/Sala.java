@@ -12,7 +12,7 @@ public class Sala {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
 
     @Column(nullable = false)
     private int brojSale;
@@ -29,12 +29,12 @@ public class Sala {
 
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int id) {
+        this.ID = id;
     }
 
     public int getBrojSale() {
@@ -59,5 +59,13 @@ public class Sala {
 
     public void setFilmovi(List<Film> filmovi) {
         this.filmovi = filmovi;
+    }
+
+    public void dodajSjediste(Sjediste sjediste) {
+        sjedista.add(sjediste);
+    }
+
+    public void dodajFilm(Film film) {
+        filmovi.add(film);
     }
 }

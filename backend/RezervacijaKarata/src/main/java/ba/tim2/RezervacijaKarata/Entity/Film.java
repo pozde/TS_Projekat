@@ -128,4 +128,8 @@ public class Film {
     public void setSale(List<Sala> sale) {
         this.sale = sale;
     }
+
+    public void dodajSalu(Sala sala) {
+        sale.add(sala);
+    }
 }
