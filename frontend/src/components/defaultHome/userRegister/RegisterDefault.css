@@ -1,0 +1,150 @@
+.register-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: white;
+    /*background-image: linear-gradient(79deg, #7439db, #C66FBC, #F7944D);*/
+    /*background-image: linear-gradient(99deg, #2119ff, white, #fff635);*/
+    
+  }
+  
+  .font-register {
+    font-size: 35px;
+  }
+  
+  .buttonLink {
+    border: none;
+  }
+  
+  .dropdown {
+    width: 100%;
+    width: 243px;
+    border-radius: 5px;
+    border: none;
+    font-size: 17px;
+    text-align: center;
+    margin-bottom: 0.1px;
+    background-color: white;
+    color: navy;
+    height: 30px;
+  }
+  
+  .dropdown:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .frameSignUp {
+    /*padding: 0.6rem;*/
+    height: auto;
+    width: 430px;
+    border: 3px solid white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: rgba(0, 1, 5, 0.41);
+    font-size: 10px;
+    margin: 10px;
+    padding: 25px;
+  }
+  
+  .frameSignUp .input-container-signUp,
+  .frameSignUp .input-container-signUp form,
+  .frameSignUp .links {
+    margin-bottom: 7px; /* Prilagodite margine između elemenata prema potrebi */
+  }
+  
+  .frameSignUp .input-field-signUp {
+    height: 15px; /* Prilagodite visinu input polja prema potrebi */
+  }
+  
+  .image-container {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+
+  
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .register-button {
+    background-color: white;
+    padding: 10px 98px;
+    border-radius: 5px;
+    margin: 20px auto; /* Add this line */
+    display: block; /* Add this line */
+    cursor: pointer;
+    border: none;
+    font-size: 17px;
+    color: #0058b8;
+    font-weight: bold;
+  }
+  
+  .link {
+    gap: 10px;
+    color: white;
+  }
+  
+  .links {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .links-container {
+    margin-top: 10px;
+  }
+  
+  .input-container-register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0.2px;
+  }
+  
+  h2 {
+    margin-bottom: 1px;
+  }
+  
+  .email {
+    color: navy;
+  }
+  
+  .input-field-register {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 17px;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  
+  .form-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  .error-field {
+    border: 2px solid red;
+  }
+  
+  .error-text {
+    color: red;
+    display: none;
+    margin-top: 5px;
+  }
