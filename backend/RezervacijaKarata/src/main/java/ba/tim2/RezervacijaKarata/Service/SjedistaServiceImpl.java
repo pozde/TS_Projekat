@@ -1,11 +1,10 @@
 package ba.tim2.RezervacijaKarata.Service;
 
 
-import ba.tim2.RezervacijaKarata.Entity.Film;
-import ba.tim2.RezervacijaKarata.Entity.Sjedista;
+import ba.tim2.RezervacijaKarata.Entity.Sjediste;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.Repository.SalaRepository;
-import ba.tim2.RezervacijaKarata.Repository.SjedistaRepository;
+import ba.tim2.RezervacijaKarata.Repository.SjedisteRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.util.List;
 @Service
 public class SjedistaServiceImpl implements SjedistaService {
     @Autowired
-    private SjedistaRepository sjedistaRepository;
+    private SjedisteRepository sjedisteRepository;
     @Autowired
     private SalaRepository salaRepository;
 
@@ -36,8 +35,8 @@ public class SjedistaServiceImpl implements SjedistaService {
 //            repository.save(new Sjedista(6, salaPrva));
 //        }
     }
-    public ResponseEntity spasiSjediste(Sjedista sjediste) {
-        sjedistaRepository.save(sjediste);
+    public ResponseEntity spasiSjediste(Sjediste sjediste) {
+        sjedisteRepository.save(sjediste);
 
         JSONObject objekat = new JSONObject();
         try {
@@ -47,7 +46,7 @@ public class SjedistaServiceImpl implements SjedistaService {
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Sjedista> request = new HttpEntity<>(sjediste, headers);
+        HttpEntity<Sjediste> request = new HttpEntity<>(sjediste, headers);
         //restTemplate.postForObject("http:://localhost:8080/dodajSjedista", request, Sjedista.class);
         return new ResponseEntity(sjediste, HttpStatus.CREATED);
     }
@@ -56,20 +55,20 @@ public class SjedistaServiceImpl implements SjedistaService {
 //        return repository.saveAll(sjedista);
 //    }
 
-    public List<Sjedista> getSvaSjedista() {
-        return sjedistaRepository.findAll();
+    public List<Sjediste> getSvaSjedista() {
+        return sjedisteRepository.findAll();
     }
 
     public int getSalaIdPrekoSjedista(int id) {
-        return sjedistaRepository.findSalaIdBySjedisteId(id);
+        return sjedisteRepository.findSalaIdBySjedisteId(id);
     }
 
     public int getBrojSalePrekoSjedista(int brojSale) {
-        return sjedistaRepository.findBrojSalePrekoSjedista(brojSale);
+        return sjedisteRepository.findBrojSalePrekoSjedista(brojSale);
     }
 
     public ResponseEntity getSjedistePrekoBrojaSjedista(int broj) {
-        return new ResponseEntity(sjedistaRepository.findSjedisteByBrojSjedista(broj), HttpStatus.OK);
+        return new ResponseEntity(sjedisteRepository.findSjedisteByBrojSjedista(broj), HttpStatus.OK);
     }
     public ResponseEntity obrisiSvaSjedista() {
         if(salaRepository.count() > 0) {
@@ -88,9 +87,9 @@ public class SjedistaServiceImpl implements SjedistaService {
     }
 
     public ResponseEntity obrisiSjediste(int id) {
-        if (sjedistaRepository.existsById(id)) {
+        if (sjedisteRepository.existsById(id)) {
             JSONObject objekat = new JSONObject();
-            sjedistaRepository.deleteById(id);
+            sjedisteRepository.deleteById(id);
             try {
                 objekat.put("message", "Sjedište je uspješno obrisan!");
             } catch (JSONException e) {

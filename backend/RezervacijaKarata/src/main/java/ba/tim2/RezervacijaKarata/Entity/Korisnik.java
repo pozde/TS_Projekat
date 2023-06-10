@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -36,44 +35,17 @@ public class Korisnik {
     @Column
     private String spol;
     @OneToMany(mappedBy = "korisnik")
-    private List<Karte> karte;
+    private List<Karta> karte;
 
     public Korisnik() {
-    }
-
-    public Korisnik(int id, String ime, String prezime, LocalDate datumRodjenja, String email, String brojTelefona, String spol) {
-        this.ID = id;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.datumRodjenja = datumRodjenja;
-        this.email = email;
-        this.brojTelefona = brojTelefona;
-        this.spol = spol;
-    }
-
-    public Korisnik(String ime, String prezime, LocalDate datumRodjenja, String email, String brojTelefona, String spol) {
-        this.ime = ime;
-        this.prezime = prezime;
-        this.datumRodjenja = datumRodjenja;
-        this.email = email;
-        this.brojTelefona = brojTelefona;
-        this.spol = spol;
-    }
-
-    public Korisnik(String ime, String prezime, LocalDate datumRodjenja, String brojTelefona, String spol) {
-        this.ime = ime;
-        this.prezime = prezime;
-        this.datumRodjenja = datumRodjenja;
-        this.brojTelefona = brojTelefona;
-        this.spol = spol;
     }
 
     public int getID() {
         return ID;
     }
 
-    public void setID(int id) {
-        this.ID = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getIme() {
@@ -124,11 +96,15 @@ public class Korisnik {
         this.spol = spol;
     }
 
-    public List<Karte> getKarte() {
+    public List<Karta> getKarte() {
         return karte;
     }
 
-    public void setKarte(List<Karte> karte) {
+    public void setKarte(List<Karta> karte) {
         this.karte = karte;
+    }
+
+    public void dodajKartu(Karta karta) {
+        karte.add(karta);
     }
 }

@@ -1,8 +1,9 @@
 package ba.tim2.RezervacijaKarata.Service;
 
 import ba.tim2.RezervacijaKarata.Entity.Film;
-import ba.tim2.RezervacijaKarata.Entity.Karte;
-import ba.tim2.RezervacijaKarata.Entity.Sjedista;
+import ba.tim2.RezervacijaKarata.Entity.Karta;
+import ba.tim2.RezervacijaKarata.Entity.Korisnik;
+import ba.tim2.RezervacijaKarata.Entity.Sjediste;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.Repository.*;
 import org.json.JSONException;
@@ -18,19 +19,19 @@ import java.util.List;
 @Service
 public class KarteServiceImpl implements KarteService{
     @Autowired
-    private KarteRepository karteRepository;
-
-    @Autowired
-    private TerminSaProjekcijomRepository terminSaProjekcijomRepository;
+    private KartaRepository kartaRepository;
 
     @Autowired
     private KorisnikRepository korisnikRepository;
 
     @Autowired
-    private SjedistaRepository sjedistaRepository;
+    private SjedisteRepository sjedisteRepository;
 
     @Autowired
     private SalaRepository salaRepository;
+
+    @Autowired
+    private FilmRepository filmRepository;
 
     @EventListener
     public void appReady(ApplicationReadyEvent event) {
@@ -63,18 +64,43 @@ public class KarteServiceImpl implements KarteService{
     }
 
     @Override
-    public ResponseEntity spasiKartu(Karte karta) {
-        karteRepository.save(karta);
+    public ResponseEntity spasiKartu(int korisnik_id, int film_id, int sjediste_id) {
+        Korisnik korisnik = korisnikRepository.findByID(korisnik_id);
+        if (korisnik == null) {
+            throw new NePostojiException("Korisnik sa id-em " + korisnik_id + " ne postoji!");
+        }
+        Film film = filmRepository.findByID(film_id);
+        if (film == null) {
+            throw new NePostojiException("Film sa id-em " + film_id + " ne postoji!");
+        }
+        Sjediste sjediste = sjedisteRepository.findByID(sjediste_id);
+        if (sjediste == null) {
+            throw new NePostojiException("Sjediste sa id-em " + sjediste_id + " ne postoji!");
+        }
+
+        Karta karta = new Karta();
+        karta.setBrojKarte(karta.getID());
+        karta.setKorisnik(korisnik);
+        korisnik.dodajKartu(karta);
+        karta.setFilm(film);
+        film.setKarta(karta);
+        karta.setSjediste(sjediste);
+        sjediste.setKarta(karta);
+
+        kartaRepository.save(karta);
+        korisnikRepository.save(korisnik);
+        filmRepository.save(film);
+        sjedisteRepository.save(sjediste);
 
         JSONObject objekat = new JSONObject();
         try {
-            objekat.put("message", "Karta je uspješno dodan!");
+            objekat.put("message", "Karta je uspješno dodana!");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Karte> request = new HttpEntity<>(karta, headers);
+        HttpEntity<Karta> request = new HttpEntity<>(karta, headers);
         //restTemplate.postForObject("http:://localhost:8080/dodajFilm", request, Film.class);
         return new ResponseEntity(karta, HttpStatus.CREATED);
     }
@@ -84,14 +110,14 @@ public class KarteServiceImpl implements KarteService{
 //    }
 
     @Override
-    public List<Karte> getSveKarte() {
-        return karteRepository.findAll();
+    public List<Karta> getSveKarte() {
+        return kartaRepository.findAll();
     }
 
     @Override
     public ResponseEntity getKartuById(int id) {
-        if (karteRepository.existsById(id)) {
-            return new ResponseEntity(karteRepository.findByID(id), HttpStatus.OK);
+        if (kartaRepository.existsById(id)) {
+            return new ResponseEntity(kartaRepository.findByID(id), HttpStatus.OK);
         } else {
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
         }
@@ -103,14 +129,14 @@ public class KarteServiceImpl implements KarteService{
 
     @Override
     public ResponseEntity getSjedisteByKarta(int brojSale, int brojSjedista){       //OVO vidi za if
-        return new ResponseEntity(karteRepository.postojiLiSjedisteNaKarti(brojSale, brojSjedista), HttpStatus.OK);
+        return new ResponseEntity(kartaRepository.postojiLiSjedisteNaKarti(brojSale, brojSjedista), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity obrisiKartu(int id) {
-        if (karteRepository.existsById(id)) {
+        if (kartaRepository.existsById(id)) {
             JSONObject objekat = new JSONObject();
-            karteRepository.deleteById(id);
+            kartaRepository.deleteById(id);
             try {
                 objekat.put("message", "Karta je uspješno obrisan!");
             } catch (JSONException e) {

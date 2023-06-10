@@ -1,7 +1,6 @@
 package ba.tim2.RezervacijaKarata.Controller;
 
-import ba.tim2.RezervacijaKarata.Entity.Karte;
-import ba.tim2.RezervacijaKarata.Entity.Sjedista;
+import ba.tim2.RezervacijaKarata.Entity.Karta;
 import ba.tim2.RezervacijaKarata.Service.KarteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,23 +10,18 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
-public class KarteController {
+public class KartaController {
 
     @Autowired
     private KarteService karteService;
 
-    @PostMapping("/dodajKartu")
-    public ResponseEntity dodajKartu(@RequestBody Karte karta) {
-        return karteService.spasiKartu(karta);
+    @PostMapping("/dodajKartu/{korisnik_id}/{film_id}/{sjediste_id}")
+    public ResponseEntity dodajKartu(@PathVariable int korisnik_id, @PathVariable int film_id, @PathVariable int sjediste_id) {
+        return karteService.spasiKartu(korisnik_id, film_id, sjediste_id);
     }
 
-//    @PostMapping("/dodajKarte")
-//    public List<Karte> dodajKarte(@RequestBody List<Karte> karte) {
-//        return karteService.spasiKarte(karte);
-//    }
-
     @GetMapping("/karte")
-    public List<Karte> getSveKarte() {
+    public List<Karta> getSveKarte() {
         return karteService.getSveKarte();
     }
 

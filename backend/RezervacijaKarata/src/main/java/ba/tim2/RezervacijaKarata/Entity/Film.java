@@ -1,11 +1,13 @@
 package ba.tim2.RezervacijaKarata.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,9 +17,14 @@ public class Film {
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
+
     @Column
     @NotEmpty(message = "Naziv filma mora postojati!")
     private String nazivFilma;
+
+    @Column
+//    @NotEmpty(message = "Trajanje filma mora postojati!")
+    private int trajanje;
 
     @Column
     private String opis;
@@ -25,53 +32,37 @@ public class Film {
     @Column(name = "poster_path")
     private String posterPath;
 
+    @Column
+    @JsonFormat(pattern = "dd.MM.yyyy. HH:mm:ss")
+    private LocalDateTime pocetakProjekcije;
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "karta_id")
+    private Karta karta;
 
     @ManyToMany(mappedBy = "film")
-    private List<Zanr> zanr;
+    private List<Zanr> zanrovi = new ArrayList<>();
 
-    @Column
-//    @NotEmpty(message = "Trajanje filma mora postojati!")
-    private int duration;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "film_sale",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "sala_id")
+    )
+    private List<Sala> sale = new ArrayList<>();
 
-    @OneToMany(mappedBy = "film")
-    @JsonIgnore
-    private List<TerminSaProjekcijom> terminSaProjekcijama;
+
     public Film() {
 
-    }
-
-    public Film(String naziv) {
-        super();
-        this.nazivFilma = naziv;
-    }
-
-    public Film(String naziv, int duration) {
-        super();
-        this.nazivFilma = naziv;
-        this.duration = duration;
-    }
-
-    public Film(String naziv, int duration, String opis) {
-        super();
-        this.nazivFilma = naziv;
-        this.duration = duration;
-        this.opis = opis;
     }
 
     public int getID() {
         return ID;
     }
 
-    public void setID(int id) {
-        this.ID = id;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getNazivFilma() {
@@ -82,20 +73,12 @@ public class Film {
         this.nazivFilma = nazivFilma;
     }
 
-    public List<Zanr> getZanr() {
-        return zanr;
+    public int getTrajanje() {
+        return trajanje;
     }
 
-    public void setZanr(List<Zanr> zanr) {
-        this.zanr = zanr;
-    }
-
-    public List<TerminSaProjekcijom> getTerminSaProjekcijama() {
-        return terminSaProjekcijama;
-    }
-
-    public void setTerminSaProjekcijama(List<TerminSaProjekcijom> terminSaProjekcijama) {
-        this.terminSaProjekcijama = terminSaProjekcijama;
+    public void setTrajanje(int trajanje) {
+        this.trajanje = trajanje;
     }
 
     public String getOpis() {
@@ -112,5 +95,37 @@ public class Film {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public LocalDateTime getPocetakProjekcije() {
+        return pocetakProjekcije;
+    }
+
+    public void setPocetakProjekcije(LocalDateTime pocetakProjekcije) {
+        this.pocetakProjekcije = pocetakProjekcije;
+    }
+
+    public Karta getKarta() {
+        return karta;
+    }
+
+    public void setKarta(Karta karta) {
+        this.karta = karta;
+    }
+
+    public List<Zanr> getZanrovi() {
+        return zanrovi;
+    }
+
+    public void setZanrovi(List<Zanr> zanrovi) {
+        this.zanrovi = zanrovi;
+    }
+
+    public List<Sala> getSale() {
+        return sale;
+    }
+
+    public void setSale(List<Sala> sale) {
+        this.sale = sale;
     }
 }

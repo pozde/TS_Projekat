@@ -2,10 +2,9 @@ package ba.tim2.RezervacijaKarata.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,26 +13,20 @@ public class Sala {
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(nullable = false)
     private int brojSale;
 
     @OneToMany(mappedBy = "sala")
     @JsonIgnore
-    private List<TerminSaProjekcijom> terminSaProjekcijom;
-    @OneToMany(mappedBy = "sala")
-    @JsonIgnore
-    private List<Sjedista> sjedista;
+    private List<Sjediste> sjedista;
 
-    public Sala(int id, int brojSale) {
-        this.id = id;
-        this.brojSale = brojSale;
-    }
-    public Sala(int brojSale) {
-        super();
-        this.brojSale = brojSale;
-    }
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sale")
+    private List<Film> filmovi = new ArrayList<>();
 
     public Sala() {
+
     }
 
     public int getId() {
@@ -52,19 +45,19 @@ public class Sala {
         this.brojSale = brojSale;
     }
 
-    public List<TerminSaProjekcijom> getTerminSaProjekcijom() {
-        return terminSaProjekcijom;
-    }
-
-    public void setTerminSaProjekcijom(List<TerminSaProjekcijom> terminSaProjekcijom) {
-        this.terminSaProjekcijom = terminSaProjekcijom;
-    }
-
-    public List<Sjedista> getSjedista() {
+    public List<Sjediste> getSjedista() {
         return sjedista;
     }
 
-    public void setSjedista(List<Sjedista> sjedista) {
+    public void setSjedista(List<Sjediste> sjedista) {
         this.sjedista = sjedista;
+    }
+
+    public List<Film> getFilmovi() {
+        return filmovi;
+    }
+
+    public void setFilmovi(List<Film> filmovi) {
+        this.filmovi = filmovi;
     }
 }

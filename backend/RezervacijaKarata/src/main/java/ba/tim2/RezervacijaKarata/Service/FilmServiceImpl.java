@@ -117,11 +117,8 @@ public class FilmServiceImpl implements FilmService {
         if (!film.getNazivFilma().isEmpty()) {
             f.setNazivFilma(film.getNazivFilma());
         }
-        if (film.getTerminSaProjekcijama() != null) {
-            f.setTerminSaProjekcijama(film.getTerminSaProjekcijama());
-        }
-        if (film.getDuration() > 0) {
-            f.setDuration(film.getDuration());
+        if (film.getTrajanje() > 0) {
+            f.setTrajanje(film.getTrajanje());
         }
 
         JSONObject objekat = new JSONObject();

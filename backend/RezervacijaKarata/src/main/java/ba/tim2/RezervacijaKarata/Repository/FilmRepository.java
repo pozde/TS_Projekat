@@ -1,8 +1,6 @@
 package ba.tim2.RezervacijaKarata.Repository;
 
 import ba.tim2.RezervacijaKarata.Entity.Film;
-import ba.tim2.RezervacijaKarata.Entity.Korisnik;
-import ba.tim2.RezervacijaKarata.Entity.Sjedista;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

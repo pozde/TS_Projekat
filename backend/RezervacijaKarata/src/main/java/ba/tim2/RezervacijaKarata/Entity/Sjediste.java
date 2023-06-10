@@ -1,21 +1,20 @@
 package ba.tim2.RezervacijaKarata.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Sjedista {
+public class Sjediste {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
     @Column(nullable = false)
     private int brojSjedista;
-    @OneToOne(mappedBy = "sjedista")
+    @OneToOne(mappedBy = "sjediste")
     @JsonIgnore
-    private Karte karta;
+    private Karta karta;
 
     @ManyToOne
     //@JsonIgnore
@@ -23,32 +22,15 @@ public class Sjedista {
     @JoinColumn(name="sala_id", nullable = false)
     private Sala sala;
 
-    public Sjedista() {
+    public Sjediste() {
     }
 
-    public Sjedista(int id, int brojSjedista) {
-        this.id = id;
-        this.brojSjedista = brojSjedista;
+    public int getID() {
+        return ID;
     }
 
-    public Sjedista(int brojSjedista, Sala sala) {
-        super();
-        this.brojSjedista = brojSjedista;
-        this.sala = sala;
-    }
-
-    public Sjedista(int id, int brojSjedista, Sala sala) {
-        this.id = id;
-        this.brojSjedista = brojSjedista;
-        this.sala = sala;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int id) {
+        this.ID = id;
     }
 
     public int getBrojSjedista() {
@@ -67,11 +49,11 @@ public class Sjedista {
         this.sala = sala;
     }
 
-    public Karte getKarta() {
+    public Karta getKarta() {
         return karta;
     }
 
-    public void setKarta(Karte karta) {
+    public void setKarta(Karta karta) {
         this.karta = karta;
     }
 }
