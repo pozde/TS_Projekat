@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface KartaRepository extends JpaRepository<Karta, Integer> {
     //RecenzijaAplikacija findByName(String name);
     @Query("SELECT k.sjediste FROM Karta k " +
@@ -13,4 +15,5 @@ public interface KartaRepository extends JpaRepository<Karta, Integer> {
     Sjediste postojiLiSjedisteNaKarti(@Param("broj_sjedista") int brojSjedista, @Param("broj_sale") int brojSale);
 
     Karta findByID(int id);
+    List<Karta> findKartasByID(int id);
 }

@@ -13,4 +13,5 @@ public interface KarteService {
     ResponseEntity spasiKartu(int korisnik_id, int film_id, int sala_id, int sjediste_id);
     List<Karta> getSveKarte();
 
+    List<Karta> getKarteById(int id);
 }

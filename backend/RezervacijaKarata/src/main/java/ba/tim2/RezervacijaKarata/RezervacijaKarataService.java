@@ -1,14 +1,19 @@
 package ba.tim2.RezervacijaKarata;
 
 import ba.tim2.RezervacijaKarata.Entity.Film;
+import ba.tim2.RezervacijaKarata.Entity.Sala;
 import ba.tim2.RezervacijaKarata.Entity.Zanr;
 import ba.tim2.RezervacijaKarata.Repository.FilmRepository;
+import ba.tim2.RezervacijaKarata.Repository.SalaRepository;
 import ba.tim2.RezervacijaKarata.Repository.ZanrRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 
 @Service
@@ -18,6 +23,9 @@ public class RezervacijaKarataService {
 
     @Autowired
     private ZanrRepository zanrRepository;
+
+    @Autowired
+    private SalaRepository salaRepository;
 
     @Transactional
     public void insertStaticData() {
@@ -34,6 +42,45 @@ public class RezervacijaKarataService {
         Film film11 = new Film();
         Film film12 = new Film();
         Film film13 = new Film();
+
+        Sala sala1 = new Sala();
+        Sala sala2 = new Sala();
+        Sala sala3 = new Sala();
+        Sala sala4 = new Sala();
+        Sala sala5 = new Sala();
+
+        sala1.setPocetakProjekcije(LocalDateTime.of(LocalDate.now(), LocalTime.of(15,0)));
+        sala2.setPocetakProjekcije(LocalDateTime.of(LocalDate.now(), LocalTime.of(12,30)));
+        sala3.setPocetakProjekcije(LocalDateTime.of(LocalDate.now(), LocalTime.of(18,0)));
+        sala4.setPocetakProjekcije(LocalDateTime.of(LocalDate.now(), LocalTime.of(20,0)));
+        sala5.setPocetakProjekcije(LocalDateTime.of(LocalDate.now(), LocalTime.of(21,30)));
+
+        film1.setSale(Arrays.asList(sala3, sala5));
+        film2.setSale(Arrays.asList(sala1, sala4));
+        film3.setSale(Arrays.asList(sala2));
+        film4.setSale(Arrays.asList(sala1));
+        film5.setSale(Arrays.asList(sala5));
+        film6.setSale(Arrays.asList(sala3, sala4));
+        film7.setSale(Arrays.asList(sala3, sala5));
+        film8.setSale(Arrays.asList(sala1, sala4));
+        film9.setSale(Arrays.asList(sala2, sala3));
+        film10.setSale(Arrays.asList(sala4, sala5));
+        film11.setSale(Arrays.asList(sala3, sala5));
+        film12.setSale(Arrays.asList(sala1, sala3));
+        film13.setSale(Arrays.asList(sala5));
+
+        sala1.setFilmovi(Arrays.asList(film2, film4, film8, film12));
+        sala2.setFilmovi(Arrays.asList(film3, film9));
+        sala3.setFilmovi(Arrays.asList(film1, film6, film7, film9, film11, film12));
+        sala4.setFilmovi(Arrays.asList(film2, film6, film8, film10));
+        sala5.setFilmovi(Arrays.asList(film1, film5, film7, film10, film11, film13));
+
+        sala1.setBrojSale(1);
+        sala2.setBrojSale(2);
+        sala3.setBrojSale(3);
+        sala4.setBrojSale(4);
+        sala5.setBrojSale(5);
+
 
         Zanr akcija = new Zanr("Akcija");
         Zanr triler = new Zanr("Triler");

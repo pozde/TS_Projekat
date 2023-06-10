@@ -35,6 +35,11 @@ public class KartaController {
         return karteService.getKartuById(id);
     }
 
+    @GetMapping("/karte/{id}")
+    public List<Karta> getKarteById(@PathVariable int id) {
+        return karteService.getKarteById(id);
+    }
+
     @DeleteMapping("/obrisiKartu/{id}")
     public ResponseEntity obrisiKartu(@PathVariable int id) {
         return karteService.obrisiKartu(id);

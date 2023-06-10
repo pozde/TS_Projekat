@@ -32,10 +32,6 @@ public class Film {
     @Column(name = "poster_path")
     private String posterPath;
 
-    @Column
-    @JsonFormat(pattern = "dd.MM.yyyy. HH:mm:ss")
-    private LocalDateTime pocetakProjekcije;
-
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "karta_id")
@@ -95,14 +91,6 @@ public class Film {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
-    }
-
-    public LocalDateTime getPocetakProjekcije() {
-        return pocetakProjekcije;
-    }
-
-    public void setPocetakProjekcije(LocalDateTime pocetakProjekcije) {
-        this.pocetakProjekcije = pocetakProjekcije;
     }
 
     public Karta getKarta() {

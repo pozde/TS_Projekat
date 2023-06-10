@@ -12,6 +12,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class KarteServiceImpl implements KarteService{
@@ -126,6 +127,17 @@ public class KarteServiceImpl implements KarteService{
     @Override
     public List<Karta> getSveKarte() {
         return kartaRepository.findAll();
+    }
+
+    @Override
+    public List<Karta> getKarteById(int id) {
+        if (kartaRepository.existsById(id)) {
+            return kartaRepository.findAll().stream()
+                    .filter(karta -> karta.getID() == id)
+                    .collect(Collectors.toList());
+        } else {
+            throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
+        }
     }
 
     @Override

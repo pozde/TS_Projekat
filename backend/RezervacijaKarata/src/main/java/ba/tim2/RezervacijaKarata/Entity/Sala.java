@@ -1,9 +1,11 @@
 package ba.tim2.RezervacijaKarata.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,10 @@ public class Sala {
 
     @Column(nullable = false)
     private int brojSale;
+
+    @Column
+    @JsonFormat(pattern = "HH:mm")
+    private LocalDateTime pocetakProjekcije;
 
     @OneToMany(mappedBy = "sala")
     @JsonIgnore
@@ -67,5 +73,13 @@ public class Sala {
 
     public void dodajFilm(Film film) {
         filmovi.add(film);
+    }
+
+    public LocalDateTime getPocetakProjekcije() {
+        return pocetakProjekcije;
+    }
+
+    public void setPocetakProjekcije(LocalDateTime pocetakProjekcije) {
+        this.pocetakProjekcije = pocetakProjekcije;
     }
 }
