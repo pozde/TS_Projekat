@@ -1,6 +1,7 @@
 package ba.tim2.RezervacijaKarata.Service;
 
 import ba.tim2.RezervacijaKarata.Entity.Sala;
+import ba.tim2.RezervacijaKarata.Entity.Sjediste;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface SalaService {
     ResponseEntity obrisiSveSale();
 
     ResponseEntity postaviFilmZaSalu(int id, List<Sala> saleZaFilm);
+
+    ResponseEntity dodajSjedisteZaSalu(int sala_id, Sjediste sjediste);
 }

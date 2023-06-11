@@ -19,7 +19,8 @@ public class Sjediste {
     @ManyToOne
     //@JsonIgnore
     //@JsonIgnoreProperties("sjedista")
-    @JoinColumn(name="sala_id", nullable = false)
+    @JoinColumn(name="sala_id")
+    @JsonIgnore
     private Sala sala;
 
     public Sjediste() {

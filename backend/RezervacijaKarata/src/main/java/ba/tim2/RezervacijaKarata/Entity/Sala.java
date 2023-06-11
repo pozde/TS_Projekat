@@ -24,7 +24,6 @@ public class Sala {
     private LocalDateTime pocetakProjekcije;
 
     @OneToMany(mappedBy = "sala")
-    @JsonIgnore
     private List<Sjediste> sjedista = new ArrayList<>();
 
     @JsonIgnore

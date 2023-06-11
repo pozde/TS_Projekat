@@ -1,6 +1,7 @@
 package ba.tim2.RezervacijaKarata.Controller;
 
 import ba.tim2.RezervacijaKarata.Entity.Sala;
+import ba.tim2.RezervacijaKarata.Entity.Sjediste;
 import ba.tim2.RezervacijaKarata.Service.SalaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -49,5 +50,10 @@ public class SalaController {
     @PutMapping(value = "/sale/film/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity postaviFilmZaSalu(@PathVariable int id, @RequestBody List<Sala> saleZaFilm) {
         return salaService.postaviFilmZaSalu(id, saleZaFilm);
+    }
+
+    @PostMapping("/dodajSjediste/{sala_id}")
+    public ResponseEntity dodajSjedisteZaSalu(@PathVariable int sala_id, @RequestBody Sjediste sjediste) {
+        return salaService.dodajSjedisteZaSalu(sala_id, sjediste);
     }
 }

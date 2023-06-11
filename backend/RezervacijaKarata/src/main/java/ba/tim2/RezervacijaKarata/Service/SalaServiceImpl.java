@@ -2,9 +2,11 @@ package ba.tim2.RezervacijaKarata.Service;
 
 import ba.tim2.RezervacijaKarata.Entity.Film;
 import ba.tim2.RezervacijaKarata.Entity.Sala;
+import ba.tim2.RezervacijaKarata.Entity.Sjediste;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.Repository.FilmRepository;
 import ba.tim2.RezervacijaKarata.Repository.SalaRepository;
+import ba.tim2.RezervacijaKarata.Repository.SjedisteRepository;
 import ba.tim2.RezervacijaKarata.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +29,8 @@ public class SalaServiceImpl implements SalaService {
 //    @PersistenceContext
 //    private EntityManager entityManager;
 
+    @Autowired
+    private SjedisteRepository sjedisteRepository;
     @EventListener
     public void appReady(ApplicationReadyEvent event) {
         //entityManager
@@ -116,5 +120,18 @@ public class SalaServiceImpl implements SalaService {
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
         }
         return new ResponseEntity(f, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity dodajSjedisteZaSalu(int sala_id, Sjediste sjediste) {
+        Sala sala = salaRepository.findByID(sala_id);
+        if (sala == null ) {
+            throw new NePostojiException("Sala sa id-em " + sala_id + " ne postoji!");
+        }
+        sala.dodajSjediste(sjediste);
+        sjediste.setSala(sala);
+        salaRepository.save(sala);
+        sjedisteRepository.save(sjediste);
+        return new ResponseEntity(sjediste, HttpStatus.CREATED);
     }
 }

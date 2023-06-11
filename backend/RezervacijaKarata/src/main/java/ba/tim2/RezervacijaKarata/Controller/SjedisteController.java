@@ -52,4 +52,6 @@ public class SjedisteController {
     public ResponseEntity obrisiSvaSjedista() {
         return sjedistaService.obrisiSvaSjedista();
     }
+
+
 }

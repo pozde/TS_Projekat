@@ -101,4 +101,6 @@ public class SjedistaServiceImpl implements SjedistaService {
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
         }
     }
+
+
 }
