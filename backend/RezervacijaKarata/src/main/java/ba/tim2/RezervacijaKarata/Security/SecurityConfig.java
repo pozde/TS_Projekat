@@ -71,8 +71,9 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .requestMatchers(request -> HttpMethod.GET.matches(request.getMethod()) ||
-                        HttpMethod.POST.matches(request.getMethod()) ||
-                        DELETE.matches(request.getMethod())).permitAll()
+                HttpMethod.POST.matches(request.getMethod()) ||
+                HttpMethod.PUT.matches(request.getMethod()) ||
+                HttpMethod.DELETE.matches(request.getMethod())).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);

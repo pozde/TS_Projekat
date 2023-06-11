@@ -25,7 +25,7 @@ public class Sala {
 
     @OneToMany(mappedBy = "sala")
     @JsonIgnore
-    private List<Sjediste> sjedista;
+    private List<Sjediste> sjedista = new ArrayList<>();
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sale")

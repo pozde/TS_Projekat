@@ -56,4 +56,8 @@ public class Zanr {
     public void obrisiFilm(Film film) {
         filmovi.remove(film);
     }
+
+    public void dodajFilm(Film film) {
+        filmovi.add(film);
+    }
 }

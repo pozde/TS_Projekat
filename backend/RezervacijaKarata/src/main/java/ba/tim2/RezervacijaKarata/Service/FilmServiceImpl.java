@@ -38,13 +38,7 @@ public class FilmServiceImpl implements FilmService {
     private SalaRepository salaRepository;
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
     private RabbitTemplate rabbitTemplate1;
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate2;
 
     @EventListener
     public void appReady(ApplicationReadyEvent event) {
