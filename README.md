@@ -86,3 +86,9 @@ kako je opisano u prethodnom koraku.
 
 [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
+Osnovni koraci koji su potrebni za kreiranje naših Docker kontejnera su sljedeći:
+
+1. Moramo dodati JAVA_HOME sistemsku environment varijablu, za pokretanje Java komandi kroz terminal. U našem slučaju je JAVA_HOME sistemska varijabla pozicionirana na sljedeći način C:\Program Files\Java\jdk-17
+2. Prije pokretanja kontejnera također je vrlo bitno kroz terminal navigirati do direktorija svakog od mikroservisa, te za svaki mikroservis je potrebno unijeti komandu ```.\mvnw.cmd clean package -D skipTests``` kako bi se uspješno kreirale .jar datoteke koje su neophodne za izgradnju Docker slika.
+3. Nakon toga, potrebno se pozicionirati u direktorij unutar kojeg se nalaze svi mikroservisi (direktoriji svih mikroservisa).
+4. Kao konačni korak potrebno je unijeti komandu ```docker-compose up --build``` komandu, kako bi se izgradile sve potrebne slike kroz docker-compose.yml fajl, te nakon toga pokrenuli kontejneri.
