@@ -38,7 +38,7 @@ Za build i pokretanje aplikacije potrebno vam je:
 
 ## Konfiguracija baze
 U svojoj zadanoj konfiguraciji sva tri mikroservisa koriste MySQL bazu podataka, koja se popunjava podacima prilikom pokretanja. Baze podataka imaju sljedeće nazive:
-* upravljanje_filmovima (za mikroservis za upravljanje filmovima i kartama)
+* upravljanje_filmovima_kartama(za mikroservis za upravljanje filmovima i kartama)
 * rezervacijaKarata (za mikroservis za rezervaciju karata)
 * preporucivanje_sadrzaja_pogodnosti (za mikroservis za preporučivanje sadržaja i pogodnosti)
 
