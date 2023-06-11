@@ -5,7 +5,7 @@ import HomeAdmin from "./components/admin/home/HomeAdmin";
 import HomeMachineOrder from "./components/admin/machine/HomeMachineOrder";
 import HomeOverviewUser from "./components/admin/overviewUser/HomeOverviewUser";
 import HomeOverviewMachines from "./components/admin/overviewMachine/HomeOverviewMachines";
-import HomeAddMovie from "./components/admin/user/HomeAddMovie";
+import HomeAddMovie from "./components/admin/addMovie/HomeAddMovie";
 import HomeLoginDefault from "./components/defaultHome/userLogin/HomeLoginDefault";
 import HomeOverviewReview from "./components/admin/overviewReview/HomeOverviewReview";
 import HomeRegisterDefault from "./components/defaultHome/userRegister/HomeRegisterDefault";

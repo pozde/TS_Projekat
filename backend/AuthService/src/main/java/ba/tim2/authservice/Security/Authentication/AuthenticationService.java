@@ -1,6 +1,7 @@
 package ba.tim2.authservice.Security.Authentication;
 
 import ba.tim2.authservice.Models.Token.Token;
+import ba.tim2.authservice.Models.User.Role;
 import ba.tim2.authservice.Repositories.TokenRepository;
 import ba.tim2.authservice.Models.Token.TokenType;
 import ba.tim2.authservice.Models.User.User;
@@ -57,7 +58,7 @@ public class AuthenticationService {
         restUser.setDatumRodjenja(request.getDatumRodjenja());
         restUser.setBrojTelefona(request.getBrojTelefona());
         restUser.setEmail(request.getEmail());
-        restUser.setRole(request.getRole());
+        restUser.setRole(Role.USER);
         restUser.setSpol(request.getSpol());
 
         var token = tokenRepository.findAllValidTokenByUser(user.getID()).get(0).token;

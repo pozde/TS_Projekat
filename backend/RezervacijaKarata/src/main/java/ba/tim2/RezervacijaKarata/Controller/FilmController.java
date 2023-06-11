@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+//@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class FilmController {
     @Autowired
     private FilmService filmService;
@@ -26,6 +26,11 @@ public class FilmController {
 
     @GetMapping("/filmovi")
     public List<Film> getSviFilmovi() {
+        return filmService.getSviFilmovi();
+    }
+
+    @GetMapping("/films")
+    public List<Film> getSviFilms() {
         return filmService.getSviFilmovi();
     }
 
