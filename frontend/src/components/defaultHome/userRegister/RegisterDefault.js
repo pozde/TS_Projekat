@@ -109,7 +109,9 @@ function RegisterDefault() {
     <div className="register-page">
       <div className="frameRegister">
         <span style={{ marginTop: "5px", marginBottom: "30px" }}>
-          <h2 className="font-register">Registracija korisnika</h2>
+          <h2 className="font-register" style={{ marginBottom: "30px" }}>
+            Registracija korisnika
+          </h2>
         </span>
         <div className="input-container-register">
           <input className={`input-field-register ${selectedOption === "ime" && "error-field"}`} type="text" id="ime" placeholder="Ime" />
@@ -161,9 +163,9 @@ function RegisterDefault() {
           </DialogActions>
         </Dialog>
         <div className="links">
-          <Button className="buttonLink" onClick={handleCloseNavMenu} component={Link} to="/login">
-            Već si registrovan/a? <b>Prijavi se.</b>
-          </Button>
+          <button className="register-button" onClick={handleCloseNavMenu} component={Link} to="/login">
+            Imaš nalog? <b>Prijavi se.</b>
+          </button>
         </div>
       </div>
     </div>

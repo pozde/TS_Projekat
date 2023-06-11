@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Sala {
@@ -29,6 +30,19 @@ public class Sala {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "sale")
     private List<Film> filmovi = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sala sala = (Sala) o;
+        return brojSale==sala.brojSale;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(brojSale);
+    }
 
     public Sala() {
 

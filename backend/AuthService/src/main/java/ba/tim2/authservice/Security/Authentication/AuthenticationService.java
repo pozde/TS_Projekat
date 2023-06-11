@@ -67,6 +67,7 @@ public class AuthenticationService {
         headers.add("Authorization", "Bearer " + token);
         HttpEntity<User> headerForRest = new HttpEntity<>(restUser, headers);
         restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/korisnici/dodaj", headerForRest, User.class);
+        restTemplate.postForObject("http://rezervacija-karata/dodajKorisnika", headerForRest, User.class);
 
         //GrpcClient.log(user.getId(),"AuthService","register","Success");
 

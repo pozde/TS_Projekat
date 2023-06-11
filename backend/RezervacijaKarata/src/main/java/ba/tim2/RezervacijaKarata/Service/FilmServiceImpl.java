@@ -58,7 +58,7 @@ public class FilmServiceImpl implements FilmService {
         FilmMessage filmRab = new FilmMessage();
         filmRab.setFilm_id(film.getID());
         filmRab.setNazivFilma(film.getNazivFilma());
-        rabbitTemplate1.convertAndSend(RabbitConfig.EXCHANGE1, RabbitConfig.ROUTING_KEY1, filmRab);
+        //rabbitTemplate1.convertAndSend(RabbitConfig.EXCHANGE1, RabbitConfig.ROUTING_KEY1, filmRab);
 
         JSONObject objekat = new JSONObject();
         try {

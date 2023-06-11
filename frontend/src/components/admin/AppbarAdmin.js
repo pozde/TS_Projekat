@@ -111,19 +111,15 @@ function AppbarAdmin() {
               Dodavanje filma
             </Button>
 
-            <Button onClick={handleCloseNavMenu} component={Link} to="/deleteMovie" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
-              Brisanje filma
+            <Button onClick={handleCloseNavMenu} component={Link} to="/overviewMovies" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
+              Pregled filmova
             </Button>
 
             <Button onClick={handleCloseNavMenu} component={Link} to="/overviewUser" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
               Pregled korisnika
             </Button>
 
-            <Button onClick={handleCloseNavMenu} component={Link} to="/overviewTicket" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
-              Pregled karata
-            </Button>
-
-            <Button onClick={handleCloseNavMenu} component={Link} to="/overviewLog" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
+            <Button onClick={handleCloseNavMenu} component={Link} to="/overviewLogs" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
               Pregled logova
             </Button>
           </Box>

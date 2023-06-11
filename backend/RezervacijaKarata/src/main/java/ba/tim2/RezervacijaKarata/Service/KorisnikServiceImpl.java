@@ -73,7 +73,7 @@ public class KorisnikServiceImpl implements KorisnikService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, headers);
-        restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/korisnici/dodaj", request, Korisnik.class);
+        //restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/korisnici/dodaj", request, Korisnik.class);
         return new ResponseEntity(korisnik, HttpStatus.CREATED);
     }
 

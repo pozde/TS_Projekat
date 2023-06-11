@@ -1,11 +1,11 @@
 import React from "react";
-import AppbarDefault from "../../defaultHome/AppbarDefault";
+import AppbarUser from "../AppbarUser";
 import Profile from "./Profile";
 
 function HomeProfile() {
   return (
     <>
-      <AppbarDefault />
+      <AppbarUser />
       <Profile />
     </>
   );

@@ -107,12 +107,12 @@ const MoviesUser = () => {
         {filteredContent.length > 0 ? (
           filteredContent.map((c) => (
             <div key={c.id}>
-              <SingleContent id={c.id} naziv={c.nazivFilma} trajanje={c.duration} opis={c.opis} poster={c.posterPath} />
+              <SingleContent id={c.id} naziv={c.nazivFilma} trajanje={c.trajanje} opis={c.opis} poster={c.posterPath} />
             </div>
           ))
         ) : (
           <p>
-            <b>Ne postoje filmovi sa odabranim zanrovima.</b>
+            <b>Ne postoje filmovi sa odabranim žanrovima.</b>
           </p>
         )}
       </div>

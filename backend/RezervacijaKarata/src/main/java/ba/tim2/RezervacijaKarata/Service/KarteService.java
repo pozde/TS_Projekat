@@ -10,7 +10,7 @@ public interface KarteService {
     ResponseEntity getKartuById(int id);
     ResponseEntity obrisiKartu(int id);
     ResponseEntity getSjedisteByKarta(int broj_sale, int broj_sjedista);
-    ResponseEntity spasiKartu(int korisnik_id, int film_id, int sala_id, int sjediste_id);
+    ResponseEntity spasiKartu(int korisnik_id, int film_id, int sala_id, int brojSjedista);
     List<Karta> getSveKarte();
 
     List<Karta> getKarteById(int id);

@@ -1,217 +1,230 @@
 import React, { useEffect, useState } from "react";
 import { Container, Grid, Typography, TextField } from "@mui/material";
-import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
-import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import { Paper } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
+import axios from "axios";
 
 const Profile = ({ user }) => {
-  const [korisnici, setKorisnici] = useState([]);
+  const [korisnik, setKorisnik] = useState({});
+  const email = localStorage.getItem("email");
+
+  //const [email, setEmail] = useEffect(localStorage.getItem("email"));
+
+  /*useEffect(() => {
+    const fetchUsers = async () => {
+      const token = localStorage.getItem("access_token");
+      try {
+        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
+        const response = await axios.get(`${BASE_URL}/rezervacija-karata/filmovi`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setFilmovi(response.data);
+      } catch (error) {
+        console.error("Failed to fetch movies:", error);
+      }
+    };
+
+    fetchFilmovi();
+    filterMovies();
+  }, [searchTerm, selectedGenres]);*/
 
   useEffect(() => {
-    fetch("http://localhost:8081/korisnici")
-      .then((res) => res.json())
-      .then((result) => {
-        setKorisnici(result);
-      });
+    const fetchKorisnik = async () => {
+      const token = localStorage.getItem("access_token");
+      try {
+        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
+        const response = await axios.get(`${BASE_URL}/preporucivanje-sadrzaja-pogodnosti/korisnici/mail/${email}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setKorisnik(response.data);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    };
+    fetchKorisnik();
   }, []);
+
+  console.log("KORISNIK", korisnik);
 
   return (
     <Grid style={{ marginTop: "10px" }} container justifyContent="center">
       <Grid item xs={12} sm={6} md={4}>
-        {korisnici.map((korisnik) => (
-          <Paper
-            elevation={6}
-            style={{
-              margin: "10px",
-              padding: "15px",
-              textAlign: "left",
+        <Paper
+          elevation={6}
+          style={{
+            margin: "10px",
+            padding: "15px",
+            textAlign: "left",
+          }}
+          key={korisnik.id}
+        >
+          <Typography
+            variant="h4"
+            align="center"
+            gutterBottom
+            sx={{
+              fontWeight: "bold",
+              fontFamily: "Arial",
+              marginBottom: "50px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-            key={korisnik.id}
           >
+            <span style={{ marginRight: "10px" }}>Profil</span>
+            <PersonIcon fontSize="large" />
+          </Typography>
+          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
             <Typography
-              variant="h4"
-              align="center"
-              gutterBottom
+              variant="body1"
               sx={{
                 fontWeight: "bold",
-                fontFamily: "Arial",
-                marginBottom: "50px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                fontSize: "1.2em",
+                marginRight: "10px",
+                alignSelf: "center",
+                whiteSpace: "nowrap",
               }}
             >
-              <span style={{ marginRight: "10px" }}>Profil</span>
-              <PersonIcon fontSize="large" />
+              Ime:
             </Typography>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-              <Typography
-                variant="body1"
-                sx={{
+            <TextField
+              variant="filled"
+              disabled
+              fullWidth
+              value={korisnik.ime}
+              InputProps={{
+                style: {
                   fontWeight: "bold",
-                  fontSize: "1.2em",
-                  marginRight: "10px",
-                  alignSelf: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Ime:
-              </Typography>
-              <TextField
-                variant="filled"
-                disabled
-                fullWidth
-                value={korisnik.ime}
-                InputProps={{
-                  style: {
-                    fontWeight: "bold",
-                  },
-                }}
-              />
-            </div>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-              <Typography
-                variant="body1"
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "1.2em",
-                  marginRight: "10px",
-                  alignSelf: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Prezime:
-              </Typography>
-              <TextField
-                variant="filled"
-                disabled
-                fullWidth
-                value={korisnik.prezime}
-                InputProps={{
-                  style: {
-                    fontWeight: "bold",
-                  },
-                }}
-              />
-            </div>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-              <Typography
-                variant="body1"
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "1.2em",
-                  marginRight: "10px",
-                  alignSelf: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Datum rodjenja:
-              </Typography>
-              <TextField
-                variant="filled"
-                disabled
-                fullWidth
-                value={korisnik.datumRodjenja}
-                InputProps={{
-                  style: {
-                    fontWeight: "bold",
-                  },
-                }}
-              />
-            </div>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-              <Typography
-                variant="body1"
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "1.2em",
-                  marginRight: "10px",
-                  alignSelf: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Email:
-              </Typography>
-              <TextField
-                variant="filled"
-                disabled
-                fullWidth
-                value={korisnik.email}
-                InputProps={{
-                  style: {
-                    fontWeight: "bold",
-                  },
-                }}
-              />
-            </div>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-              <Typography
-                variant="body1"
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "1.2em",
-                  marginRight: "10px",
-                  alignSelf: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Broj telefona:
-              </Typography>
-              <TextField
-                variant="filled"
-                disabled
-                fullWidth
-                value={korisnik.brojTelefona}
-                InputProps={{
-                  style: {
-                    fontWeight: "bold",
-                  },
-                }}
-              />
-            </div>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-              <Typography
-                variant="body1"
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "1.2em",
-                  marginRight: "10px",
-                  alignSelf: "center",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Spol:
-              </Typography>
-              <TextField
-                variant="filled"
-                disabled
-                fullWidth
-                value={korisnik.spol}
-                InputProps={{
-                  style: {
-                    fontWeight: "bold",
-                  },
-                }}
-              />
-            </div>
-            <Typography variant="h5" sx={{ fontWeight: "bold", fontSize: "1.2em", marginTop: "20px" }}>
-              <strong>Karte:</strong>
+                },
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.2em",
+                marginRight: "10px",
+                alignSelf: "center",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Prezime:
             </Typography>
-            {korisnik.karte.length > 0 ? (
-              korisnik.karte.map((karta) => (
-                <Typography variant="body1" key={karta.ID} sx={{ fontWeight: "bold", fontSize: "1.2em" }}>
-                  Broj karte: {karta.brojKarte}
-                </Typography>
-              ))
-            ) : (
-              <Typography variant="body1" sx={{ fontStyle: "italic", fontWeight: "bold", fontSize: "1.2em" }}>
-                Nemate karata na profilu.
-              </Typography>
-            )}
-          </Paper>
-        ))}
+            <TextField
+              variant="filled"
+              disabled
+              fullWidth
+              value={korisnik.prezime}
+              InputProps={{
+                style: {
+                  fontWeight: "bold",
+                },
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.2em",
+                marginRight: "10px",
+                alignSelf: "center",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Datum rodjenja:
+            </Typography>
+            <TextField
+              variant="filled"
+              disabled
+              fullWidth
+              value={korisnik.datumRodjenja}
+              InputProps={{
+                style: {
+                  fontWeight: "bold",
+                },
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.2em",
+                marginRight: "10px",
+                alignSelf: "center",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Email:
+            </Typography>
+            <TextField
+              variant="filled"
+              disabled
+              fullWidth
+              value={korisnik.email}
+              InputProps={{
+                style: {
+                  fontWeight: "bold",
+                },
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.2em",
+                marginRight: "10px",
+                alignSelf: "center",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Broj telefona:
+            </Typography>
+            <TextField
+              variant="filled"
+              disabled
+              fullWidth
+              value={korisnik.brojTelefona}
+              InputProps={{
+                style: {
+                  fontWeight: "bold",
+                },
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.2em",
+                marginRight: "10px",
+                alignSelf: "center",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Spol:
+            </Typography>
+            <TextField
+              variant="filled"
+              disabled
+              fullWidth
+              value={korisnik.spol}
+              InputProps={{
+                style: {
+                  fontWeight: "bold",
+                },
+              }}
+            />
+          </div>
+        </Paper>
       </Grid>
     </Grid>
   );

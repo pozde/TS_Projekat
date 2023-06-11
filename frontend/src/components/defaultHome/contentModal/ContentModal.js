@@ -87,10 +87,10 @@ export default function ContentModal({ children, id }) {
             </Typography>
             <img style={{ width: "200px", height: "300px" }} className="poster" src={currentFilm?.posterPath ? `${currentFilm?.posterPath}` : unavailable} alt={currentFilm?.naziv} />
             <Typography variant="body2" component="div">
-              Trajanje filma: {currentFilm?.duration || ""} minuta
+              Trajanje filma: {currentFilm?.trajanje || ""} minuta
             </Typography>
             <Typography variant="h5" component="div" style={{ marginTop: "10px" }}>
-              Zelite rezervisati kartu? Prijavite se!
+              Želite rezervisati kartu? Prijavite se!
             </Typography>
 
             <Button

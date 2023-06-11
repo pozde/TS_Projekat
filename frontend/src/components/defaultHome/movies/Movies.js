@@ -91,7 +91,7 @@ const Movies = () => {
         {filteredContent.length > 0 ? (
           filteredContent.map((c) => (
             <div key={c.id}>
-              <SingleContent id={c.id} naziv={c.nazivFilma} trajanje={c.duration} opis={c.opis} poster={c.posterPath} />
+              <SingleContent id={c.id} naziv={c.nazivFilma} trajanje={c.trajanje} opis={c.opis} poster={c.posterPath} />
             </div>
           ))
         ) : (

@@ -62,7 +62,7 @@ public class KarteServiceImpl implements KarteService{
     }
 
     @Override
-    public ResponseEntity spasiKartu(int korisnik_id, int film_id, int sala_id, int sjediste_id) {
+    public ResponseEntity spasiKartu(int korisnik_id, int film_id, int sala_id, int brojSjedista) {
         Korisnik korisnik = korisnikRepository.findByID(korisnik_id);
         if (korisnik == null) {
             throw new NePostojiException("Korisnik sa id-em " + korisnik_id + " ne postoji!");
@@ -78,9 +78,9 @@ public class KarteServiceImpl implements KarteService{
             throw new NePostojiException("Film sa id-em " + sala_id + " ne postoji!");
         }
 
-        Sjediste sjediste = sjedisteRepository.findByID(sjediste_id);
+        Sjediste sjediste = sjedisteRepository.findSjedisteByBrojSjedista(brojSjedista);
         if (sjediste == null) {
-            throw new NePostojiException("Sjediste sa id-em " + sjediste_id + " ne postoji!");
+            throw new NePostojiException("Sjediste sa id-em " + brojSjedista + " ne postoji!");
         }
 
         Karta karta = new Karta();
@@ -93,7 +93,8 @@ public class KarteServiceImpl implements KarteService{
         korisnik.dodajKartu(karta);
 
         film.setKarta(karta);
-        film.dodajSalu(sala);
+        if(!film.getSale().contains(sala))
+            film.dodajSalu(sala);
 
         sala.dodajFilm(film);
         sala.dodajSjediste(sjediste);

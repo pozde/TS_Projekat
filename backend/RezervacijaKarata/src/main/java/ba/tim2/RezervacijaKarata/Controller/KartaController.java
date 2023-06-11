@@ -15,9 +15,9 @@ public class KartaController {
     @Autowired
     private KarteService karteService;
 
-    @PostMapping("/dodajKartu/{korisnik_id}/{film_id}/{sala_id}/{sjediste_id}")
-    public ResponseEntity dodajKartu(@PathVariable int korisnik_id, @PathVariable int film_id, @PathVariable int sala_id, @PathVariable int sjediste_id) {
-        return karteService.spasiKartu(korisnik_id, film_id, sala_id, sjediste_id);
+    @PostMapping("/dodajKartu/{korisnik_id}/{film_id}/{sala_id}/{brojSjedista}")
+    public ResponseEntity dodajKartu(@PathVariable int korisnik_id, @PathVariable int film_id, @PathVariable int sala_id, @PathVariable int brojSjedista) {
+        return karteService.spasiKartu(korisnik_id, film_id, sala_id, brojSjedista);
     }
 
     @GetMapping("/karte")

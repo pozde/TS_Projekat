@@ -5,6 +5,7 @@ import "./LoginDefault.css";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 function LoginDefault() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +30,10 @@ function LoginDefault() {
       localStorage.setItem("refresh_token", tokens.refresh_token);
 
       const decodedToken = jwtDecode(tokens.access_token);
+
+      localStorage.setItem("email", decodedToken.sub);
+
+      console.log("EMAIL", localStorage.getItem("email"));
 
       if (decodedToken.role === "ROLE_ADMIN") {
         navigate("/homeAdmin");
@@ -72,9 +77,9 @@ function LoginDefault() {
           <a className="link" href="#">
             Izgubljena lozinka?
           </a>
-          <button className="buttonLink" onClick={() => navigate("/register")}>
+          <Button className="buttonLink" onClick={() => navigate("/register")}>
             Nemaš nalog? <b>Registruj se.</b>
-          </button>
+          </Button>
         </div>
       </div>
     </div>

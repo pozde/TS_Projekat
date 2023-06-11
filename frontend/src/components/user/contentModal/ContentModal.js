@@ -40,7 +40,7 @@ export default function ContentModal({ children, id }) {
   const navigate = useNavigate();
 
   const navigateToTicketPage = () => {
-    navigate(`/ticket/${kolicinaKarata}`);
+    navigate(`/ticket/${kolicinaKarata}/${id}`);
   };
 
   const handleChange = (event) => {
@@ -108,7 +108,7 @@ export default function ContentModal({ children, id }) {
             </Typography>
             <img style={{ width: "200px", height: "300px" }} className="poster" src={currentFilm?.posterPath ? `${currentFilm?.posterPath}` : unavailable} alt={currentFilm?.naziv} />
             <Typography variant="body2" component="div">
-              Trajanje filma: {currentFilm?.duration || ""} minuta
+              Trajanje filma: {currentFilm?.trajanje || ""} minuta
             </Typography>
 
             <div style={{ display: "flex", alignItems: "center", color: "white", marginTop: "10px" }}>

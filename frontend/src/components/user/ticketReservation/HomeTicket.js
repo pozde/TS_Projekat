@@ -1,11 +1,11 @@
 import React from "react";
-import AppbarDefault from "../../defaultHome/AppbarDefault";
+import AppbarUser from "../AppbarUser";
 import Ticket from "./Ticket";
 
 function HomeTicket() {
   return (
     <>
-      <AppbarDefault />
+      <AppbarUser />
       <Ticket />
     </>
   );

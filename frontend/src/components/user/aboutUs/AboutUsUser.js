@@ -5,7 +5,7 @@ import FastfoodIcon from "@mui/icons-material/Fastfood";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import ourLocation from "../../../images/ourLocation.png";
 
-const AboutUs = () => {
+const AboutUsUser = () => {
   return (
     <Container maxWidth="lg" style={{ paddingTop: "40px" }}>
       <Grid container spacing={3}>
@@ -24,7 +24,7 @@ const AboutUs = () => {
         {/* Right Column - Our Location */}
         <Grid item xs={12} md={6}>
           <Typography fontWeight="bold" variant="h4" align="center" gutterBottom>
-            Nasa lokacija
+            Naša lokacija
           </Typography>
           <img src={ourLocation} alt="Nasa lokacija" style={{ width: "100%" }} />
         </Grid>
@@ -40,7 +40,7 @@ const AboutUs = () => {
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
             <DoneOutlineIcon style={{ fontSize: 120, marginBottom: 10 }} />
             <Typography fontWeight="bold" variant="body1">
-              Najbolje ocijenjeno kino u drzavi
+              Najbolje ocijenjeno kino u državi
             </Typography>
           </div>
         </Grid>
@@ -50,7 +50,7 @@ const AboutUs = () => {
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
             <FastfoodIcon style={{ fontSize: 120, marginBottom: 10 }} />
             <Typography fontWeight="bold" variant="body1">
-              Sirok izbor grickalica i pica
+              Širok izbor grickalica i pića
             </Typography>
           </div>
         </Grid>
@@ -69,4 +69,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default AboutUsUser;

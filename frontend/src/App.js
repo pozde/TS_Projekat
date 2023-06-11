@@ -4,22 +4,23 @@ import HomeDefault from "./components/defaultHome/home/HomeDefault";
 import HomeAdmin from "./components/admin/home/HomeAdmin";
 import HomeMachineOrder from "./components/admin/machine/HomeMachineOrder";
 import HomeOverviewUser from "./components/admin/overviewUser/HomeOverviewUser";
-import HomeOverviewMachines from "./components/admin/overviewMachine/HomeOverviewMachines";
+import HomeOverviewLogs from "./components/admin/overviewLogs/HomeOverviewLogs";
 import HomeAddMovie from "./components/admin/addMovie/HomeAddMovie";
 import HomeLoginDefault from "./components/defaultHome/userLogin/HomeLoginDefault";
-import HomeOverviewReview from "./components/admin/overviewReview/HomeOverviewReview";
+import HomeOverviewMovies from "./components/admin/overviewMovies/HomeOverviewMovies";
 import HomeRegisterDefault from "./components/defaultHome/userRegister/HomeRegisterDefault";
 import HomeMovies from "./components/defaultHome/movies/HomeMovies";
 
-import HomeTicket from "./components/logged/ticketReservation/HomeTicket";
+import HomeTicket from "./components/user/ticketReservation/HomeTicket";
 import HomeAboutUs from "./components/defaultHome/aboutUs/HomeAboutUs";
-import HomeProfile from "./components/logged/profile/HomeProfile";
+import HomeProfile from "./components/user/profile/HomeProfile";
 import HomeEvents from "./components/defaultHome/events/HomeEvents";
 
 import HomeUser from "./components/user/home/HomeUser";
 import HomeMoviesUser from "./components/user/movies/HomeMoviesUser";
 import HomeAboutUsUser from "./components/user/aboutUs/HomeAboutUsUser";
 import HomeEventsUser from "./components/user/events/HomeEventsUser";
+import HomeForYou from "./components/user/forYou/HomeForYou";
 
 function App() {
   return (
@@ -36,14 +37,15 @@ function App() {
           <Route path="/MoviesUser" element={<HomeMoviesUser />} />
           <Route path="/aboutusUser" element={<HomeAboutUsUser />} />
           <Route path="/eventsUser" element={<HomeEventsUser />} />
+          <Route path="/forYou" element={<HomeForYou />} />
           <Route path="/profile" element={<HomeProfile />} />
 
-          <Route path="/ticket/:kolicinaKarata" element={<HomeTicket />} />
+          <Route path="/ticket/:kolicinaKarata/:idFilma" element={<HomeTicket />} />
 
           <Route path="/machineOrder" element={<HomeMachineOrder />} />
           <Route path="/overviewUser" element={<HomeOverviewUser />} />
-          <Route path="/overviewMachine" element={<HomeOverviewMachines />} />
-          <Route path="/overviewReview" element={<HomeOverviewReview />} />
+          <Route path="/overviewLogs" element={<HomeOverviewLogs />} />
+          <Route path="/overviewMovies" element={<HomeOverviewMovies />} />
           <Route path="/addMovie" element={<HomeAddMovie />} />
 
           <Route path="/login" element={<HomeLoginDefault />} />

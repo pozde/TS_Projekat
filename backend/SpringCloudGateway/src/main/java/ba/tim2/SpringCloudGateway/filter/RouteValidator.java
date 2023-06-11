@@ -13,7 +13,12 @@ public class RouteValidator {
             "/auth/register",
             "/auth/login",
             "/rezervacija-karata/films",
-            "/rezervacija-karata/zanrovi/"
+            "/rezervacija-karata/zanrovi/",
+            "/rezervacija-karata/dodajSjediste/{sala_id}",
+            "/rezervacija-karata/dodajSjediste/",
+            "/rezervacija-karata/dodajSjediste",
+            "/system-events/actions"
+
     );
 
     public Predicate<ServerHttpRequest> isSecured =

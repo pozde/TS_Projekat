@@ -4,6 +4,7 @@ import "./SingleContent.css";
 import ContentModal from "../contentModal/ContentModal";
 
 const SingleContent = ({ id, naziv, trajanje, opis, poster }) => {
+  console.log("trj", trajanje);
   return (
     <ContentModal id={id} className="media">
       <img className="poster" src={poster ? `${img_300}${poster}` : unavailable} alt={naziv} />
