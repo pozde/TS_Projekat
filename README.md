@@ -21,8 +21,6 @@ CineFlex
 
 CineFlex je softverska aplikacija za kino omogućava rezervaciju karata, pregled aktuelnih filmova i razne korisničke pogodnosti na jednom mjestu.
 
-Mockup-Tool-Drive omogućava pohranu svih dokumenata generisanih putem Mockup toola na jedno mjesto i time osigurava da potrebni podaci neće biti nepovratno izgubljeni. 
-
 Neke od najvažnijih funkcionalnosti u sklopu CineFlex-a su: 
 * kreiranje korisničkog računa
 * pregled korisničkog računa i uvid u kupljene karte
@@ -31,10 +29,6 @@ Neke od najvažnijih funkcionalnosti u sklopu CineFlex-a su:
 * preporučivanje sadržaja na osnovu pregledanih filmova
 * ostavljanje recenzija za aplikaciju i film
 
-Mockup-Tool-Drive je baziran na mikroservisnoj arhitekturi, pri čemu postoje tri mikroservisa:
-* Upravljanje filmovima i kartama
-* Rezervacija karata
-* Preporučivanje sadržaja i pogodnosti
 
 ## Preduvjeti
 
