@@ -11,6 +11,8 @@ import ba.tim2.RezervacijaKarata.Repository.FilmRepository;
 import ba.tim2.RezervacijaKarata.Repository.KartaRepository;
 import ba.tim2.RezervacijaKarata.Repository.SalaRepository;
 import ba.tim2.RezervacijaKarata.Repository.ZanrRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -39,6 +41,9 @@ public class FilmServiceImpl implements FilmService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate1;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @EventListener
     public void appReady(ApplicationReadyEvent event) {
@@ -94,6 +99,7 @@ public class FilmServiceImpl implements FilmService {
     //}
 
     @Override
+    @Transactional
     public ResponseEntity obrisiFilm(int id) {
         if (filmRepository.existsById(id)) {
             JSONObject objekat = new JSONObject();
@@ -116,7 +122,9 @@ public class FilmServiceImpl implements FilmService {
             film.setSale(null);
             film.setZanrovi(null);
 
-            filmRepository.deleteById(id);
+            Film mergedFilm = entityManager.merge(film);
+            entityManager.remove(mergedFilm);
+            //filmRepository.deleteById(id);
             try {
                 objekat.put("message", "Film je uspješno obrisan!");
             } catch (JSONException e) {

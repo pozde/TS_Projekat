@@ -38,7 +38,7 @@ public class Film {
     @JoinColumn(name = "karta_id")
     private Karta karta;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "film_zanrovi",
             joinColumns = @JoinColumn(name = "film_id"),
