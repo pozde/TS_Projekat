@@ -75,6 +75,10 @@ public class Sala {
         filmovi.add(film);
     }
 
+    public void obrisiFilm(Film film) {
+        filmovi.remove(film);
+    }
+
     public LocalDateTime getPocetakProjekcije() {
         return pocetakProjekcije;
     }

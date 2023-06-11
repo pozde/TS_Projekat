@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -37,7 +38,12 @@ public class Film {
     @JoinColumn(name = "karta_id")
     private Karta karta;
 
-    @ManyToMany(mappedBy = "film")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "film_zanrovi",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "zanr_id")
+    )
     private List<Zanr> zanrovi = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -119,5 +125,18 @@ public class Film {
 
     public void dodajSalu(Sala sala) {
         sale.add(sala);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Film film = (Film) o;
+        return nazivFilma.equals(film.nazivFilma);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nazivFilma);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,9 +18,9 @@ public class Zanr {
     @Column
     private String nazivZanra;
 
-    @ManyToMany
     @JsonIgnore
-    private List<Film> film;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "zanrovi")
+    private List<Film> filmovi = new ArrayList<>();
 
     public Zanr() {
     }
@@ -44,11 +45,15 @@ public class Zanr {
         this.nazivZanra = nazivZanra;
     }
 
-    public List<Film> getFilm() {
-        return film;
+    public List<Film> getFilmovi() {
+        return filmovi;
     }
 
-    public void setFilm(List<Film> film) {
-        this.film = film;
+    public void setFilmovi(List<Film> filmovi) {
+        this.filmovi = filmovi;
+    }
+
+    public void obrisiFilm(Film film) {
+        filmovi.remove(film);
     }
 }

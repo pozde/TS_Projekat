@@ -1,10 +1,16 @@
 package ba.tim2.RezervacijaKarata.Service;
 
 import ba.tim2.RezervacijaKarata.Entity.Film;
+import ba.tim2.RezervacijaKarata.Entity.Karta;
+import ba.tim2.RezervacijaKarata.Entity.Sala;
+import ba.tim2.RezervacijaKarata.Entity.Zanr;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.Messaging.Consumer.FilmMessage;
 import ba.tim2.RezervacijaKarata.Messaging.RabbitConfig;
 import ba.tim2.RezervacijaKarata.Repository.FilmRepository;
+import ba.tim2.RezervacijaKarata.Repository.KartaRepository;
+import ba.tim2.RezervacijaKarata.Repository.SalaRepository;
+import ba.tim2.RezervacijaKarata.Repository.ZanrRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -21,6 +27,15 @@ import java.util.List;
 public class FilmServiceImpl implements FilmService {
     @Autowired
     private FilmRepository filmRepository;
+
+    @Autowired
+    private ZanrRepository zanrRepository;
+
+    @Autowired
+    private KartaRepository kartaRepository;
+
+    @Autowired
+    private SalaRepository salaRepository;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -88,6 +103,25 @@ public class FilmServiceImpl implements FilmService {
     public ResponseEntity obrisiFilm(int id) {
         if (filmRepository.existsById(id)) {
             JSONObject objekat = new JSONObject();
+            Film film = filmRepository.findByID(id);
+
+            List<Karta> karte = kartaRepository.findAll();
+            for (Karta karta : karte) {
+                if (karta.getFilm().equals(film)) {
+                    karta.setFilm(null);
+                }
+            }
+
+            List<Sala> sale = salaRepository.findAll();
+            sale.remove(film);
+
+            List<Zanr> zanrovi = zanrRepository.findAll();
+            zanrovi.remove(film);
+
+            film.setKarta(null);
+            film.setSale(null);
+            film.setZanrovi(null);
+
             filmRepository.deleteById(id);
             try {
                 objekat.put("message", "Film je uspješno obrisan!");
