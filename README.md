@@ -1,5 +1,3 @@
-# Aplikacija za kino
-
 ##### Elektrotehnički fakultet u Sarajevu
 ##### Računarstvo i informatika
 #### Praktikum – Napredne web tehnologije
