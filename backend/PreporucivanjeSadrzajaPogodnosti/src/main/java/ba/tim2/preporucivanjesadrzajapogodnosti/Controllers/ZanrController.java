@@ -22,22 +22,22 @@ public class ZanrController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getZanrById(@PathVariable int id) {
+    public ResponseEntity<Zanr> getZanrById(@PathVariable int id) {
         return zanrService.getZanrByID(id);
     }
 
     @PostMapping(value = "/dodaj", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity dodajZanr(@Valid @RequestBody Zanr noviZanr) {
+    public ResponseEntity<Zanr> dodajZanr(@Valid @RequestBody Zanr noviZanr) {
         return zanrService.spasiZanr(noviZanr);
     }
 
     @PutMapping(value = "/azuriraj/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity azurirajZanr(@Valid @RequestBody Zanr zanr, @PathVariable int id) {
+    public ResponseEntity<Zanr> azurirajZanr(@Valid @RequestBody Zanr zanr, @PathVariable int id) {
         return zanrService.azurirajZanr(id, zanr);
     }
 
     @DeleteMapping(value = "/obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity obrisiZanr(@PathVariable int id) {
+    public ResponseEntity<String> obrisiZanr(@PathVariable int id) {
         return zanrService.obrisiZanr(id);
     }
 }

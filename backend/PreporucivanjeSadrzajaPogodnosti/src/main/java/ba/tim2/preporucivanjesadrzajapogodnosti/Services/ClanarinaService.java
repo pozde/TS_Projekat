@@ -8,11 +8,11 @@ import java.util.List;
 public interface ClanarinaService {
     List<Clanarina> getSveClanarine();
 
-    ResponseEntity getClanarinaByID(int id);
+    ResponseEntity<Clanarina> getClanarinaByID(int id);
 
-    ResponseEntity spasiClanarinu(Clanarina clanarina);
+    ResponseEntity<Clanarina> spasiClanarinu(Clanarina clanarina);
 
-    ResponseEntity azurirajClanarinu(int id, Clanarina clanarina);
+    ResponseEntity<Clanarina> azurirajClanarinu(int id, Clanarina clanarina);
 
-    ResponseEntity obrisiClanarinu(int id);
+    ResponseEntity<String> obrisiClanarinu(int id);
 }

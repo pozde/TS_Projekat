@@ -21,7 +21,7 @@ public class Karta {
     private Popust popust;
 
     public Karta() {
-
+        // Default-ni konstruktor
     }
 
     public int getID() {

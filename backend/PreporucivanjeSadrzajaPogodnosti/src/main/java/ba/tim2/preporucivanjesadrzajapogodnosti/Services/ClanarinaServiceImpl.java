@@ -7,9 +7,9 @@ import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -18,50 +18,45 @@ public class ClanarinaServiceImpl implements ClanarinaService {
     @Autowired
     private ClanarinaRepository clanarinaRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private static final String STATUS_SUCCESS = "SUCCESS";
+    private static final String STATUS_FAIL = "FAIL";
+    private static final String RESOURCE_NAME = "Clanarina";
+
+    private void throwNePostojiException(int id) {
+        throw new NePostojiException(RESOURCE_NAME + " sa id-em " + id + " ne postoji!");
+    }
 
     @Override
     public List<Clanarina> getSveClanarine() {
-        GrpcClient.log("Clanarina", "GET /clanarine/", "SUCCESS");
+        GrpcClient.log(RESOURCE_NAME, "GET /clanarine/", STATUS_SUCCESS);
         return clanarinaRepository.findAll();
     }
 
     @Override
-    public ResponseEntity getClanarinaByID(int id) {
+    public ResponseEntity<Clanarina> getClanarinaByID(int id) {
         if (clanarinaRepository.existsById(id)) {
-            GrpcClient.log("Clanarina", "GET /clanarine/{id}", "SUCCESS");
-            return new ResponseEntity(clanarinaRepository.findByID(id), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "GET /clanarine/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<Clanarina>(clanarinaRepository.findByID(id), HttpStatus.OK);
         } else {
-            GrpcClient.log("Clanarina", "GET /clanarine/{id}", "FAIL");
-            throw new NePostojiException("Clanarina sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "GET /clanarine/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>(clanarinaRepository.findByID(0), HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public ResponseEntity spasiClanarinu(Clanarina clanarina) {
+    public ResponseEntity<Clanarina> spasiClanarinu(Clanarina clanarina) {
         clanarinaRepository.save(clanarina);
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Članarina je uspješno dodana!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Clanarina> request = new HttpEntity<>(clanarina, headers);
-        //restTemplate.postForObject("http://localhost:8081/dodajClanarinu", request, Clanarina.class);
-        GrpcClient.log("Clanarina", "POST /clanarine/dodaj", "SUCCESS");
-        return new ResponseEntity(clanarina, HttpStatus.CREATED);
+        GrpcClient.log(RESOURCE_NAME, "POST /clanarine/dodaj", STATUS_SUCCESS);
+        return new ResponseEntity<>(clanarina, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity azurirajClanarinu(int id, Clanarina clanarina) {
+    public ResponseEntity<Clanarina> azurirajClanarinu(int id, Clanarina clanarina) {
         Clanarina c = clanarinaRepository.findByID(id);
-        JSONObject objekat = new JSONObject();
         if (c == null || !clanarinaRepository.existsById(id)) {
-            GrpcClient.log("Clanarina", "PUT /clanarine/azuriraj/{id}", "FAIL");
-            throw new NePostojiException("Clanarina sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "PUT /clanarine/azuriraj/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
 
         if (clanarina.getDatumIsteka() != null) {
@@ -74,22 +69,13 @@ public class ClanarinaServiceImpl implements ClanarinaService {
             c.setKorisnici(clanarina.getKorisnici());
         }
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Clanarina> request = new HttpEntity<>(clanarina, httpHeaders);
-        //restTemplate.put("http://localhost:8081/azurirajClanarinu/" + id, request);
         clanarinaRepository.save(c);
-        try {
-            objekat.put("message", "Članarina je uspješno ažurirana!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        GrpcClient.log("Clanarina", "PUT /clanarine/azuriraj/{id}", "SUCCESS");
+        GrpcClient.log(RESOURCE_NAME, "PUT /clanarine/azuriraj/{id}", STATUS_SUCCESS);
         return new ResponseEntity<>(clanarina, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity obrisiClanarinu(int id) {
+    public ResponseEntity<String> obrisiClanarinu(int id) {
         if (clanarinaRepository.existsById(id)) {
             JSONObject objekat = new JSONObject();
             clanarinaRepository.deleteById(id);
@@ -98,12 +84,12 @@ public class ClanarinaServiceImpl implements ClanarinaService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //restTemplate.delete("http://localhost:8081/obrisiClanarinu/" + id);
-            GrpcClient.log("Clanarina", "DELETE /clanarine/obrisi/{id}", "SUCCESS");
-            return new ResponseEntity(objekat.toString(), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "DELETE /clanarine/obrisi/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(objekat.toString(), HttpStatus.OK);
         } else {
-            GrpcClient.log("Clanarina", "DELETE /clanarine/obrisi/{id}", "FAIL");
-            throw new NePostojiException("Članarina sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "DELETE /clanarine/obrisi/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>("Greška!", HttpStatus.NOT_FOUND);
     }
 }

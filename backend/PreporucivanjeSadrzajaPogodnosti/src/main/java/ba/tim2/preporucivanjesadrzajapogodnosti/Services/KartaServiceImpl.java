@@ -21,39 +21,41 @@ public class KartaServiceImpl implements KartaService {
     @Autowired
     private RestTemplate restTemplate;
 
+    private static final String STATUS_SUCCESS = "SUCCESS";
+    private static final String STATUS_FAIL = "FAIL";
+    private static final String RESOURCE_NAME = "Karta";
+
+    private void throwNePostojiException(int id) {
+        throw new NePostojiException(RESOURCE_NAME + " sa id-em " + id + " ne postoji!");
+    }
+
     @Override
     public List<Karta> getSveKarte() {
-        GrpcClient.log("Karta", "GET /karte/", "SUCCESS");
+        GrpcClient.log(RESOURCE_NAME, "GET /karte/", STATUS_SUCCESS);
         return kartaRepository.findAll();
     }
 
     @Override
-    public ResponseEntity getKartaByID(int id) {
+    public ResponseEntity<Karta> getKartaByID(int id) {
         if (kartaRepository.existsById(id)) {
-            GrpcClient.log("Karta", "GET /karte/{id}", "SUCCESS");
-            return new ResponseEntity(kartaRepository.findByID(id), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "GET /karte/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(kartaRepository.findByID(id), HttpStatus.OK);
         } else {
-            GrpcClient.log("Karta", "GET /karte/{id}", "FAIL");
-            throw new NePostojiException("Karta sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "GET /karte/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>(kartaRepository.findByID(0), HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public ResponseEntity spasiKartu(Karta karta) {
+    public ResponseEntity<Karta> spasiKartu(Karta karta) {
         kartaRepository.save(karta);
-
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Karta je uspješno dodana!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Karta> request = new HttpEntity<>(karta, headers);
-        //restTemplate.postForObject("http:://localhost:8081/dodajKartu", request, Karta.class);
-        GrpcClient.log("Karta", "POST /karte/dodaj", "SUCCESS");
-        return new ResponseEntity(karta, HttpStatus.CREATED);
+        restTemplate.postForObject("http:://localhost:8081/dodajKartu", request, Karta.class);
+        GrpcClient.log(RESOURCE_NAME, "POST /karte/dodaj", STATUS_SUCCESS);
+        return new ResponseEntity<>(karta, HttpStatus.CREATED);
     }
 
     @Override
@@ -61,8 +63,8 @@ public class KartaServiceImpl implements KartaService {
         Karta k = kartaRepository.findByID(id);
 
         if (k == null || !kartaRepository.existsById(id)) {
-            GrpcClient.log("Karta", "PUT /karte/azuriraj/{id}", "SUCCESS");
-            throw new NePostojiException("Karta sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "PUT /karte/azuriraj/{id}", STATUS_SUCCESS);
+            throwNePostojiException(id);
         }
 
         if (karta.getKorisnik() != null) {
@@ -77,20 +79,9 @@ public class KartaServiceImpl implements KartaService {
             k.setPopust(karta.getPopust());
         }
 
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Karta je uspješno ažurirana!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Karta> request = new HttpEntity<>(karta, headers);
-        //restTemplate.put("http:://localhost:8081/azurirajKartu", request, Karta.class);
         kartaRepository.save(k);
-        GrpcClient.log("Karta", "PUT /karte/azuriraj/{id}", "SUCCESS");
-        return new ResponseEntity(karta, HttpStatus.OK);
+        GrpcClient.log(RESOURCE_NAME, "PUT /karte/azuriraj/{id}", STATUS_SUCCESS);
+        return new ResponseEntity<>(karta, HttpStatus.OK);
     }
 
     @Override
@@ -103,12 +94,12 @@ public class KartaServiceImpl implements KartaService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //restTemplate.delete("http://localhost:8081/obrisiKartu" + id);
-            GrpcClient.log("Karta", "DELETE /karte/obrisi/{id}", "SUCCESS");
-            return new ResponseEntity(objekat.toString(), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "DELETE /karte/obrisi/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(objekat.toString(), HttpStatus.OK);
         } else {
-            GrpcClient.log("Karta", "DELETE /karte/obrisi/{id}", "FAIL");
-            throw new NePostojiException("Karta sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "DELETE /karte/obrisi/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>("Greška!", HttpStatus.NOT_FOUND);
     }
 }

@@ -8,11 +8,11 @@ import java.util.List;
 public interface FilmService {
     List<Film> getSviFilmovi();
 
-    ResponseEntity getFilmByID(int id);
+    ResponseEntity<Film> getFilmByID(int id);
 
-    ResponseEntity spasiFilm(Film film);
+    ResponseEntity<Film> spasiFilm(Film film);
 
-    ResponseEntity azurirajFilm(int id, Film film);
+    ResponseEntity<Film> azurirajFilm(int id, Film film);
 
-    ResponseEntity obrisiFilm(int id);
+    ResponseEntity<String> obrisiFilm(int id);
 }

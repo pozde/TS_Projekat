@@ -29,6 +29,7 @@ public class Zanr {
     private PreporukaFilma preporukaFilma;
 
     public Zanr() {
+        // Default-ni konstruktor
     }
 
     public Zanr(String naziv) {

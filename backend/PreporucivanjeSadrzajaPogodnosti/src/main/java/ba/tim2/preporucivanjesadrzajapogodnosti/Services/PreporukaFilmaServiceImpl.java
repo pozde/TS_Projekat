@@ -7,9 +7,9 @@ import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -18,51 +18,46 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
     @Autowired
     private PreporukaFilmaRepository preporukaFilmaRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private static final String STATUS_SUCCESS = "SUCCESS";
+    private static final String STATUS_FAIL = "FAIL";
+    private static final String RESOURCE_NAME = "Preporuka filma";
+
+    private void throwNePostojiException(int id) {
+        throw new NePostojiException(RESOURCE_NAME + " sa id-em " + id + " ne postoji!");
+    }
 
     @Override
     public List<PreporukaFilma> getSvePreporukeFilmova() {
-        GrpcClient.log("PreporukaFilma", "GET /preporukeFilmova/", "SUCCESS");
+        GrpcClient.log(RESOURCE_NAME, "GET /preporukeFilmova/", STATUS_SUCCESS);
         return preporukaFilmaRepository.findAll();
     }
 
     @Override
-    public ResponseEntity getPreporukaFilmaByID(int id) {
+    public ResponseEntity<PreporukaFilma> getPreporukaFilmaByID(int id) {
         if (preporukaFilmaRepository.existsById(id)) {
-            GrpcClient.log("PreporukaFilma", "GET /preporukeFilmova/{id}", "SUCCESS");
-            return new ResponseEntity(preporukaFilmaRepository.findByID(id), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "GET /preporukeFilmova/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(preporukaFilmaRepository.findByID(id), HttpStatus.OK);
         } else {
-            GrpcClient.log("PreporukaFilma", "GET /preporukeFilmova/{id}", "FAIL");
-            throw new NePostojiException("Preporuka filma sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "GET /preporukeFilmova/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>(preporukaFilmaRepository.findByID(0), HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public ResponseEntity spasiPreporukuFilma(PreporukaFilma preporukaFilma) {
+    public ResponseEntity<PreporukaFilma> spasiPreporukuFilma(PreporukaFilma preporukaFilma) {
         preporukaFilmaRepository.save(preporukaFilma);
-
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Preporuka filma je uspješno dodana!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<PreporukaFilma> request = new HttpEntity<>(preporukaFilma, headers);
-        //restTemplate.postForObject("http:://localhost:8081/dodajPreporukuFilma", request, PreporukaFilma.class);
-        GrpcClient.log("PreporukaFilma", "POST /preporukeFilmova/dodaj", "SUCCESS");
-        return new ResponseEntity(preporukaFilma, HttpStatus.CREATED);
+        GrpcClient.log(RESOURCE_NAME, "POST /preporukeFilmova/dodaj", STATUS_SUCCESS);
+        return new ResponseEntity<>(preporukaFilma, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity azurirajPreporukuFilma(int id, PreporukaFilma preporukaFilma) {
+    public ResponseEntity<PreporukaFilma> azurirajPreporukuFilma(int id, PreporukaFilma preporukaFilma) {
         PreporukaFilma p = preporukaFilmaRepository.findByID(id);
 
         if (p == null || !preporukaFilmaRepository.existsById(id)) {
-            GrpcClient.log("PreporukaFilma", "PUT /preporukeFilmova/azuriraj/{id}", "FAIL");
-            throw new NePostojiException("Preporuka filma sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "PUT /preporukeFilmova/azuriraj/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
 
         if (preporukaFilma.getZanr() != null) {
@@ -72,25 +67,13 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
             p.setKorisnik(preporukaFilma.getKorisnik());
         }
 
-
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Preporuka filma je uspješno ažurirana!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<PreporukaFilma> request = new HttpEntity<>(preporukaFilma, headers);
-        //restTemplate.put("http:://localhost:8081/azurirajPreporukuFilma", request, PreporukaFilma.class);
         preporukaFilmaRepository.save(p);
-        GrpcClient.log("PreporukaFilma", "PUT /preporukeFilmova/azuriraj/{id}", "SUCCESS");
-        return new ResponseEntity(preporukaFilma, HttpStatus.OK);
+        GrpcClient.log(RESOURCE_NAME, "PUT /preporukeFilmova/azuriraj/{id}", STATUS_SUCCESS);
+        return new ResponseEntity<>(preporukaFilma, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity obrisiPreporukuFilma(int id) {
+    public ResponseEntity<String> obrisiPreporukuFilma(int id) {
         if (preporukaFilmaRepository.existsById(id)) {
             JSONObject objekat = new JSONObject();
             preporukaFilmaRepository.deleteById(id);
@@ -99,12 +82,12 @@ public class PreporukaFilmaServiceImpl implements PreporukaFilmaService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //restTemplate.delete("http://localhost:8081/obrisiPreporukuFilma" + id);
-            GrpcClient.log("PreporukaFilma", "DELETE /preporukeFilmova/obrisi/{id}", "SUCCESS");
-            return new ResponseEntity(objekat.toString(), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "DELETE /preporukeFilmova/obrisi/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(objekat.toString(), HttpStatus.OK);
         } else {
-            GrpcClient.log("PreporukaFilma", "DELETE /preporukeFilmova/obrisi/{id}", "FAIL");
-            throw new NePostojiException("Preporuka filma sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "DELETE /preporukeFilmova/obrisi/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>("Greška!", HttpStatus.NOT_FOUND);
     }
 }

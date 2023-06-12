@@ -34,6 +34,7 @@ public class Film {
     private List<Zanr> zanrovi = new ArrayList<>();
 
     public Film() {
+        // Default-ni konstruktor
     }
 
     public int getID() {

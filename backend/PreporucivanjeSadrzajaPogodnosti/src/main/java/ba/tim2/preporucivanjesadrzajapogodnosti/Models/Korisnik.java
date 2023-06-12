@@ -57,6 +57,7 @@ public class Korisnik {
     private List<PreporukaFilma> preporukeFilmova = new ArrayList<>();
 
     public Korisnik() {
+        // Default-ni konstruktor
     }
 
     public int getID() {

@@ -22,22 +22,22 @@ public class PopustController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getPopustById(@PathVariable int id) {
+    public ResponseEntity<Popust> getPopustById(@PathVariable int id) {
         return popustService.getPopustByID(id);
     }
 
     @PostMapping(value = "/dodaj", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity dodajPopust(@Valid @RequestBody Popust noviPopust) {
+    public ResponseEntity<Popust> dodajPopust(@Valid @RequestBody Popust noviPopust) {
         return popustService.spasiPopust(noviPopust);
     }
 
     @PutMapping(value = "/azuriraj/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity azurirajPopust(@Valid @RequestBody Popust popust, @PathVariable int id) {
+    public ResponseEntity<Popust> azurirajPopust(@Valid @RequestBody Popust popust, @PathVariable int id) {
         return popustService.azurirajPopust(id, popust);
     }
 
     @DeleteMapping(value = "/obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity obrisiPopust(@PathVariable int id) {
+    public ResponseEntity<String> obrisiPopust(@PathVariable int id) {
         return popustService.obrisiPopust(id);
     }
 }

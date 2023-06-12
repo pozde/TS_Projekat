@@ -3,11 +3,9 @@ package ba.tim2.preporucivanjesadrzajapogodnosti.Messaging.Consumer;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Messaging.RabbitConfig;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Models.Film;
 import ba.tim2.preporucivanjesadrzajapogodnosti.Repositories.FilmRepository;
-import org.apache.hc.core5.http.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,22 +15,19 @@ public class FilmConsumer {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
     @RabbitListener(queues = "film-queue")
     public void consumeMessageFromQueue(FilmMessage filmMessage) {
         try {
-            System.out.println("Naziv filma dobivenog "+ filmMessage.getNazivFilma());
-            if(filmRepository.postojiLiFilm1(filmMessage.getNazivFilma())) {
-                System.out.println("Naziv filma dobivenog "+ filmMessage.getNazivFilma());
+            if (filmRepository.postojiLiFilm(filmMessage.getNazivFilma())) {
                 rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE2, RabbitConfig.ROUTING_KEY2, filmMessage);
-            }
-            else{
+            } else {
                 Film film = new Film();
                 film.setID(filmMessage.getFilm_id());
                 film.setNazivFilma(filmMessage.getNazivFilma());
                 filmRepository.save(film);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

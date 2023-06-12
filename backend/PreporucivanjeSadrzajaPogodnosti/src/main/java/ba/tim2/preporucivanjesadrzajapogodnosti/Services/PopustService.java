@@ -8,11 +8,11 @@ import java.util.List;
 public interface PopustService {
     List<Popust> getSviPopusti();
 
-    ResponseEntity getPopustByID(int id);
+    ResponseEntity<Popust> getPopustByID(int id);
 
-    ResponseEntity spasiPopust(Popust popust);
+    ResponseEntity<Popust> spasiPopust(Popust popust);
 
-    ResponseEntity azurirajPopust(int id, Popust popust);
+    ResponseEntity<Popust> azurirajPopust(int id, Popust popust);
 
-    ResponseEntity obrisiPopust(int id);
+    ResponseEntity<String> obrisiPopust(int id);
 }

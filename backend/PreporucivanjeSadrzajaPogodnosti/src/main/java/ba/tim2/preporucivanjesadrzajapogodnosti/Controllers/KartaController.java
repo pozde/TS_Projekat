@@ -22,22 +22,22 @@ public class KartaController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getKartaById(@PathVariable int id) {
+    public ResponseEntity<Karta> getKartaById(@PathVariable int id) {
         return kartaService.getKartaByID(id);
     }
 
     @PostMapping(value = "/dodaj", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity dodajKartu(@Valid @RequestBody Karta novaKarta) {
+    public ResponseEntity<Karta> dodajKartu(@Valid @RequestBody Karta novaKarta) {
         return kartaService.spasiKartu(novaKarta);
     }
 
     @PutMapping(value = "/azuriraj/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity azurirajKartu(@Valid @RequestBody Karta karta, @PathVariable int id) {
+    public ResponseEntity<Karta> azurirajKartu(@Valid @RequestBody Karta karta, @PathVariable int id) {
         return kartaService.azurirajKartu(id, karta);
     }
 
     @DeleteMapping(value = "/obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity obrisiKartu(@PathVariable int id) {
+    public ResponseEntity<String> obrisiKartu(@PathVariable int id) {
         return kartaService.obrisiKartu(id);
     }
 }

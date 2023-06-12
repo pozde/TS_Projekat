@@ -8,11 +8,11 @@ import java.util.List;
 public interface KartaService {
     List<Karta> getSveKarte();
 
-    ResponseEntity getKartaByID(int id);
+    ResponseEntity<Karta> getKartaByID(int id);
 
-    ResponseEntity spasiKartu(Karta karta);
+    ResponseEntity<Karta> spasiKartu(Karta karta);
 
-    ResponseEntity azurirajKartu(int id, Karta karta);
+    ResponseEntity<Karta> azurirajKartu(int id, Karta karta);
 
-    ResponseEntity obrisiKartu(int id);
+    ResponseEntity<String> obrisiKartu(int id);
 }

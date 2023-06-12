@@ -8,11 +8,11 @@ import java.util.List;
 public interface ZanrService {
     List<Zanr> getSviZanrovi();
 
-    ResponseEntity getZanrByID(int id);
+    ResponseEntity<Zanr> getZanrByID(int id);
 
-    ResponseEntity spasiZanr(Zanr Zanr);
+    ResponseEntity<Zanr> spasiZanr(Zanr Zanr);
 
-    ResponseEntity azurirajZanr(int id, Zanr Zanr);
+    ResponseEntity<Zanr> azurirajZanr(int id, Zanr Zanr);
 
-    ResponseEntity obrisiZanr(int id);
+    ResponseEntity<String> obrisiZanr(int id);
 }

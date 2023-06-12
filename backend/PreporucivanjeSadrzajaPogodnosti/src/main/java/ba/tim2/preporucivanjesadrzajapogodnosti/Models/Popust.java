@@ -21,6 +21,7 @@ public class Popust {
     double vrijednostPopusta;
 
     public Popust() {
+        // Default-ni konstruktor
     }
 
     public int getID() {

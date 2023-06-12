@@ -7,9 +7,9 @@ import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -18,51 +18,46 @@ public class FilmServiceImpl implements FilmService {
     @Autowired
     private FilmRepository filmRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private static final String STATUS_SUCCESS = "SUCCESS";
+    private static final String STATUS_FAIL = "FAIL";
+    private static final String RESOURCE_NAME = "Film";
+
+    private void throwNePostojiException(int id) {
+        throw new NePostojiException(RESOURCE_NAME + " sa id-em " + id + " ne postoji!");
+    }
 
     @Override
     public List<Film> getSviFilmovi() {
-        GrpcClient.log("Film", "GET /filmovi/", "SUCCESS");
+        GrpcClient.log(RESOURCE_NAME, "GET /filmovi/", STATUS_SUCCESS);
         return filmRepository.findAll();
     }
 
     @Override
-    public ResponseEntity getFilmByID(int id) {
+    public ResponseEntity<Film> getFilmByID(int id) {
         if (filmRepository.existsById(id)) {
-            GrpcClient.log("Film", "GET /filmovi/{id}", "SUCCESS");
-            return new ResponseEntity(filmRepository.findByID(id), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "GET /filmovi/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(filmRepository.findByID(id), HttpStatus.OK);
         } else {
-            GrpcClient.log("Film", "GET /filmovi/{id}", "FAIL");
-            throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "GET /filmovi/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>(filmRepository.findByID(0), HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public ResponseEntity spasiFilm(Film film) {
+    public ResponseEntity<Film> spasiFilm(Film film) {
         filmRepository.save(film);
-
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Film je uspješno dodan!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Film> request = new HttpEntity<>(film, headers);
-        //restTemplate.postForObject("http:://localhost:8081/dodajFilm", request, Film.class);
-        GrpcClient.log("Film", "GET /filmovi/dodaj", "SUCCESS");
-        return new ResponseEntity(film, HttpStatus.CREATED);
+        GrpcClient.log(RESOURCE_NAME, "GET /filmovi/dodaj", STATUS_SUCCESS);
+        return new ResponseEntity<>(film, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity azurirajFilm(int id, Film film) {
+    public ResponseEntity<Film> azurirajFilm(int id, Film film) {
         Film f = filmRepository.findByID(id);
 
         if (f == null || !filmRepository.existsById(id)) {
-            GrpcClient.log("Film", "PUT /filmovi/azuriraj/{id}", "FAIL");
-            throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "PUT /filmovi/azuriraj/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
 
         if (!film.getNazivFilma().isEmpty()) {
@@ -74,24 +69,12 @@ public class FilmServiceImpl implements FilmService {
         if (film.getZanrovi() != null) {
             f.setZanrovi(film.getZanrovi());
         }
-
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Film je uspješno ažuriran!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Film> request = new HttpEntity<>(film, headers);
-        //restTemplate.put("http:://localhost:8081/azurirajFilm", request, Film.class);
-        GrpcClient.log("Film", "PUT /filmovi/azuriraj/{id}", "SUCCESS");
-        return new ResponseEntity(film, HttpStatus.OK);
+        GrpcClient.log(RESOURCE_NAME, "PUT /filmovi/azuriraj/{id}", STATUS_SUCCESS);
+        return new ResponseEntity<>(film, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity obrisiFilm(int id) {
+    public ResponseEntity<String> obrisiFilm(int id) {
         if (filmRepository.existsById(id)) {
             JSONObject objekat = new JSONObject();
             filmRepository.deleteById(id);
@@ -100,11 +83,10 @@ public class FilmServiceImpl implements FilmService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //restTemplate.delete("http://localhost:8081/obrisiFilm" + id);
-            GrpcClient.log("Film", "DELETE /filmovi/obrisi/{id}", "SUCCESS");
-            return new ResponseEntity(objekat.toString(), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "DELETE /filmovi/obrisi/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(objekat.toString(), HttpStatus.OK);
         } else {
-            GrpcClient.log("Film", "DELETE /filmovi/obrisi/{id}", "FAIL");
+            GrpcClient.log(RESOURCE_NAME, "DELETE /filmovi/obrisi/{id}", STATUS_FAIL);
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
         }
     }

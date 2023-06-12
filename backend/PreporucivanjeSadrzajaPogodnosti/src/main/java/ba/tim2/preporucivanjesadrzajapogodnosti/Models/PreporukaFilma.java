@@ -18,6 +18,7 @@ public class PreporukaFilma {
     private Korisnik korisnik;
 
     public PreporukaFilma() {
+        // Default-ni konstruktor
     }
 
     public int getID() {

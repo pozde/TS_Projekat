@@ -8,13 +8,13 @@ import java.util.List;
 public interface KorisnikService {
     List<Korisnik> getSviKorisnici();
 
-    ResponseEntity getKorisnikByID(int id);
+    ResponseEntity<Korisnik> getKorisnikByID(int id);
 
-    ResponseEntity getKorisnikByEmail(String email);
+    ResponseEntity<Korisnik> getKorisnikByEmail(String email);
 
-    ResponseEntity spasiKorisnika(Korisnik korisnik);
+    ResponseEntity<Korisnik> spasiKorisnika(Korisnik korisnik);
 
-    ResponseEntity azurirajKorisnika(int id, Korisnik korisnik);
+    ResponseEntity<Korisnik> azurirajKorisnika(int id, Korisnik korisnik);
 
-    ResponseEntity obrisiKorisnika(int id);
+    ResponseEntity<String> obrisiKorisnika(int id);
 }

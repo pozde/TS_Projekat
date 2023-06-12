@@ -17,20 +17,24 @@ public class RabbitConfig {
     public static final String ROUTING_KEY1 = "film-routingKey";
 
     @Bean
-    public Queue queue1() {
+    public Queue red1() {
         return new Queue(QUEUE1);
     }
+
     @Bean
-    public TopicExchange exchange1() {
+    public TopicExchange zamjena1() {
         return new TopicExchange(EXCHANGE1, true, false);
     }
 
     @Bean
-    public Binding binding1(){
-        return BindingBuilder.bind(queue1()).to(exchange1()).with(ROUTING_KEY1);
+    public Binding binding1() {
+        return BindingBuilder.bind(red1()).to(zamjena1()).with(ROUTING_KEY1);
     }
 
 
+    public RabbitConfig() {
+        // Default-ni konstruktor
+    }
 
 
     public static final String QUEUE2 = "response-film-queue";
@@ -38,17 +42,18 @@ public class RabbitConfig {
     public static final String ROUTING_KEY2 = "response-film-routingKey";
 
     @Bean
-    public Queue queue2() {
+    public Queue red2() {
         return new Queue(QUEUE2);
     }
+
     @Bean
-    public TopicExchange exchange2() {
+    public TopicExchange zamjena2() {
         return new TopicExchange(EXCHANGE2, true, false);
     }
 
     @Bean
-    public Binding binding2(){
-        return BindingBuilder.bind(queue1()).to(exchange1()).with(ROUTING_KEY2);
+    public Binding binding2() {
+        return BindingBuilder.bind(red1()).to(zamjena1()).with(ROUTING_KEY2);
     }
 
 
@@ -56,6 +61,7 @@ public class RabbitConfig {
     public Jackson2JsonMessageConverter converter() {
         return new Jackson2JsonMessageConverter();
     }
+
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory factory) {
         RabbitTemplate template = new RabbitTemplate(factory);
@@ -63,4 +69,3 @@ public class RabbitConfig {
         return template;
     }
 }
-

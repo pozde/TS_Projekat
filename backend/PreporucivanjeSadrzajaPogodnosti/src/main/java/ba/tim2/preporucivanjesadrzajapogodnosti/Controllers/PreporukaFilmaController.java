@@ -22,22 +22,22 @@ public class PreporukaFilmaController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getPreporukaFilmaById(@PathVariable int id) {
+    public ResponseEntity<PreporukaFilma> getPreporukaFilmaById(@PathVariable int id) {
         return preporukaFilmaService.getPreporukaFilmaByID(id);
     }
 
     @PostMapping(value = "/dodaj", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity dodajPreporukuFilma(@Valid @RequestBody PreporukaFilma novaPreporukaFilma) {
+    public ResponseEntity<PreporukaFilma> dodajPreporukuFilma(@Valid @RequestBody PreporukaFilma novaPreporukaFilma) {
         return preporukaFilmaService.spasiPreporukuFilma(novaPreporukaFilma);
     }
 
     @PutMapping(value = "/azuriraj/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity azurirajPreporukuFilma(@Valid @RequestBody PreporukaFilma preporukaFilma, @PathVariable int id) {
+    public ResponseEntity<PreporukaFilma> azurirajPreporukuFilma(@Valid @RequestBody PreporukaFilma preporukaFilma, @PathVariable int id) {
         return preporukaFilmaService.azurirajPreporukuFilma(id, preporukaFilma);
     }
 
     @DeleteMapping(value = "/obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity obrisiPreporukuFilma(@PathVariable int id) {
+    public ResponseEntity<String> obrisiPreporukuFilma(@PathVariable int id) {
         return preporukaFilmaService.obrisiPreporukuFilma(id);
     }
 }

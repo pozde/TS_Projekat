@@ -8,9 +8,6 @@ public class FilmMessage {
     @JsonProperty("nazivFilma")
     private String nazivFilma;
 
-    public FilmMessage() {
-    }
-
     public int getFilm_id() {
         return film_id;
     }

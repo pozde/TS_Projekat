@@ -22,22 +22,22 @@ public class FilmController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getFilmById(@PathVariable int id) {
+    public ResponseEntity<Film> getFilmById(@PathVariable int id) {
         return filmService.getFilmByID(id);
     }
 
     @PostMapping(value = "/dodaj", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity dodajFilm(@Valid @RequestBody Film noviFilm) {
+    public ResponseEntity<Film> dodajFilm(@Valid @RequestBody Film noviFilm) {
         return filmService.spasiFilm(noviFilm);
     }
 
     @PutMapping(value = "/azuriraj/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity azurirajFilm(@Valid @RequestBody Film film, @PathVariable int id) {
+    public ResponseEntity<Film> azurirajFilm(@Valid @RequestBody Film film, @PathVariable int id) {
         return filmService.azurirajFilm(id, film);
     }
 
     @DeleteMapping(value = "/obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity obrisiFilm(@PathVariable int id) {
+    public ResponseEntity<String> obrisiFilm(@PathVariable int id) {
         return filmService.obrisiFilm(id);
     }
 }

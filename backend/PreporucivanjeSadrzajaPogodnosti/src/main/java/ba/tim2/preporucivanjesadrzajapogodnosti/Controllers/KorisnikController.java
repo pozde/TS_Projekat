@@ -22,27 +22,27 @@ public class KorisnikController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getKorisnikById(@PathVariable int id) {
+    public ResponseEntity<Korisnik> getKorisnikById(@PathVariable int id) {
         return korisnikService.getKorisnikByID(id);
     }
 
     @GetMapping(value = "/mail/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getKorisnikByEmail(@PathVariable String email) {
+    public ResponseEntity<Korisnik> getKorisnikByEmail(@PathVariable String email) {
         return korisnikService.getKorisnikByEmail(email);
     }
 
     @PostMapping(value = "/dodaj", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity dodajKorisnika(@Valid @RequestBody Korisnik noviKorisnik) {
+    public ResponseEntity<Korisnik> dodajKorisnika(@Valid @RequestBody Korisnik noviKorisnik) {
         return korisnikService.spasiKorisnika(noviKorisnik);
     }
 
     @PutMapping(value = "/azuriraj/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity azurirajKorisnika(@Valid @RequestBody Korisnik korisnik, @PathVariable int id) {
+    public ResponseEntity<Korisnik> azurirajKorisnika(@Valid @RequestBody Korisnik korisnik, @PathVariable int id) {
         return korisnikService.azurirajKorisnika(id, korisnik);
     }
 
     @DeleteMapping(value = "/obrisi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity obrisiKorisnika(@PathVariable int id) {
+    public ResponseEntity<String> obrisiKorisnika(@PathVariable int id) {
         return korisnikService.obrisiKorisnika(id);
     }
 }

@@ -29,6 +29,7 @@ public class Clanarina {
     private List<Korisnik> korisnici = new ArrayList<>();
 
     public Clanarina() {
+        // Default-ni konstruktor
     }
 
     public int getID() {

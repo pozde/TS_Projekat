@@ -8,11 +8,11 @@ import java.util.List;
 public interface PreporukaFilmaService {
     List<PreporukaFilma> getSvePreporukeFilmova();
 
-    ResponseEntity getPreporukaFilmaByID(int id);
+    ResponseEntity<PreporukaFilma> getPreporukaFilmaByID(int id);
 
-    ResponseEntity spasiPreporukuFilma(PreporukaFilma preporukaFilma);
+    ResponseEntity<PreporukaFilma> spasiPreporukuFilma(PreporukaFilma preporukaFilma);
 
-    ResponseEntity azurirajPreporukuFilma(int id, PreporukaFilma preporukaFilma);
+    ResponseEntity<PreporukaFilma> azurirajPreporukuFilma(int id, PreporukaFilma preporukaFilma);
 
-    ResponseEntity obrisiPreporukuFilma(int id);
+    ResponseEntity<String> obrisiPreporukuFilma(int id);
 }

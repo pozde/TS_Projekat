@@ -8,9 +8,9 @@ import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -19,80 +19,59 @@ public class KorisnikServiceImpl implements KorisnikService {
     @Autowired
     private KorisnikRepository korisnikRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private static final String STATUS_SUCCESS = "SUCCESS";
+    private static final String STATUS_FAIL = "FAIL";
+    private static final String RESOURCE_NAME = "Korisnik";
+
+    private void throwNePostojiException(int id) {
+        throw new NePostojiException(RESOURCE_NAME + " sa id-em " + id + " ne postoji!");
+    }
 
     @Override
     public List<Korisnik> getSviKorisnici() {
-        GrpcClient.log("Korisnik", "GET /korisnici/", "SUCCESS");
+        GrpcClient.log(RESOURCE_NAME, "GET /korisnici/", STATUS_SUCCESS);
         return korisnikRepository.findAll();
     }
 
     @Override
-    public ResponseEntity getKorisnikByID(int id) {
+    public ResponseEntity<Korisnik> getKorisnikByID(int id) {
         if (korisnikRepository.existsById(id)) {
-            GrpcClient.log("Korisnik", "GET /korisnici/{id}", "SUCCESS");
-            return new ResponseEntity(korisnikRepository.findByID(id), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "GET /korisnici/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(korisnikRepository.findByID(id), HttpStatus.OK);
         } else {
-            GrpcClient.log("Korisnik", "GET /korisnici/{id}", "FAIL");
-            throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "GET /korisnici/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>(korisnikRepository.findByID(0), HttpStatus.NOT_FOUND);
     }
 
     @Override
     public ResponseEntity getKorisnikByEmail(String email) {
         if (korisnikRepository.existsByEmail(email)) {
-            GrpcClient.log("Korisnik", "GET /korisnici/{email}", "SUCCESS");
-            return new ResponseEntity(korisnikRepository.findByEmail(email), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "GET /korisnici/{email}", STATUS_SUCCESS);
+            return new ResponseEntity<>(korisnikRepository.findByEmail(email), HttpStatus.OK);
         } else {
-            GrpcClient.log("Korisnik", "GET /korisnici/{email}", "FAIL");
+            GrpcClient.log(RESOURCE_NAME, "GET /korisnici/{email}", STATUS_FAIL);
             throw new NePostojiException("Korisnik sa email-om " + email + " ne postoji!");
         }
     }
 
     @Override
     public ResponseEntity spasiKorisnika(Korisnik korisnik) {
-        List<Korisnik> sviKorisnici = korisnikRepository.findAll();
-        for (int i = 0; i < sviKorisnici.size(); i++) {
-            Korisnik k = sviKorisnici.get(i);
-            if (korisnik.getEmail().equals(k.getEmail())) {
-                throw new VecPostojiException("Korisnik sa tim email-om već postoji!");
-            }
-        }
         korisnikRepository.save(korisnik);
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Korisnik je uspješno dodan!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, headers);
-        //restTemplate.postForObject("http://localhost:8081/dodajKorisnika", request, Korisnik.class);
-        GrpcClient.log("Korisnik", "POST /korisnici/dodaj", "SUCCESS");
-        return new ResponseEntity(korisnik, HttpStatus.CREATED);
+        GrpcClient.log(RESOURCE_NAME, "POST /korisnici/dodaj", STATUS_SUCCESS);
+        return new ResponseEntity<>(korisnik, HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity azurirajKorisnika(int id, Korisnik korisnik) {
         Korisnik k = korisnikRepository.findByID(id);
-        JSONObject objekat = new JSONObject();
         if (k == null || !korisnikRepository.existsById(id)) {
-            GrpcClient.log("Korisnik", "PUT /korisnici/azuriraj/{id}", "FAIL");
-            throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "PUT /korisnici/azuriraj/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
-
-        /*
-        List<Korisnik> sviKorisnici = korisnikRepository.findAll();
-        for (int i = 0; i < sviKorisnici.size(); i++) {
-            Korisnik korisnik1 = sviKorisnici.get(i);
-            if (k.getId() != korisnik1.getId() && korisnik1.getEmail().equals(korisnik.getEmail())) {
-                throw new VecPostojiException("Korisnik sa tim email-om već postoji!");
-            }
-        } */
         if (korisnikRepository.existsByEmail(korisnik.getEmail())) {
-            GrpcClient.log("Korisnik", "GET /korisnici/azuriraj/{id}", "FAIL");
+            GrpcClient.log(RESOURCE_NAME, "GET /korisnici/azuriraj/{id}", STATUS_FAIL);
             throw new VecPostojiException("Korisnik sa tim email-om već postoji!");
         }
 
@@ -115,18 +94,7 @@ public class KorisnikServiceImpl implements KorisnikService {
             k.setDatumRodjenja(korisnik.getDatumRodjenja());
         }
 
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, httpHeaders);
-        //restTemplate.put("http://localhost:8081/azurirajKorisnika/" + id, request);
-        korisnikRepository.save(k);
-        try {
-            objekat.put("message", "Korisnik je uspješno ažuriran!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        GrpcClient.log("Korisnik", "GET /korisnici/azuriraj/{id}", "SUCCESS");
+        GrpcClient.log(RESOURCE_NAME, "GET /korisnici/azuriraj/{id}", STATUS_SUCCESS);
         return new ResponseEntity<>(korisnik, HttpStatus.OK);
     }
 
@@ -140,12 +108,12 @@ public class KorisnikServiceImpl implements KorisnikService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //restTemplate.delete("http://localhost:8081/obrisiKorisnika/" + id);
-            GrpcClient.log("Korisnik", "DELETE /korisnici/obrisi/{id}", "SUCCESS");
-            return new ResponseEntity(objekat.toString(), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "DELETE /korisnici/obrisi/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(objekat.toString(), HttpStatus.OK);
         } else {
-            GrpcClient.log("Korisnik", "DELETE /korisnici/obrisi/{id}", "FAIL");
-            throw new NePostojiException("Korisnik sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "DELETE /korisnici/obrisi/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>("Greška!", HttpStatus.NOT_FOUND);
     }
 }

@@ -7,9 +7,9 @@ import ba.tim2.preporucivanjesadrzajapogodnosti.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -18,81 +18,61 @@ public class ZanrServiceImpl implements ZanrService {
     @Autowired
     private ZanrRepository zanrRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private static final String STATUS_SUCCESS = "SUCCESS";
+    private static final String STATUS_FAIL = "FAIL";
+    private static final String RESOURCE_NAME = "Zanr";
+
+    private void throwNePostojiException(int id) {
+        throw new NePostojiException(RESOURCE_NAME + " sa id-em " + id + " ne postoji!");
+    }
 
     @Override
     public List<Zanr> getSviZanrovi() {
-        GrpcClient.log("Zanr", "GET /zanrovi/", "SUCCESS");
+        GrpcClient.log(RESOURCE_NAME, "GET /zanrovi/", STATUS_SUCCESS);
         return zanrRepository.findAll();
     }
 
     @Override
-    public ResponseEntity getZanrByID(int id) {
+    public ResponseEntity<Zanr> getZanrByID(int id) {
         if (zanrRepository.existsById(id)) {
-            GrpcClient.log("Zanr", "GET /zanrovi/{id}", "SUCCESS");
-            return new ResponseEntity(zanrRepository.findByID(id), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "GET /zanrovi/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(zanrRepository.findByID(id), HttpStatus.OK);
         } else {
-            GrpcClient.log("Zanr", "GET /zanrovi/{id}", "FAIL");
-            throw new NePostojiException("Žanr sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "GET /zanrovi/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>(zanrRepository.findByID(0), HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public ResponseEntity spasiZanr(Zanr zanr) {
+    public ResponseEntity<Zanr> spasiZanr(Zanr zanr) {
         zanrRepository.save(zanr);
-
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Žanr je uspješno dodan!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Zanr> request = new HttpEntity<>(zanr, headers);
-        //restTemplate.postForObject("http:://localhost:8081/dodajZanr", request, Zanr.class);
-        GrpcClient.log("Zanr", "POST /zanrovi/dodaj", "SUCCESS");
-        return new ResponseEntity(zanr, HttpStatus.CREATED);
+        GrpcClient.log(RESOURCE_NAME, "POST /zanrovi/dodaj", STATUS_SUCCESS);
+        return new ResponseEntity<>(zanr, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity azurirajZanr(int id, Zanr zanr) {
+    public ResponseEntity<Zanr> azurirajZanr(int id, Zanr zanr) {
         Zanr z = zanrRepository.findByID(id);
 
         if (z == null || !zanrRepository.existsById(id)) {
-            GrpcClient.log("Zanr", "PUT /zanrovi/azuriraj/{id}", "FAIL");
-            throw new NePostojiException("Žanr sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "PUT /zanrovi/azuriraj/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
 
         if (!zanr.getNaziv().isEmpty()) {
             z.setNaziv(zanr.getNaziv());
         }
-        /*if (zanr.getFilm() != null) {
-            z.setFilm(zanr.getFilm());
-        }*/
         if (zanr.getPreporukaFilma() != null) {
             z.setPreporukaFilma(zanr.getPreporukaFilma());
         }
-
-        JSONObject objekat = new JSONObject();
-        try {
-            objekat.put("message", "Žanr je uspješno ažuriran!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Zanr> request = new HttpEntity<>(zanr, headers);
-        //restTemplate.put("http:://localhost:8081/azurirajZanr", request, Zanr.class);
         zanrRepository.save(z);
-        GrpcClient.log("Zanr", "PUT /zanrovi/azuriraj/{id}", "SUCCESS");
-        return new ResponseEntity(zanr, HttpStatus.OK);
+        GrpcClient.log(RESOURCE_NAME, "PUT /zanrovi/azuriraj/{id}", STATUS_SUCCESS);
+        return new ResponseEntity<>(zanr, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity obrisiZanr(int id) {
+    public ResponseEntity<String> obrisiZanr(int id) {
         if (zanrRepository.existsById(id)) {
             JSONObject objekat = new JSONObject();
             zanrRepository.deleteById(id);
@@ -101,12 +81,12 @@ public class ZanrServiceImpl implements ZanrService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //restTemplate.delete("http://localhost:8081/obrisiZanr" + id);
-            GrpcClient.log("Zanr", "DELETE /zanrovi/obrisi/{id}", "SUCCESS");
-            return new ResponseEntity(objekat.toString(), HttpStatus.OK);
+            GrpcClient.log(RESOURCE_NAME, "DELETE /zanrovi/obrisi/{id}", STATUS_SUCCESS);
+            return new ResponseEntity<>(objekat.toString(), HttpStatus.OK);
         } else {
-            GrpcClient.log("Zanr", "DELETE /zanrovi/obrisi/{id}", "FAIL");
-            throw new NePostojiException("Žanr sa id-em " + id + " ne postoji!");
+            GrpcClient.log(RESOURCE_NAME, "DELETE /zanrovi/obrisi/{id}", STATUS_FAIL);
+            throwNePostojiException(id);
         }
+        return new ResponseEntity<>("Greška!", HttpStatus.NOT_FOUND);
     }
 }
