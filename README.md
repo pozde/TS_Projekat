@@ -21,11 +21,11 @@ CineFlex je softverska aplikacija za kino omogućava rezervaciju karata, pregled
 
 Neke od najvažnijih funkcionalnosti u sklopu CineFlex-a su: 
 * kreiranje korisničkog računa
-* pregled korisničkog računa i uvid u kupljene karte
+* pregled korisničkog računa
 * pregled aktuelnih filmova uz mogućnost pretrage filmova po nazivu i/ili žanrovima
 * rezervacija karata za projekciju filma (odabir filmova, željenih sjedišta i sl.)
 * preporučivanje sadržaja na osnovu pregledanih filmova
-* ostavljanje recenzija za aplikaciju i film
+* privilegovani način rada (dodavanje filmova, brisanje filmova, pregled korisnika, pregled logova i sl.)
 
 
 ## Preduvjeti
