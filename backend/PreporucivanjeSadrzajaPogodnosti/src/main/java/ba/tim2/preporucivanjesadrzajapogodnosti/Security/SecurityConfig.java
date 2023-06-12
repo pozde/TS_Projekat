@@ -3,6 +3,7 @@ package ba.tim2.preporucivanjesadrzajapogodnosti.Security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +23,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    /*
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(GET, "/message").permitAll()
@@ -65,6 +67,23 @@ public class SecurityConfig {
                 .authenticated()
                 .and()
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+     */
+
+        http.cors().and()
+                .csrf().disable()
+                .authorizeRequests()
+                .requestMatchers(request -> HttpMethod.GET.matches(request.getMethod()) ||
+                        HttpMethod.POST.matches(request.getMethod()) ||
+                        HttpMethod.PUT.matches(request.getMethod()) ||
+                        HttpMethod.DELETE.matches(request.getMethod())).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

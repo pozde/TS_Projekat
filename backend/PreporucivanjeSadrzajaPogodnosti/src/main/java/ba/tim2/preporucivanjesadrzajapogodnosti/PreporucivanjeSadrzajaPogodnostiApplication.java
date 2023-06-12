@@ -1,8 +1,6 @@
 package ba.tim2.preporucivanjesadrzajapogodnosti;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -15,11 +13,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 @SpringBootApplication
 @RestController
-public class PreporucivanjeSadrzajaPogodnostiApplication implements CommandLineRunner {
-
-    @Autowired
-    private PreporucivanjeSadrzajaPogodnostiService preporucivanjeSadrzajaPogodnostiService;
-
+public class PreporucivanjeSadrzajaPogodnostiApplication {
     @Bean
     @LoadBalanced
     RestTemplate restTemplate() {
@@ -33,11 +27,6 @@ public class PreporucivanjeSadrzajaPogodnostiApplication implements CommandLineR
 
     public static void main(String[] args) {
         SpringApplication.run(PreporucivanjeSadrzajaPogodnostiApplication.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        preporucivanjeSadrzajaPogodnostiService.insertStaticData();
     }
 
     @Bean
