@@ -13,7 +13,6 @@ Neke od najvažnijih funkcionalnosti u sklopu CineFlex-a su:
 * preporučivanje sadržaja na osnovu pregledanih filmova
 * privilegovani način rada (dodavanje filmova, brisanje filmova, pregled korisnika, pregled logova i sl.)
 
-
 ## Preduvjeti
 
 Za build i pokretanje aplikacije potrebno vam je:
