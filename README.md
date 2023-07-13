@@ -32,7 +32,7 @@ U svojoj zadanoj konfiguraciji sva tri mikroservisa koriste MySQL bazu podataka,
 
 **U okviru komandnog prozora otkucati:**
 ```bash
-git clone https://github.com/mborovac1/PNWT_Projekat.git
+git clone https://github.com/mborovac1/CineFlex.git
 ```
 **Otvoriti IntelliJ IDEA:**
 
