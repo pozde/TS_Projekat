@@ -1,17 +1,3 @@
-##### Elektrotehnički fakultet u Sarajevu
-##### Računarstvo i informatika
-#### Praktikum – Napredne web tehnologije
-
-------------
-
- Članovi tima:
- - Muhamed Borovac
- - Benjamin Pašić
- - Admir Pozderac
-
-------------
-
-
 CineFlex
 ==
 
