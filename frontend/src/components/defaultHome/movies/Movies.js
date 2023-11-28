@@ -15,7 +15,8 @@ const Movies = () => {
   const [kolicinaKarata, setKolicinaKarata] = useState(0);
 
   useEffect(() => {
-    fetch("http://localhost:8080/rezervacija-karata/films")
+    //fetch("http://localhost:8080/rezervacija-karata/films")
+    fetch("http://localhost:8081/filmovi")
       .then((res) => res.json())
       .then((result) => {
         setFilmovi(result);

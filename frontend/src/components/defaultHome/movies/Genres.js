@@ -32,7 +32,8 @@ const Genres = ({ selectedGenres, setSelectedGenres, genres, setGenres, onGenreS
   }, []);*/
 
   useEffect(() => {
-    fetch("http://localhost:8080/rezervacija-karata/zanrovi/")
+    //fetch("http://localhost:8080/rezervacija-karata/zanrovi/")
+    fetch("http://localhost:8081/zanrovi/")
       .then((res) => res.json())
       .then((result) => {
         setGenres(result);

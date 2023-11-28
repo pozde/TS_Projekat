@@ -38,7 +38,8 @@ export default function ContentModal({ children, id }) {
   const [filmovi, setFilmovi] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/rezervacija-karata/films")
+    //fetch("http://localhost:8080/rezervacija-karata/films")
+    fetch("http://localhost:8081/filmovi")
       .then((res) => res.json())
       .then((result) => {
         setFilmovi(result);

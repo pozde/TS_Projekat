@@ -20,7 +20,7 @@ function LoginDefault() {
 
   const handleLogin = async () => {
     try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
+      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
       const response = await axios.post(`${BASE_URL}/auth-service/auth/login`, {
         email,
         password,
