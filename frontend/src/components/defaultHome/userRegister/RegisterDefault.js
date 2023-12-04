@@ -4,7 +4,13 @@ import "./RegisterDefault.css";
 
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 
 function RegisterDefault() {
   const [selectedOption, setSelectedOption] = useState("");
@@ -61,8 +67,9 @@ function RegisterDefault() {
       const spol = document.getElementById("spol").value;
       const role = "USER"; // since role is always "USER"
 
-      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
-      const response = await fetch(`${BASE_URL}/auth-service/auth/register`, {
+      const BASE_URL =
+        process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+      const response = await fetch(`${BASE_URL}/auth/register`, {
         // replace with your API url
         method: "POST",
         headers: {
@@ -114,56 +121,125 @@ function RegisterDefault() {
           </h2>
         </span>
         <div className="input-container-register">
-          <input className={`input-field-register ${selectedOption === "ime" && "error-field"}`} type="text" id="ime" placeholder="Ime" />
+          <input
+            className={`input-field-register ${
+              selectedOption === "ime" && "error-field"
+            }`}
+            type="text"
+            id="ime"
+            placeholder="Ime"
+          />
         </div>
         <div className="input-container-register">
-          <input className={`input-field-register ${selectedOption === "prezime" && "error-field"}`} type="text" id="prezime" placeholder="Prezime" />
+          <input
+            className={`input-field-register ${
+              selectedOption === "prezime" && "error-field"
+            }`}
+            type="text"
+            id="prezime"
+            placeholder="Prezime"
+          />
         </div>
         <div className="input-container-register">
-          <input className={`input-field-register ${selectedOption === "datumRodjenja" && "error-field"}`} type="text" id="datumRodjenja" placeholder="Datum rođenja" />
+          <input
+            className={`input-field-register ${
+              selectedOption === "datumRodjenja" && "error-field"
+            }`}
+            type="text"
+            id="datumRodjenja"
+            placeholder="Datum rođenja"
+          />
         </div>
         <div className="input-container-register">
-          <input className={`input-field-register ${selectedOption === "brojTelefona" && "error-field"}`} type="text" id="brojTelefona" placeholder="Broj telefona" />
+          <input
+            className={`input-field-register ${
+              selectedOption === "brojTelefona" && "error-field"
+            }`}
+            type="text"
+            id="brojTelefona"
+            placeholder="Broj telefona"
+          />
         </div>
         <div className="input-container-register">
-          <input className={`input-field-register ${selectedOption === "spol" && "error-field"}`} type="text" id="spol" placeholder="Spol" />
+          <input
+            className={`input-field-register ${
+              selectedOption === "spol" && "error-field"
+            }`}
+            type="text"
+            id="spol"
+            placeholder="Spol"
+          />
         </div>
         <div className="input-container-register">
-          <input className={`input-field-register ${selectedOption === "email" && "error-field"}`} type="email" id="email" placeholder="E-mail adresa" ref={inputEmail} />
+          <input
+            className={`input-field-register ${
+              selectedOption === "email" && "error-field"
+            }`}
+            type="email"
+            id="email"
+            placeholder="E-mail adresa"
+            ref={inputEmail}
+          />
           <p id="errorText-email" style={{ color: "red", display: "none" }}>
             Unesite validnu email adresu.
           </p>
         </div>
         <div className="input-container-register">
-          <input className={`input-field-register ${selectedOption === "password" && "error-field"}`} type="password" id="password" placeholder="Lozinka" />
+          <input
+            className={`input-field-register ${
+              selectedOption === "password" && "error-field"
+            }`}
+            type="password"
+            id="password"
+            placeholder="Lozinka"
+          />
         </div>
         <button className="register-button" onClick={handleRegister}>
           Registracija
         </button>
-        <Dialog open={reservationSuccess && !reservationFail} onClose={handleClose}>
+        <Dialog
+          open={reservationSuccess && !reservationFail}
+          onClose={handleClose}
+        >
           <DialogTitle variant="h5" fontWeight="bold">
             Uspješno ste se registrovali
           </DialogTitle>
 
           <DialogActions style={{ justifyContent: "center" }}>
-            <Button variant="contained" size="large" style={{ fontWeight: "bold", backgroundColor: "#2d2d2d" }} onClick={handleClose}>
+            <Button
+              variant="contained"
+              size="large"
+              style={{ fontWeight: "bold", backgroundColor: "#2d2d2d" }}
+              onClick={handleClose}
+            >
               OK
             </Button>
           </DialogActions>
         </Dialog>
         <Dialog open={reservationFail} onClose={handleClose}>
           <DialogTitle variant="h5" fontWeight="bold">
-            Registracija korisnika nije uspjela! Unijeli ste neispravne parametre!
+            Registracija korisnika nije uspjela! Unijeli ste neispravne
+            parametre!
           </DialogTitle>
 
           <DialogActions style={{ justifyContent: "center" }}>
-            <Button variant="contained" size="large" style={{ fontWeight: "bold", backgroundColor: "#2d2d2d" }} onClick={handleClose}>
+            <Button
+              variant="contained"
+              size="large"
+              style={{ fontWeight: "bold", backgroundColor: "#2d2d2d" }}
+              onClick={handleClose}
+            >
               OK
             </Button>
           </DialogActions>
         </Dialog>
         <div className="links">
-          <button className="register-button" onClick={handleCloseNavMenu} component={Link} to="/login">
+          <button
+            className="register-button"
+            onClick={handleCloseNavMenu}
+            component={Link}
+            to="/login"
+          >
             Imaš nalog? <b>Prijavi se.</b>
           </button>
         </div>

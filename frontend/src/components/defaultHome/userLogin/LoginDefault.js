@@ -20,8 +20,9 @@ function LoginDefault() {
 
   const handleLogin = async () => {
     try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-      const response = await axios.post(`${BASE_URL}/auth-service/auth/login`, {
+      const BASE_URL =
+        process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
         email,
         password,
       });
@@ -55,10 +56,24 @@ function LoginDefault() {
         <h2 className="fontLogin">Prijava korisnika</h2>
         <div className="input-containerLogin"></div>
         <div className="input-containerLogin">
-          <input className="input-field-emailLogin" type="email" id="email" placeholder="E-mail adresa" onChange={(e) => setEmail(e.target.value)} value={email} />
+          <input
+            className="input-field-emailLogin"
+            type="email"
+            id="email"
+            placeholder="E-mail adresa"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
         </div>
         <div className="input-containerLogin">
-          <input className="input-fieldLogin" type={showPassword ? "text" : "password"} id="password" placeholder="Lozinka" onChange={(e) => setPassword(e.target.value)} value={password} />
+          <input
+            className="input-fieldLogin"
+            type={showPassword ? "text" : "password"}
+            id="password"
+            placeholder="Lozinka"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
           <span
             style={{
               marginTop: "4px",
@@ -66,7 +81,11 @@ function LoginDefault() {
               fontSize: "1.5em",
             }}
           >
-            {showPassword ? <FiEyeOff onClick={togglePasswordVisibility} /> : <FiEye onClick={togglePasswordVisibility} />}
+            {showPassword ? (
+              <FiEyeOff onClick={togglePasswordVisibility} />
+            ) : (
+              <FiEye onClick={togglePasswordVisibility} />
+            )}
           </span>
         </div>
         <button className="login-button" onClick={handleLogin}>

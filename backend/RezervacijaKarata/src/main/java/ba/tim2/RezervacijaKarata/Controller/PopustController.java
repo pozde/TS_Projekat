@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("/popusti")
+@RestController
+@CrossOrigin(origins = "*")
 public class PopustController {
     @Autowired
     private PopustService popustService;

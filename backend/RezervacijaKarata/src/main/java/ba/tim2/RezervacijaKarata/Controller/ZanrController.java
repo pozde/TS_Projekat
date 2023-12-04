@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("/zanrovi")
-//@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@RestController
+@CrossOrigin(origins = "*")
 public class ZanrController {
     @Autowired
     private ZanrService zanrService;

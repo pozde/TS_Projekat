@@ -3,6 +3,7 @@ package ba.tim2.RezervacijaKarata.Controller;
 import ba.tim2.RezervacijaKarata.Entity.Clanarina;
 import ba.tim2.RezervacijaKarata.Service.ClanarinaService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("/clanarine")
+@RestController
+@CrossOrigin(origins = "*")
 public class ClanarinaController {
     @Autowired
     private ClanarinaService clanarinaService;

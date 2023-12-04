@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("/preporukeFilmova")
+@RestController
+@CrossOrigin(origins = "*")
 public class PreporukaFilmaController {
     @Autowired
     private PreporukaFilmaService preporukaFilmaService;

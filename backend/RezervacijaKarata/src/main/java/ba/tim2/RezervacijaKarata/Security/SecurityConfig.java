@@ -4,17 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static org.springframework.http.HttpMethod.*;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -22,11 +24,14 @@ import static org.springframework.http.HttpMethod.*;
 @EnableMethodSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
     private final AuthenticationFilter authenticationFilter;
+    private final AuthenticationProvider authenticationProvider;
+    private final LogoutHandler logoutHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
+        //        http.csrf().disable()
 //                .authorizeHttpRequests()
 //                .requestMatchers(GET, "/message").permitAll()
 //                .requestMatchers(POST, "/dodajKorisnika").permitAll()
@@ -74,9 +79,9 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .requestMatchers(request -> HttpMethod.GET.matches(request.getMethod()) ||
-                HttpMethod.POST.matches(request.getMethod()) ||
-                HttpMethod.PUT.matches(request.getMethod()) ||
-                HttpMethod.DELETE.matches(request.getMethod())).permitAll()
+                        HttpMethod.POST.matches(request.getMethod()) ||
+                        HttpMethod.PUT.matches(request.getMethod()) ||
+                        HttpMethod.DELETE.matches(request.getMethod())).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -84,18 +89,15 @@ public class SecurityConfig {
 //                .authenticated()
 //                .and()
 //                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
-         return http.build();
-
-
-
+        return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000");  //allowed origins
-        //configuration.addAllowedMethod("*");  // Ukoliko zatreba za metode
-        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

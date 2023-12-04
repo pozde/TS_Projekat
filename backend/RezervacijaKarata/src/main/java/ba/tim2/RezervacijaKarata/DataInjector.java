@@ -6,26 +6,22 @@ import ba.tim2.RezervacijaKarata.Entity.Zanr;
 import ba.tim2.RezervacijaKarata.Repository.FilmRepository;
 import ba.tim2.RezervacijaKarata.Repository.SalaRepository;
 import ba.tim2.RezervacijaKarata.Repository.ZanrRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 
-@Service
-public class RezervacijaKarataService {
-    @Autowired
-    private FilmRepository filmRepository;
+@Component
+@RequiredArgsConstructor
+public class DataInjector implements CommandLineRunner {
 
-    @Autowired
-    private ZanrRepository zanrRepository;
-
-    @Autowired
-    private SalaRepository salaRepository;
+    private final FilmRepository filmRepository;
+    private final ZanrRepository zanrRepository;
+    private final SalaRepository salaRepository;
 
     private boolean praznaBaza() {
         return filmRepository.findAll().isEmpty() &&
@@ -33,8 +29,8 @@ public class RezervacijaKarataService {
                 salaRepository.findAll().isEmpty();
     }
 
-    @Transactional
-    public void insertStaticData() {
+    @Override
+    public void run(String... args) {
         if (praznaBaza()) {
             Film film1 = new Film();
             Film film2 = new Film();

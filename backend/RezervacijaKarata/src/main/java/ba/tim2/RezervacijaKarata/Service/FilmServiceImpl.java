@@ -5,8 +5,6 @@ import ba.tim2.RezervacijaKarata.Entity.Karta;
 import ba.tim2.RezervacijaKarata.Entity.Sala;
 import ba.tim2.RezervacijaKarata.Entity.Zanr;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
-import ba.tim2.RezervacijaKarata.Messaging.Consumer.FilmMessage;
-import ba.tim2.RezervacijaKarata.Messaging.RabbitConfig;
 import ba.tim2.RezervacijaKarata.Repository.FilmRepository;
 import ba.tim2.RezervacijaKarata.Repository.KartaRepository;
 import ba.tim2.RezervacijaKarata.Repository.SalaRepository;
@@ -15,7 +13,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -39,8 +36,6 @@ public class FilmServiceImpl implements FilmService {
     @Autowired
     private SalaRepository salaRepository;
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate1;
 
     @Autowired
     private EntityManager entityManager;
@@ -55,10 +50,6 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public ResponseEntity spasiFilm(Film film) {
         filmRepository.save(film);
-        FilmMessage filmRab = new FilmMessage();
-        filmRab.setFilm_id(film.getID());
-        filmRab.setNazivFilma(film.getNazivFilma());
-        //rabbitTemplate1.convertAndSend(RabbitConfig.EXCHANGE1, RabbitConfig.ROUTING_KEY1, filmRab);
 
         JSONObject objekat = new JSONObject();
         try {
@@ -69,8 +60,6 @@ public class FilmServiceImpl implements FilmService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Film> request = new HttpEntity<>(film, headers);
-        //restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/filmovi/dodaj", request, Film.class);
-        //filmRab.setFilm_id(film.getID());
 
 
         return new ResponseEntity(film, HttpStatus.CREATED);

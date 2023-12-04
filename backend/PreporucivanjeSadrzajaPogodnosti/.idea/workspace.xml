@@ -36,11 +36,12 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/User/OneDrive/Dokumenti/GitHub/TS_Projekat/backend/PreporucivanjeSadrzajaPogodnosti",
+    "last_opened_file_path": "C:/Users/muham/Documents/Workspace/TS_Projekat/backend/PreporucivanjeSadrzajaPogodnosti",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "spring.configuration.checksum": "f39fbbc781d52baf8e4a1773daf664b4",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -62,6 +63,7 @@
       <option name="presentableId" value="Default" />
       <updated>1701708564494</updated>
       <workItem from="1701708566022" duration="1425000" />
+      <workItem from="1701727166313" duration="12000" />
     </task>
     <servers />
   </component>

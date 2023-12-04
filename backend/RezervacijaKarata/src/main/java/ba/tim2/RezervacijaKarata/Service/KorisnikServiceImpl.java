@@ -20,8 +20,6 @@ public class KorisnikServiceImpl implements KorisnikService {
     @Autowired
     private KorisnikRepository korisnikRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
 
     @EventListener
     public void appReady(ApplicationReadyEvent event) {
@@ -111,7 +109,7 @@ public class KorisnikServiceImpl implements KorisnikService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            restTemplate.delete("http://preporucivanje-sadrzaja-pogodnosti/korisnici/obrisiKorisnika/" + email);
+            //restTemplate.delete("http://preporucivanje-sadrzaja-pogodnosti/korisnici/obrisiKorisnika/" + email);
             return new ResponseEntity(objekat.toString(), HttpStatus.OK);
         }
         else {
