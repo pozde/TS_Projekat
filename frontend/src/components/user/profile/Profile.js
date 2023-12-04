@@ -32,8 +32,9 @@ const Profile = ({ user }) => {
     const fetchKorisnik = async () => {
       const token = localStorage.getItem("access_token");
       try {
-        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
-        const response = await axios.get(`${BASE_URL}/preporucivanje-sadrzaja-pogodnosti/korisnici/mail/${email}`, {
+        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+        //const response = await axios.get(`${BASE_URL}/preporucivanje-sadrzaja-pogodnosti/korisnici/mail/${email}`, {
+        const response = await axios.get(`${BASE_URL}/korisnik/email/${email}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setKorisnik(response.data);
