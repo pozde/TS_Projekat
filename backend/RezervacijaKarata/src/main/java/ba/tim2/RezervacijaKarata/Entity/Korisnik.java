@@ -2,6 +2,7 @@ package ba.tim2.RezervacijaKarata.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -36,6 +37,11 @@ public class Korisnik {
     private String spol;
     @OneToMany(mappedBy = "korisnik")
     private List<Karta> karte;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "clanarina_id")
+    private Clanarina clanarina;
 
     public Korisnik() {
     }
@@ -106,5 +112,13 @@ public class Korisnik {
 
     public void dodajKartu(Karta karta) {
         karte.add(karta);
+    }
+
+    public Clanarina getClanarina() {
+        return clanarina;
+    }
+
+    public void setClanarina(Clanarina clanarina) {
+        this.clanarina = clanarina;
     }
 }

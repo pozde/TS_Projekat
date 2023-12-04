@@ -7,7 +7,6 @@ import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.Repository.FilmRepository;
 import ba.tim2.RezervacijaKarata.Repository.SalaRepository;
 import ba.tim2.RezervacijaKarata.Repository.SjedisteRepository;
-import ba.tim2.RezervacijaKarata.grpc.GrpcClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +102,6 @@ public class SalaServiceImpl implements SalaService {
     public ResponseEntity postaviFilmZaSalu(int id, List<Sala> saleZaFilm) {
         Film f = filmRepository.findByID(id);
         if (f != null){
-            GrpcClient.log("Sala", "PUT sale/film/{id}", "SUCCESS");
             for (int i = 0; i < saleZaFilm.size(); i++) {
                 int index = saleZaFilm.get(i).getID();
                 if(salaRepository.findByID(index) != null){
@@ -116,7 +114,6 @@ public class SalaServiceImpl implements SalaService {
             filmRepository.save(f);
         }
         else {
-            GrpcClient.log("Sala", "PUT sale/film/{id}", "FAIL");
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
         }
         return new ResponseEntity(f, HttpStatus.OK);

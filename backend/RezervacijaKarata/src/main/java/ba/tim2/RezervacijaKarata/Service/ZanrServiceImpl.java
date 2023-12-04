@@ -5,7 +5,6 @@ import ba.tim2.RezervacijaKarata.Entity.Zanr;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.Repository.FilmRepository;
 import ba.tim2.RezervacijaKarata.Repository.ZanrRepository;
-import ba.tim2.RezervacijaKarata.grpc.GrpcClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ public class ZanrServiceImpl implements ZanrService {
 
     @Override
     public List<Zanr> getSviZanrovi() {
-        GrpcClient.log("Zanr", "GET /zanrovi/", "SUCCESS");
         return zanrRepository.findAll();
     }
 
@@ -31,7 +29,6 @@ public class ZanrServiceImpl implements ZanrService {
     public ResponseEntity postaviFilmZaZanr(int id, List<Zanr> zanroviZaFilm) {
         Film f = filmRepository.findByID(id);
         if (f != null) {
-            GrpcClient.log("Zanr", "PUT /film/{id}", "SUCCESS");
             f.setZanrovi(zanroviZaFilm);
             for (int i = 0; i < zanroviZaFilm.size(); i++) {
                 zanroviZaFilm.get(i).dodajFilm(f);
@@ -39,7 +36,6 @@ public class ZanrServiceImpl implements ZanrService {
             }
             filmRepository.save(f);
         } else {
-            GrpcClient.log("Zanr", "PUT /film/{id}", "FAIL");
             throw new NePostojiException("Film sa id-em " + id + " ne postoji!");
         }
         return new ResponseEntity(f, HttpStatus.OK);
