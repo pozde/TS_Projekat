@@ -4,8 +4,10 @@ import ba.tim2.RezervacijaKarata.Entity.Auth.Role;
 import ba.tim2.RezervacijaKarata.Entity.Auth.Token;
 import ba.tim2.RezervacijaKarata.Entity.Auth.TokenType;
 import ba.tim2.RezervacijaKarata.Entity.Auth.User;
+import ba.tim2.RezervacijaKarata.Entity.Korisnik;
 import ba.tim2.RezervacijaKarata.Repository.Auth.TokenRepository;
 import ba.tim2.RezervacijaKarata.Repository.Auth.UserRepository;
+import ba.tim2.RezervacijaKarata.Repository.KorisnikRepository;
 import ba.tim2.RezervacijaKarata.Security.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +27,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
+    private final KorisnikRepository korisnikRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -43,7 +46,16 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .build();
 
+        var korisnik = new Korisnik();
+        korisnik.setIme(request.getIme());
+        korisnik.setPrezime(request.getPrezime());
+        korisnik.setSpol(request.getSpol());
+        korisnik.setDatumRodjenja(request.getDatumRodjenja());
+        korisnik.setBrojTelefona(request.getBrojTelefona());
+        korisnik.setEmail(request.getEmail());
+
         var savedUser = userRepository.save(user);
+        var saveKorisnik = korisnikRepository.save(korisnik);
 
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
