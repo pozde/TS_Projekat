@@ -50,9 +50,9 @@ public class KorisnikController {
     public ResponseEntity obrisiKorisnika(@PathVariable int id) {
         return service.obrisiKorisnika(id);
     }
-
+/*
     @DeleteMapping(value = "/obrisiKorisnika/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity obrisiKorisnikaPrekoMaila(@PathVariable String email) {
         return service.obrisiKorisnikaPrekoMaila(email);
-    }
+    }*/
 }

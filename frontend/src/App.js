@@ -4,7 +4,7 @@ import HomeDefault from "./components/defaultHome/home/HomeDefault";
 import HomeAdmin from "./components/admin/home/HomeAdmin";
 import HomeMachineOrder from "./components/admin/machine/HomeMachineOrder";
 import HomeOverviewUser from "./components/admin/overviewUser/HomeOverviewUser";
-import HomeOverviewLogs from "./components/admin/overviewLogs/HomeOverviewLogs";
+
 import HomeAddMovie from "./components/admin/addMovie/HomeAddMovie";
 import HomeLoginDefault from "./components/defaultHome/userLogin/HomeLoginDefault";
 import HomeOverviewMovies from "./components/admin/overviewMovies/HomeOverviewMovies";
@@ -21,6 +21,8 @@ import HomeMoviesUser from "./components/user/movies/HomeMoviesUser";
 import HomeAboutUsUser from "./components/user/aboutUs/HomeAboutUsUser";
 import HomeEventsUser from "./components/user/events/HomeEventsUser";
 import HomeForYou from "./components/user/forYou/HomeForYou";
+
+import HomeAddUser from "./components/admin/addUser/HomeAddUser";
 
 function App() {
   return (
@@ -44,9 +46,10 @@ function App() {
 
           <Route path="/machineOrder" element={<HomeMachineOrder />} />
           <Route path="/overviewUser" element={<HomeOverviewUser />} />
-          <Route path="/overviewLogs" element={<HomeOverviewLogs />} />
+
           <Route path="/overviewMovies" element={<HomeOverviewMovies />} />
           <Route path="/addMovie" element={<HomeAddMovie />} />
+          <Route path="/addUser" element={<HomeAddUser />} />
 
           <Route path="/login" element={<HomeLoginDefault />} />
           <Route path="/register" element={<HomeRegisterDefault />} />

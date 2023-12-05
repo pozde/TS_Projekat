@@ -9,7 +9,7 @@ export default function OverviewMovies() {
   const handleObrisi = async (idFilma) => {
     const token = localStorage.getItem("access_token");
     try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
+      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
       const response = await axios.delete(`${BASE_URL}/deleteFilm/${idFilma}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -43,7 +43,7 @@ export default function OverviewMovies() {
             </a>{" "}
             <br />
             Zanrovi: {film.zanrovi.map((zanr) => zanr.nazivZanra).join(", ")}
-            <Button style={{ display: "block", backgroundColor: "#2d2d2d", color: "white", marginTop: "15px", width: "100%" }} onClick={() => handleObrisi(film.id)}>
+            <Button variant="contained" color="error" style={{ width: "100%", marginTop: "15px" }} onClick={() => handleObrisi(film.id)}>
               OBRISI
             </Button>
           </Paper>
