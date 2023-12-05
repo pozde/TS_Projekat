@@ -10,7 +10,7 @@ export default function OverviewMovies() {
     const token = localStorage.getItem("access_token");
     try {
       const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
-      const response = await axios.delete(`${BASE_URL}/rezervacija-karata/deleteFilm/${idFilma}`, {
+      const response = await axios.delete(`${BASE_URL}/deleteFilm/${idFilma}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log("Uspjesno obrisano");
@@ -20,7 +20,7 @@ export default function OverviewMovies() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/rezervacija-karata/films")
+    fetch("http://localhost:8081/films")
       .then((res) => res.json())
       .then((result) => {
         setFilmovi(result);

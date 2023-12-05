@@ -15,7 +15,7 @@ export default function MachineOrder() {
       vrsta: machine,
       kolicina: quantity,
     };
-    fetch("http://localhost:8080/dodajSpravu", {
+    fetch("http://localhost:8081/dodajSpravu", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(order),
