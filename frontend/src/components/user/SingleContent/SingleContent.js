@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { img_300, unavailable } from "../movies/config";
 import "./SingleContent.css";
 import ContentModal from "../contentModal/ContentModal";

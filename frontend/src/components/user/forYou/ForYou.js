@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
-import TextField from "@mui/material/TextField";
 import SingleContent from "../SingleContent/SingleContent";
 import "./Movies.css";
-import Genres from "./Genres";
-import { Button, Typography } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 
 const ForYou = () => {
   const [filmovi, setFilmovi] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [genres, setGenres] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredMovies, setFilteredMovies] = useState([]);
-  const [kolicinaKarata, setKolicinaKarata] = useState(0);
 
   const [korisnik, setKorisnik] = useState({});
   const email = localStorage.getItem("email");
@@ -78,18 +72,6 @@ const ForYou = () => {
     //filterMovies();
   }, [searchTerm, selectedGenres, filmovi, nazivZanraArray, films]);
 
-  const handleSearchInputChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleGenreSelect = (genre) => {
-    setSelectedGenres([...selectedGenres, genre]);
-  };
-
-  const handleGenreDeselect = (genre) => {
-    setSelectedGenres(selectedGenres.filter((selected) => selected.id !== genre.id));
-  };
-
   const filterMovies = () => {
     const filteredMovies = filmovi.filter((movie) => {
       // Filter based on selected genres
@@ -114,9 +96,8 @@ const ForYou = () => {
     setFilteredMovies(filteredMovies);
   };
 
-  const filteredContent = selectedGenres.length > 0 ? filteredMovies : filmovi;
-
-  console.log("Filtrirano", filteredContent);
+  //const filteredContent = selectedGenres.length > 0 ? filteredMovies : filmovi;
+  //console.log("Filtrirano", filteredContent);
 
   return (
     <div>

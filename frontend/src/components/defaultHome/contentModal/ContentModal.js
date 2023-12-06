@@ -8,14 +8,6 @@ import Typography from "@mui/material/Typography";
 import { unavailable } from "../movies/config";
 import { useEffect, useState } from "react";
 import "./ContentModal.css";
-import { img_300 } from "../movies/config";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Ticket from "../../logged/ticketReservation/Ticket";
-import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -38,22 +30,12 @@ export default function ContentModal({ children, id }) {
   const [filmovi, setFilmovi] = useState([]);
 
   useEffect(() => {
-    //fetch("http://localhost:8080/rezervacija-karata/films")
     fetch("http://localhost:8081/filmovi")
       .then((res) => res.json())
       .then((result) => {
         setFilmovi(result);
       });
   }, []);
-  /*
-  useEffect(() => {
-    fetch("http://localhost:8081/filmovi")
-      .then((res) => res.json())
-      .then((result) => {
-        console.log("RES: ", result);
-        setFilmovi(result);
-      });
-  }, []);*/
 
   const currentFilm = filmovi.find((film) => film.id === id);
 

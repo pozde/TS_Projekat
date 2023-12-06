@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import axios from "axios";
 
@@ -14,28 +14,6 @@ const Genres = ({ selectedGenres, setSelectedGenres, genres, setGenres, onGenreS
     setSelectedGenres(selectedGenres.filter((selected) => selected.id !== genre.id));
     setGenres([...genres, genre]);
   };
-
-  /*const fetchGenres = async () => {
-    const token = localStorage.getItem("access_token");
-    try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
-      const response = await axios.get(`${BASE_URL}/rezervacija-karata/zanrovi/`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      console.log("resp", response.data);
-      setGenres(response.data);
-    } catch (error) {
-      console.error("Failed to fetch genres:", error);
-    }
-  };*/
-
-  /*const fetchGenres = () => {
-    fetch("http://localhost:8081/zanrovi/")
-      .then((res) => res.json())
-      .then((result) => {
-        setGenres(result);
-      });
-  };*/
 
   useEffect(() => {
     const fetchZanrovi = async () => {
@@ -54,21 +32,9 @@ const Genres = ({ selectedGenres, setSelectedGenres, genres, setGenres, onGenreS
     fetchZanrovi();
 
     return () => {
-      setGenres([]); // unmounting
+      setGenres([]);
     };
-    // eslint-disable-next-line
   }, []);
-
-  /*useEffect(() => {
-    //fetchGenres();
-
-    
-
-    return () => {
-      setGenres([]); // unmounting
-    };
-    // eslint-disable-next-line
-  }, []);*/
 
   return (
     <div style={{ padding: "6px 0" }}>

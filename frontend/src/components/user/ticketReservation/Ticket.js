@@ -1,9 +1,9 @@
-import { Container, TextField, Button, Typography, Box, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { Container, Button, Typography, Box, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import WeekendIcon from "@mui/icons-material/Weekend";
 import Grid from "@mui/material/Grid";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { FormControl, Select, MenuItem } from "@mui/material";
 import axios from "axios";
 
 const Ticket = () => {
@@ -15,22 +15,7 @@ const Ticket = () => {
   const [saleFilma, setSaleFilma] = useState([]);
   const [izabranaSala, setIzabranaSala] = useState(1);
   const [izabranaSalaId, setIzabranaSalaId] = useState("");
-  const [sjedistaSale, setSjedistaSale] = useState([]);
   const [korisnik, setKorisnik] = useState({});
-  //const [kolicinaKarata, setKolicinaKarata] = useState(0); // Predefined amount of tickets
-
-  /*const fetchSjedista = async () => {
-    const token = localStorage.getItem("access_token");
-    try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
-      const response = await axios.get(`${BASE_URL}/rezervacija-karata/sjedista/${izabranaSala}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setSjedistaSale(response.data.sjedista);
-    } catch (error) {
-      console.error("Failed to fetch movies:", error);
-    }
-  };*/
 
   const fetchSjedistaOdabraneSale = async (trenutnaSala) => {
     const token = localStorage.getItem("access_token");
@@ -40,7 +25,6 @@ const Ticket = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSjedista(response.data.sjedista.map((e) => e.brojSjedista));
-      console.log("SJEDISTA SAD", sjedista);
     } catch (error) {
       console.error("Failed to fetch movies:", error);
     }
@@ -80,17 +64,15 @@ const Ticket = () => {
   };
 
   const handleSubmit = (event) => {
-    const token = localStorage.getItem("access_token");
+    //const token = localStorage.getItem("access_token");
     if (Number(odabrana.length) !== Number(kolicinaKarata)) {
       alert(`Molimo odaberite tacno ${kolicinaKarata} sjedista.`);
       return;
     }
     for (let i = 0; i < odabrana.length; i++) {
-      console.log("Sjediste", odabrana[i]);
       const post = {
         brojSjedista: odabrana[i],
       };
-      console.log("POST", post);
 
       let kor = 0;
 
@@ -108,8 +90,6 @@ const Ticket = () => {
         }
       };
       fetchKorisnik();
-      console.log("KORISNIKID", korisnik);
-      console.log("KORISNIKID", korisnik.id);
 
       const submitSjedista = async () => {
         const token = localStorage.getItem("access_token");

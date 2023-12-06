@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Paper, Button, Box, TextField, Autocomplete } from "@mui/material";
+import { Container, Paper, Button } from "@mui/material";
 import axios from "axios";
 
 export default function OverviewUser() {
@@ -11,7 +11,6 @@ export default function OverviewUser() {
       const token = localStorage.getItem("access_token");
       try {
         const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-        //const response = await axios.get(`${BASE_URL}/preporucivanje-sadrzaja-pogodnosti/korisnici/`, {
         const response = await axios.get(`${BASE_URL}/korisnici`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -22,13 +21,7 @@ export default function OverviewUser() {
     };
 
     fetchKorisnici();
-    //filterMovies();
   }, [korisnici]);
-
-  const handleDeleteAccount = () => {
-    // Implement the logic to delete the account here
-    console.log("Deleting account...");
-  };
 
   const handleObrisi = async (idKorisnika) => {
     const token = localStorage.getItem("access_token");
@@ -42,15 +35,6 @@ export default function OverviewUser() {
       console.error("Failed to fetch users:", error);
     }
   };
-
-  /*useEffect(() => {
-    fetch("http://localhost:8080/preporucivanje-sadrzaja-pogodnosti/korisnici/")
-      .then((res) => res.json())
-      .then((result) => {
-        setKorisnici(result);
-      });
-  }, []);
-  console.log("TOKEN", localStorage.getItem("access_token"));*/
 
   return (
     <Container>

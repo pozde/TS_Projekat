@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Paper, Button, Box, TextField, Autocomplete } from "@mui/material";
+import { Container, Paper, Button } from "@mui/material";
 import axios from "axios";
 
 export default function OverviewMovies() {

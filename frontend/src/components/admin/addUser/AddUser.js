@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Container, Paper, Button, Box, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import React, { useState } from "react";
+import { Container, Paper, Button, Box, TextField, Dialog, DialogTitle, DialogActions } from "@mui/material";
 import axios from "axios";
 
 export default function AddMovie() {
@@ -18,7 +18,6 @@ export default function AddMovie() {
   const [reservationSuccess, setReservationSuccess] = useState(false);
   const [reservationFail, setReservationFail] = useState(false);
 
-  //e.preventDefault();
   const handleClick = async (e) => {
     const user = {
       ime,
@@ -28,18 +27,8 @@ export default function AddMovie() {
       brojTelefona,
       spol,
       password,
-      role,
-
-      /*zanrovi: selectedZanrovi.map((zanr) => ({
-        id: zanr.id,
-        nazivZanra: zanr.nazivZanra,
-      })),
-      sale: selectedSale.map((sala) => ({
-        id: sala.id,
-      })),*/
+      role
     };
-
-    console.log("User", user);
 
     const token = localStorage.getItem("access_token");
     try {
@@ -48,13 +37,10 @@ export default function AddMovie() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log("Response Status:", response.status);
       if (response.ok || response.status === 201) {
-        console.log("uslo");
         setReservationSuccess(true);
       } else {
         setReservationFail(true);
-        // You can handle different HTTP status codes here
       }
     } catch (error) {
       console.error("Failed to add film:", error);
@@ -62,16 +48,9 @@ export default function AddMovie() {
   };
 
   const handleClose = () => {
-    //PROVJERITI!
-    // Close the reservation success message
-
     setReservationSuccess(false);
     setReservationFail(false);
   };
-
-  /*useEffect(() => {
-    
-  }, []);*/
 
   return (
     <Container>

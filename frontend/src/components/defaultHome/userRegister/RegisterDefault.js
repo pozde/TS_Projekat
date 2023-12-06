@@ -2,19 +2,16 @@ import React, { useState, useRef } from "react";
 
 import "./RegisterDefault.css";
 
-import axios from "axios";
 import { Link } from "react-router-dom";
 import {
   Button,
   Dialog,
   DialogTitle,
-  DialogContent,
   DialogActions,
 } from "@mui/material";
 
 function RegisterDefault() {
   const [selectedOption, setSelectedOption] = useState("");
-  const inputNumber = useRef(null);
   const inputEmail = useRef(null);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -27,17 +24,11 @@ function RegisterDefault() {
   };
 
   const handleClose = () => {
-    //PROVJERITI!
-    // Close the reservation success message
-
     setReservationSuccess(false);
     setReservationFail(false);
   };
 
   const handleCloseSuccess = () => {
-    //PROVJERITI!
-    // Close the reservation success message
-
     setReservationSuccess(false);
     setReservationFail(false);
 

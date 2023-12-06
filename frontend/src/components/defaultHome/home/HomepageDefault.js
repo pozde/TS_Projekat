@@ -7,7 +7,6 @@ const fadeImages = [
   "https://d3rg18dos0rgue.cloudfront.net/wp-content/uploads/sites/3/2018/03/Roxy-Cinema-Tribeca1.jpg",
   "https://www.leawo.org/entips/wp-content/uploads/2021/04/side-by-side-3d-watch-in-cinema.jpg",
 ];
-console.log("TOK", localStorage.getItem("access_token"));
 
 const HomepageDefault = () => {
   return (

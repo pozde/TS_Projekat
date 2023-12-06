@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, TextField, Button, Typography, Box } from "@mui/material";
-import { Link } from "react-router-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -8,17 +7,9 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
 function RegisterDefault() {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordRetype, setPasswordRetype] = useState("");
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [dateBirth, setDateBirth] = useState("");
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   const [input, setInput] = useState({});
   const [errors, setErrors] = useState({});
 
@@ -30,15 +21,14 @@ function RegisterDefault() {
     event.preventDefault();
     if (validate()) {
       let input = {};
-      console.log("Usao");
       input["password"] = "";
       input["confirm_password"] = "";
       setInput(input);
       alert("Form is submitted");
     }
+    
   }
   function validate() {
-    console.log("INPUT", input);
     let errors = {};
     let isValid = true;
     if (!input["password"]) {
@@ -56,7 +46,7 @@ function RegisterDefault() {
       }
     }
     if (typeof input["password"] !== "undefined" && typeof input["confirm_password"] !== "undefined") {
-      if (input["password"] != input["confirm_password"]) {
+      if (input["password"] !== input["confirm_password"]) {
         isValid = false;
         errors["confirm_password"] = "Passwords don't match.";
       }

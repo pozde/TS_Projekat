@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Chip from "@mui/material/Chip";
 
 const Genres = ({ selectedGenres, setSelectedGenres, genres, setGenres, onGenreSelect, onGenreDeselect }) => {
@@ -13,31 +13,12 @@ const Genres = ({ selectedGenres, setSelectedGenres, genres, setGenres, onGenreS
     setSelectedGenres(selectedGenres.filter((selected) => selected.id !== genre.id));
     setGenres([...genres, genre]);
   };
-  /*
-  const fetchGenres = () => {
+
+  useEffect(() => {
     fetch("http://localhost:8081/zanrovi/")
       .then((res) => res.json())
       .then((result) => {
         setGenres(result);
-      });
-  };
-
-  useEffect(() => {
-    fetchGenres();
-
-    return () => {
-      setGenres([]); // unmounting
-    };
-    // eslint-disable-next-line
-  }, []);*/
-
-  useEffect(() => {
-    //fetch("http://localhost:8080/rezervacija-karata/zanrovi/")
-    fetch("http://localhost:8081/zanrovi/")
-      .then((res) => res.json())
-      .then((result) => {
-        setGenres(result);
-        console.log("RES", result);
       });
   }, []);
 

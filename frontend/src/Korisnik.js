@@ -23,7 +23,7 @@ export default function Korisnik() {
       datumRodjenja,
       spol,
     };
-    //console.log(korisnik);
+    
     fetch("http://localhost:8080/dodajKorisnika", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

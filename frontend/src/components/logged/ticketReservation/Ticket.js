@@ -1,4 +1,4 @@
-import { Container, TextField, Button, Typography, Box, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { Container, Button, Typography, Box, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import WeekendIcon from "@mui/icons-material/Weekend";
 import Grid from "@mui/material/Grid";
 import React, { useEffect, useState } from "react";
@@ -6,11 +6,9 @@ import { useParams } from "react-router-dom";
 
 const Ticket = () => {
   const { kolicinaKarata } = useParams();
-  console.log("KOLICINA KARATA", kolicinaKarata);
   const [sjedista, setSjedista] = useState([]);
   const [odabrana, setOdabrana] = useState([]);
   const [reservationSuccess, setReservationSuccess] = useState(false);
-  //const [kolicinaKarata, setKolicinaKarata] = useState(0); // Predefined amount of tickets
 
   useEffect(() => {
     fetch("http://localhost:8081/sjedista")
@@ -53,21 +51,15 @@ const Ticket = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
-          // Handle the successful response
         })
         .catch((error) => {
           console.error("Error:", error);
-          // Handle the error
         });
     }
-
-    // Show the reservation success message
     setReservationSuccess(true);
   };
 
   const handleClose = () => {
-    //PROVJERITI!
-    // Close the reservation success message
     fetch("http://localhost:8081/sjedista")
       .then((res) => res.json())
       .then((result) => {

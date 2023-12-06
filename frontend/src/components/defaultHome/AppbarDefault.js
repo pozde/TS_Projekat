@@ -7,54 +7,20 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import MovieIcon from "@mui/icons-material/Movie";
-import SearchIcon from "@mui/icons-material/Search";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import Popper from "@mui/material/Popper";
-import Fade from "@mui/material/Fade";
 
 function AppbarDefault() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [anchorEl1, setAnchorEl1] = React.useState(null);
-  const [open1, setOpen1] = React.useState(false);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen((previousOpen) => !previousOpen);
-  };
-
-  const handleClick1 = (event) => {
-    setAnchorEl1(event.currentTarget);
-    setOpen1((previousOpen) => !previousOpen);
-  };
-
-  const canBeOpen = open && Boolean(anchorEl);
-  const id = canBeOpen ? "transition-popper" : undefined;
-  const id1 = canBeOpen ? "transition-popper1" : undefined;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (

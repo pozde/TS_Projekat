@@ -13,8 +13,6 @@ const MoviesUser = () => {
   const [genres, setGenres] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredMovies, setFilteredMovies] = useState([]);
-  const [kolicinaKarata, setKolicinaKarata] = useState(0);
-  //preporucivanje-sadrzaja-pogodnosti/filmovi/
 
   useEffect(() => {
     const fetchFilmovi = async () => {
@@ -34,16 +32,6 @@ const MoviesUser = () => {
     fetchFilmovi();
     filterMovies();
   }, [searchTerm, selectedGenres]);
-  /*
-  useEffect(() => {
-    fetch("http://localhost:8081/filmovi")
-      .then((res) => res.json())
-      .then((result) => {
-        console.log("RES: ", result);
-        setFilmovi(result);
-      });
-    filterMovies();
-  }, [searchTerm, selectedGenres]);*/
 
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -72,7 +60,6 @@ const MoviesUser = () => {
         return false;
       }
 
-      // Filter based on search term
       if (
         searchTerm !== "" &&
         !movie.nazivFilma.toLowerCase().includes(searchTerm.toLowerCase())

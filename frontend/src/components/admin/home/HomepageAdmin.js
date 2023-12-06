@@ -9,7 +9,6 @@ const fadeImages = [
 ];
 
 const HomepageAdmin = () => {
-  console.log("TOKEN", localStorage.getItem("access_token"));
   return (
     <div className="slide-container">
       <div className="overlay">

@@ -34,8 +34,6 @@ function LoginDefault() {
 
       localStorage.setItem("email", decodedToken.sub);
 
-      console.log("EMAIL", localStorage.getItem("email"));
-
       if (decodedToken.role === "ROLE_ADMIN") {
         navigate("/homeAdmin");
       } else {

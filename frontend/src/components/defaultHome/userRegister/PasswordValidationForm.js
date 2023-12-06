@@ -19,7 +19,6 @@ class PasswordValidationForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.validate()) {
-      console.log(this.state);
       let input = {};
 
       input["password"] = "";
@@ -47,7 +46,7 @@ class PasswordValidationForm extends React.Component {
       }
     }
     if (typeof input["password"] !== "undefined" && typeof input["confirm_password"] !== "undefined") {
-      if (input["password"] != input["confirm_password"]) {
+      if (input["password"] !== input["confirm_password"]) {
         isValid = false;
         errors["confirm_password"] = "Passwords don't match.";
       }

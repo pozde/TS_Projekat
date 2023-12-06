@@ -12,15 +12,12 @@ const Movies = () => {
   const [genres, setGenres] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredMovies, setFilteredMovies] = useState([]);
-  const [kolicinaKarata, setKolicinaKarata] = useState(0);
 
   useEffect(() => {
-    //fetch("http://localhost:8080/rezervacija-karata/films")
     fetch("http://localhost:8081/filmovi")
       .then((res) => res.json())
       .then((result) => {
         setFilmovi(result);
-        console.log("RES", result);
       });
 
     filterMovies();
@@ -40,10 +37,6 @@ const Movies = () => {
 
   const filterMovies = () => {
     const filteredMovies = filmovi.filter((movie) => {
-      /*// Filter based on selected genres
-      if (selectedGenres.length > 0 && !selectedGenres.every((selectedGenre) => movie.zanr.some((genre) => genre.nazivZanra === selectedGenre.nazivZanra))) {
-        return false;
-      }*/
       let onlyGenres = selectedGenres.map((el) => el.nazivZanra);
       let allGenresCurr = movie.zanrovi.map((el) => el.nazivZanra);
       const hasCommonElement = onlyGenres.every((element) => allGenresCurr.includes(element));

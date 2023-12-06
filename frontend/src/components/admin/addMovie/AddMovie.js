@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Paper, Button, Box, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { Container, Paper, Button, Box, TextField, Dialog, DialogTitle, DialogActions } from "@mui/material";
 import axios from "axios";
 
 export default function AddMovie() {
@@ -9,7 +9,6 @@ export default function AddMovie() {
   const [trajanje, setTrajanje] = useState("");
   const [opis, setOpis] = useState("");
   const [posterPath, setPosterPath] = useState("");
-  const [pocetakProjekcije, setPocetakProjekcije] = useState("");
   const [zanrovi, setZanrovi] = useState([]);
   const [sale, setSale] = useState([]);
 
@@ -37,24 +36,13 @@ export default function AddMovie() {
     }
   };
 
-  //e.preventDefault();
   const handleClick = async (e) => {
     const film = {
       nazivFilma,
       trajanje,
       opis,
-      posterPath,
-
-      /*zanrovi: selectedZanrovi.map((zanr) => ({
-        id: zanr.id,
-        nazivZanra: zanr.nazivZanra,
-      })),
-      sale: selectedSale.map((sala) => ({
-        id: sala.id,
-      })),*/
+      posterPath
     };
-
-    console.log("FILM", film);
 
     const token = localStorage.getItem("access_token");
     try {
@@ -63,13 +51,10 @@ export default function AddMovie() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log("SELECTEDSALE", selectedSale);
-
       let zahtjevZanrovi = selectedZanrovi.map((zanr) => ({
         id: zanr.id,
         nazivZanra: zanr.nazivZanra,
       }));
-      console.log("selectedgenres", zahtjevZanrovi);
       const response2 = await axios.put(`${BASE_URL}/rezervacija-karata/sale/film/${response.data.id}`, selectedSale, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -84,19 +69,14 @@ export default function AddMovie() {
         }
       );
 
-      console.log("Response Status:", response.status);
       if (response.ok || response.status === 201) {
-        console.log("uslo");
         setReservationSuccess(true);
       } else {
         setReservationFail(true);
-        // You can handle different HTTP status codes here
       }
     } catch (error) {
       console.error("Failed to add film:", error);
     }
-
-    console.log("ODG", film);
   };
 
   useEffect(() => {
@@ -150,21 +130,12 @@ export default function AddMovie() {
     fetchFilmovi();
     fetchZanrovi();
     fetchSale();
-
-    // Call the function directly, as this is an initial effect
   }, []);
 
   const handleClose = () => {
-    //PROVJERITI!
-    // Close the reservation success message
-
     setReservationSuccess(false);
     setReservationFail(false);
   };
-
-  /*useEffect(() => {
-    
-  }, []);*/
 
   return (
     <Container>

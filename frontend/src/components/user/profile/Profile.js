@@ -8,26 +8,6 @@ const Profile = ({ user }) => {
   const [korisnik, setKorisnik] = useState({});
   const email = localStorage.getItem("email");
 
-  //const [email, setEmail] = useEffect(localStorage.getItem("email"));
-
-  /*useEffect(() => {
-    const fetchUsers = async () => {
-      const token = localStorage.getItem("access_token");
-      try {
-        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
-        const response = await axios.get(`${BASE_URL}/rezervacija-karata/filmovi`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setFilmovi(response.data);
-      } catch (error) {
-        console.error("Failed to fetch movies:", error);
-      }
-    };
-
-    fetchFilmovi();
-    filterMovies();
-  }, [searchTerm, selectedGenres]);*/
-
   const handleObrisi = async (idKorisnika) => {
     const token = localStorage.getItem("access_token");
     try {
@@ -46,7 +26,6 @@ const Profile = ({ user }) => {
       const token = localStorage.getItem("access_token");
       try {
         const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-        //const response = await axios.get(`${BASE_URL}/preporucivanje-sadrzaja-pogodnosti/korisnici/mail/${email}`, {
         const response = await axios.get(`${BASE_URL}/korisnik/email/${email}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -57,8 +36,6 @@ const Profile = ({ user }) => {
     };
     fetchKorisnik();
   }, []);
-
-  console.log("KORISNIK", korisnik);
 
   return (
     <Grid style={{ marginTop: "10px" }} container justifyContent="center">
