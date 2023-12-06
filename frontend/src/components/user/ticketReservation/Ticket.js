@@ -163,6 +163,23 @@ const Ticket = () => {
     setReservationSuccess(false);*/
   };
 
+  const handleCloseSuccess = () => {
+    fetchSjedistaOdabraneSale(izabranaSala);
+    setOdabrana([]);
+    setReservationSuccess(false);
+
+    window.location.href="/moviesUser"
+    //PROVJERITI!
+    // Close the reservation success message
+    /*fetch("http://localhost:8081/sjedista")
+      .then((res) => res.json())
+      .then((result) => {
+        setSjedista(result.map((el) => el.brojSjedista));
+      });
+    setOdabrana([]);
+    setReservationSuccess(false);*/
+  };
+
   return (
     <>
       <Typography variant="h5" style={{ color: "white", marginTop: "20px" }}>
@@ -212,7 +229,7 @@ const Ticket = () => {
             <Typography variant="body1">Uspjesno ste rezervisali sjedista: {odabrana.join(", ")}!</Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
+            <Button onClick={handleCloseSuccess}>OK</Button>
           </DialogActions>
         </Dialog>
       </Container>

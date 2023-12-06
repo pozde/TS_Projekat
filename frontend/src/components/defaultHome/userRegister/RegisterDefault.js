@@ -34,6 +34,16 @@ function RegisterDefault() {
     setReservationFail(false);
   };
 
+  const handleCloseSuccess = () => {
+    //PROVJERITI!
+    // Close the reservation success message
+
+    setReservationSuccess(false);
+    setReservationFail(false);
+
+    window.location.href = '/';
+  };
+
   function validateInput(input) {
     const id = input.id;
     const value = input.value;
@@ -95,6 +105,9 @@ function RegisterDefault() {
 
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
+
+       
+
         // Rest of the registration processing code
         // history.push('/choose-pollingstation');
       } else if (response.status === 409) {
@@ -210,7 +223,7 @@ function RegisterDefault() {
               variant="contained"
               size="large"
               style={{ fontWeight: "bold", backgroundColor: "#2d2d2d" }}
-              onClick={handleClose}
+              onClick={handleCloseSuccess}
             >
               OK
             </Button>
