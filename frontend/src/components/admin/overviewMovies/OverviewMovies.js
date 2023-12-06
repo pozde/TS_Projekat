@@ -7,15 +7,21 @@ export default function OverviewMovies() {
   const [filmovi, setFilmovi] = useState([]);
 
   const handleObrisi = async (idFilma) => {
+    // Optimistically update the local state
+    setFilmovi((prevFilmovi) => prevFilmovi.filter((film) => film.id !== idFilma));
+
     const token = localStorage.getItem("access_token");
     try {
       const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-      const response = await axios.delete(`${BASE_URL}/deleteFilm/${idFilma}`, {
+      await axios.delete(`${BASE_URL}/deleteFilm/${idFilma}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("Uspjesno obrisano");
+      console.log("Uspješno obrisano");
     } catch (error) {
-      console.error("Failed to fetch users:", error);
+      console.error("Failed to delete movie:", error);
+      // If the server request fails, roll back the local state to its previous state
+      // or handle the error in a way that makes sense for your application
+      setFilmovi((prevFilmovi) => [...prevFilmovi]);
     }
   };
 
@@ -25,7 +31,7 @@ export default function OverviewMovies() {
       .then((result) => {
         setFilmovi(result);
       });
-  }, [filmovi]);
+  }, []);
 
   return (
     <Container>

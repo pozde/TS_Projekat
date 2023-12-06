@@ -21,18 +21,24 @@ export default function OverviewUser() {
     };
 
     fetchKorisnici();
-  }, [korisnici]);
+  }, []);
 
   const handleObrisi = async (idKorisnika) => {
+    // Optimistically update the local state
+    setKorisnici((prevKorisnici) => prevKorisnici.filter((korisnik) => korisnik.id !== idKorisnika));
+
     const token = localStorage.getItem("access_token");
     try {
       const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-      const response = await axios.delete(`${BASE_URL}/obrisiKorisnika/${idKorisnika}`, {
+      await axios.delete(`${BASE_URL}/obrisiKorisnika/${idKorisnika}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log("Uspjesno obrisano");
     } catch (error) {
-      console.error("Failed to fetch users:", error);
+      console.error("Failed to delete user:", error);
+      // If the server request fails, roll back the local state to its previous state
+      // or handle the error in a way that makes sense for your application
+      setKorisnici((prevKorisnici) => [...prevKorisnici]);
     }
   };
 

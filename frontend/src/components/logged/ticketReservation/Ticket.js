@@ -91,7 +91,7 @@ const Ticket = () => {
         </Grid>
       </Box>
       <Typography variant="body1" sx={{ marginTop: 2, fontWeight: "bold", marginBottom: 2 }}>
-        ODABRANA SJEDISTA: {odabrana.join(", ")}
+        ODABRANA SJEDISTAaa: {odabrana.join(", ")}
       </Typography>
       <Button variant="contained" color="primary" sx={{ width: "50%", marginBottom: 2 }} onClick={handleSubmit}>
         Potvrdi
