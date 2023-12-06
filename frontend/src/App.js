@@ -2,7 +2,6 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomeDefault from "./components/defaultHome/home/HomeDefault";
 import HomeAdmin from "./components/admin/home/HomeAdmin";
-import HomeMachineOrder from "./components/admin/machine/HomeMachineOrder";
 import HomeOverviewUser from "./components/admin/overviewUser/HomeOverviewUser";
 
 import HomeAddMovie from "./components/admin/addMovie/HomeAddMovie";
@@ -44,7 +43,6 @@ function App() {
 
           <Route path="/ticket/:kolicinaKarata/:idFilma" element={<HomeTicket />} />
 
-          <Route path="/machineOrder" element={<HomeMachineOrder />} />
           <Route path="/overviewUser" element={<HomeOverviewUser />} />
 
           <Route path="/overviewMovies" element={<HomeOverviewMovies />} />

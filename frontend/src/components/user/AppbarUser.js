@@ -15,7 +15,6 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import MovieIcon from "@mui/icons-material/Movie";
 import SearchIcon from "@mui/icons-material/Search";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
 
@@ -123,16 +122,7 @@ function AppbarUser() {
             </Button>
           </Box>
           <Box style={{ display: "flex" }}>
-            <div className="ikona">
-              <NotificationsIcon aria-describedby={id} type="button" onClick={handleClick} fontSize="large" sx={{ display: { xs: "none", md: "flex", marginTop: "20px", paddingRight: "20px" }, mr: 1 }}></NotificationsIcon>
-              <Popper id={id} open={open} anchorEl={anchorEl} transition sx={{ zIndex: 100 }}>
-                {({ TransitionProps }) => (
-                  <Fade {...TransitionProps} timeout={350}>
-                    <Box sx={{ border: 1, p: 1, bgcolor: "background.paper", color: "black" }}>USKORO: Black Widow</Box>
-                  </Fade>
-                )}
-              </Popper>
-            </div>
+            
 
             <Button onClick={handleCloseNavMenu} component={Link} to="/profile" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
               Profil
