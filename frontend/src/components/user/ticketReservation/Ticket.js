@@ -13,9 +13,13 @@ const Ticket = () => {
   const [odabrana, setOdabrana] = useState([]);
   const [reservationSuccess, setReservationSuccess] = useState(false);
   const [saleFilma, setSaleFilma] = useState([]);
+  const [saleFilmaId, setSaleFilmaId] = useState([]);
   const [izabranaSala, setIzabranaSala] = useState(1);
-  const [izabranaSalaId, setIzabranaSalaId] = useState("");
+  const [izabraneSaleId, setIzabraneSaleId] = useState("");
   const [korisnik, setKorisnik] = useState({});
+
+  const [izabranaSalaId, setIzabranaSalaId] = useState(1);
+  const [saleAll, setSaleAll] = useState({});
 
   const fetchSjedistaOdabraneSale = async (trenutnaSala) => {
     const token = localStorage.getItem("access_token");
@@ -44,8 +48,11 @@ const Ticket = () => {
           response.data.sale.map((e) => e.id)
         );
         let salaIzOdgovora = response.data.sale.map((e) => e.brojSale);
+        let salaIzOdgovoraID = response.data.sale.map((e) => e.id);
+        setSaleAll(response.data.sale);
         setSaleFilma(salaIzOdgovora);
-        setIzabranaSalaId(response.data.sale.map((e) => e.id));
+        setSaleFilmaId(salaIzOdgovoraID);
+        setIzabraneSaleId(response.data.sale.map((e) => e.id));
         fetchSjedistaOdabraneSale(salaIzOdgovora[0]);
       } catch (error) {
         console.error("Failed to fetch movies:", error);
@@ -95,8 +102,7 @@ const Ticket = () => {
         const token = localStorage.getItem("access_token");
         try {
           const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-
-          const response = await axios.post(`${BASE_URL}/dodajSjediste/${izabranaSala}`, post, { headers: { Authorization: `Bearer ${token}` } });
+          const response = await axios.post(`${BASE_URL}/dodajSjediste/${izabranaSalaId}`, post, { headers: { Authorization: `Bearer ${token}` } });
         } catch (error) {
           console.error("Failed to fetch sjedista:", error);
         }
@@ -107,7 +113,7 @@ const Ticket = () => {
         try {
           const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
 
-          const response = await axios.post(`${BASE_URL}/dodajKartu/${kor}/${idFilma}/${izabranaSala}/${odabrana[i]}`, post, { headers: { Authorization: `Bearer ${token}` } });
+          const response = await axios.post(`${BASE_URL}/dodajKartu/${kor}/${idFilma}/${izabranaSalaId}/${odabrana[i]}`, post, { headers: { Authorization: `Bearer ${token}` } });
         } catch (error) {
           console.error("Failed to fetch sjedista:", error);
         }
@@ -125,6 +131,8 @@ const Ticket = () => {
 
   const handleChangeSala = (event) => {
     setIzabranaSala(event.target.value);
+    setIzabranaSalaId(saleAll.find(sala => sala.brojSale === event.target.value).id);
+    console.log(izabranaSalaId);
     fetchSjedistaOdabraneSale(event.target.value);
   };
 
@@ -145,7 +153,8 @@ const Ticket = () => {
 
   const handleCloseSuccess = () => {
     fetchSjedistaOdabraneSale(izabranaSala);
-    setOdabrana([]);
+    console.log(izabranaSala);
+    //setOdabrana([]);
     setReservationSuccess(false);
 
     window.location.href="/moviesUser"
