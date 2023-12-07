@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import AppbarAdmin from "../AppbarAdmin";
 import OverviewMovies from "./OverviewMovies";
 import jwt_decode from 'jwt-decode';
+import "./HomeOverviewButton.css";
+import notFoundImage from "../../../images/notFound.png";
 
 function HomeOverviewMovies() {
   const [isLogged, setIsLogged] = useState(true); // Track whether the user is logged in
@@ -38,15 +40,17 @@ function HomeOverviewMovies() {
           <OverviewMovies />
         ) : (
           <div style={{ textAlign: "center", margin: "20px" }}>
-            <p>Nemate pristup. Kontaktirajte administratora.</p>
-            <button  onClick={() => window.location.href = "/homeUser"}>Return to Homepage</button>
+            <p className="no-permission-title">Nemate pristup. Kontaktirajte administratora.</p>
+            <img src={notFoundImage} alt="notFound" />
+            <button className="no-permission-button" onClick={() => window.location.href = "/homeUser"}>Return to Homepage</button>
           </div>
         )
       ) : (
         <div style={{ textAlign: "center", margin: "20px" }}>
-          <p>Morate biti prijavljeni da biste pristupili ovom sadržaju.</p>
+          <p className="no-permission-title">Morate biti prijavljeni da biste pristupili ovom sadržaju.</p>
+          <img src={notFoundImage} alt="notFound" />
           {/* Add a link or button to navigate to the login page */}
-          <button onClick={() => window.location.href = "/login"}>Go to Login</button>
+          <button className="no-permission-button" onClick={() => window.location.href = "/login"}>Go to Login</button>
         </div>
       )}
     </>
