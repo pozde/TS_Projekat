@@ -44,7 +44,7 @@ export default function OverviewUser() {
 
   return (
     <Container>
-      <h1 style={{ color: "white" }}>Korisnici</h1>
+      <><h1 style={{ color: "white" }}>Korisnici</h1></>
       <Paper elevation={3} style={paperStyle}>
         {korisnici.map((korisnik) => (
           <>
