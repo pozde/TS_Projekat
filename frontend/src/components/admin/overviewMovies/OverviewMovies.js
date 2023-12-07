@@ -12,11 +12,14 @@ export default function OverviewMovies() {
 
   const handleObrisi = async (idFilma) => {
     // Optimistically update the local state
-    setFilmovi((prevFilmovi) => prevFilmovi.filter((film) => film.id !== idFilma));
+    setFilmovi((prevFilmovi) =>
+      prevFilmovi.filter((film) => film.id !== idFilma)
+    );
 
     const token = localStorage.getItem("access_token");
     try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+      const BASE_URL =
+        process.env.REACT_APP_BASE_URL || "http://localhost:8081";
       await axios.delete(`${BASE_URL}/deleteFilm/${idFilma}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
