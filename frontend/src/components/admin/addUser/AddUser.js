@@ -11,45 +11,191 @@ export default function AddMovie() {
   const [email, setEmail] = useState("");
   const [datumRodjenja, setDatumRodjenja] = useState("");
   const [brojTelefona, setBrojTelefona] = useState("");
-  const [password, setPassword] = useState("123123");
+  const [password, setPassword] = useState("PocetniPass123!");
   const [spol, setSpol] = useState("");
   const [role, setRole] = useState("USER");
 
   const [reservationSuccess, setReservationSuccess] = useState(false);
   const [reservationFail, setReservationFail] = useState(false);
 
-  const handleClick = async (e) => {
-    const user = {
-      ime,
-      prezime,
-      datumRodjenja,
-      email,
-      brojTelefona,
-      spol,
-      password,
-      role
-    };
+  function validateInput(input){
+    const id = input.id;
+    const value = input.value;
+    const errorText = document.getElementById(`errorText-${id}`);
 
-    const token = localStorage.getItem("access_token");
-    try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-      const response = await axios.post(`${BASE_URL}/auth/register`, user, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.ok || response.status === 201) {
-        setReservationSuccess(true);
-      } else {
-        setReservationFail(true);
+    if (id === "email") {
+        //email format
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  
+        if (!value.match(emailRegex)) {
+          if (errorText) {
+            errorText.style.display = "block";
+          }
+          input.classList.add("error-field");
+          return false;
+        } else {
+          if (errorText) {
+            errorText.style.display = "none";
+          }
+          input.classList.remove("error-field");
+          return true;
+        }
+      } else if (id === "brojTelefona") {
+        // broj sa minimalno 6 cifri
+        const phoneNumberRegex = /^\d{6,}$/;
+  
+        if (!value.match(phoneNumberRegex)) {
+          if (errorText) {
+            errorText.style.display = "block";
+          }
+          input.classList.add("error-field");
+          return false;
+        } else {
+          if (errorText) {
+            errorText.style.display = "none";
+          }
+          input.classList.remove("error-field");
+          return true;
+        }
+      } else if (id === "spol") {
+        // iskljucivo "M" ili "Z"
+        const validGenders = ["M", "Z"];
+  
+        if (!validGenders.includes(value.toUpperCase())) {
+          if (errorText) {
+            errorText.style.display = "block";
+          }
+          input.classList.add("error-field");
+          return false;
+        } else {
+          if (errorText) {
+            errorText.style.display = "none";
+          }
+          input.classList.remove("error-field");
+          return true;
+        }
+      } else if (id === "datumRodjenja") {
+        // format datuma dd.mm.yyyy.
+        const dateRegex = /^\d{2}\.\d{2}\.\d{4}\.$/;
+  
+        if (!value.match(dateRegex)) {
+          if (errorText) {
+            errorText.style.display = "block";
+          }
+          input.classList.add("error-field");
+          return false;
+        } else {
+          if (errorText) {
+            errorText.style.display = "none";
+          }
+          input.classList.remove("error-field");
+          return true;
+        }
       }
-    } catch (error) {
-      console.error("Failed to add film:", error);
-    }
-  };
+  
+      return true;
+  }
 
+  const handleClick = async (e) => {
+    const isEmailValid = validateInput(document.getElementById("email"));
+    const isBrojTelefonaValid = validateInput(document.getElementById("brojTelefona"));
+    const isSpolValid = validateInput(document.getElementById("spol"));
+   
+    const isDatumRodjenjaValid = validateInput(document.getElementById("datumRodjenja"));
+
+    if (isEmailValid && isBrojTelefonaValid && isSpolValid && isDatumRodjenjaValid) {
+     
+    const ime = document.getElementById("ime").value;
+    const prezime = document.getElementById("prezime").value;
+    const email = document.getElementById("email").value;
+    
+    const datumRodjenja = document.getElementById("datumRodjenja").value;
+    const brojTelefona = document.getElementById("brojTelefona").value;
+    const spol = document.getElementById("spol").value;
+    const role = "USER"; // since role is always "USER"
+
+    const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+    const response = await fetch(`${BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ime: ime,
+        prezime: prezime,
+        email: email,
+        datumRodjenja: datumRodjenja,
+        brojTelefona: brojTelefona,
+        password: password,
+        spol: spol,
+        role: role,
+      }),
+    });
+
+    //provjeriti radi li za 201
+    if (response.status === "201" || response.ok) {
+      // if HTTP status is 200-299
+      // get the response data
+      setReservationSuccess(true);
+      const data = await response.json();
+
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("refresh_token", data.refresh_token);
+
+      // Rest of the registration processing code
+      // history.push('/choose-pollingstation');
+    } else if (response.status === 409) {
+      setReservationFail(true);
+      // if status is 409 Conflict
+      // handle email already existing...
+      const data = await response.json();
+      console.error("Error:", data.message);
+      alert(data.message);
+    } else {
+      setReservationFail(true);
+      console.error("Error:", response.status, response.statusText);
+      // handle other errors...
+    }
+}else {
+    // Handle other invalid inputs
+    let errorMessage = "Provjerite unesene podatke za polja:\n";
+
+    
+
+    if (!isEmailValid) {
+        errorMessage += "- Email mora biti u formatu ime@primjer.com.\n";
+      }
+
+      if (!isBrojTelefonaValid) {
+        errorMessage += "- Broj telefona mora biti broj od minimalno 6 cifara.\n";
+      }
+
+      if (!isSpolValid) {
+        errorMessage += "- Spol isključivo može biti 'M' ili 'Z'.\n";
+      }
+
+
+      if (!isDatumRodjenjaValid) {
+        errorMessage += "- Datum rođenja mora biti oblika 'dd.mm.yyyy'.\n";
+      }
+   
+
+    alert(errorMessage);
+    return;
+  }
+
+};
+    
+  
   const handleClose = () => {
     setReservationSuccess(false);
     setReservationFail(false);
+  };
+
+  const handleCloseSuccess = () => {
+    setReservationSuccess(false);
+    setReservationFail(false);
+    window.location.href="/overviewUser"
   };
 
   return (
@@ -65,7 +211,7 @@ export default function AddMovie() {
           autoComplete="off"
         >
           <TextField
-            id="outlined-basic"
+            id="ime"
             label="Ime"
             variant="outlined"
             value={ime}
@@ -79,7 +225,7 @@ export default function AddMovie() {
             }}
           />
           <TextField
-            id="outlined-basic"
+            id="prezime"
             label="Prezime"
             variant="outlined"
             value={prezime}
@@ -94,7 +240,7 @@ export default function AddMovie() {
           />
 
           <TextField
-            id="outlined-basic"
+            id="email"
             label="Email"
             variant="outlined"
             value={email}
@@ -109,7 +255,7 @@ export default function AddMovie() {
           />
 
           <TextField
-            id="outlined-basic"
+            id="datumRodjenja"
             label="Datum rodjenja"
             variant="outlined"
             value={datumRodjenja}
@@ -124,7 +270,7 @@ export default function AddMovie() {
           />
 
           <TextField
-            id="outlined-basic"
+            id="brojTelefona"
             label="Broj telefona"
             variant="outlined"
             value={brojTelefona}
@@ -139,7 +285,7 @@ export default function AddMovie() {
           />
 
           <TextField
-            id="outlined-basic"
+            id="spol"
             label="Spol"
             variant="outlined"
             value={spol}
@@ -162,7 +308,7 @@ export default function AddMovie() {
             </DialogTitle>
 
             <DialogActions style={{ justifyContent: "center" }}>
-              <Button variant="contained" size="large" style={{ fontWeight: "bold", backgroundColor: "#2d2d2d" }} onClick={handleClose}>
+              <Button variant="contained" size="large" style={{ fontWeight: "bold", backgroundColor: "#2d2d2d" }} onClick={handleCloseSuccess}>
                 OK
               </Button>
             </DialogActions>
