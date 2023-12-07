@@ -13,11 +13,8 @@ const Ticket = () => {
   const [odabrana, setOdabrana] = useState([]);
   const [reservationSuccess, setReservationSuccess] = useState(false);
   const [saleFilma, setSaleFilma] = useState([]);
-  const [saleFilmaId, setSaleFilmaId] = useState([]);
   const [izabranaSala, setIzabranaSala] = useState(1);
-  const [izabraneSaleId, setIzabraneSaleId] = useState("");
   const [korisnik, setKorisnik] = useState({});
-
   const [izabranaSalaId, setIzabranaSalaId] = useState(1);
   const [saleAll, setSaleAll] = useState({});
 
@@ -48,11 +45,8 @@ const Ticket = () => {
           response.data.sale.map((e) => e.id)
         );
         let salaIzOdgovora = response.data.sale.map((e) => e.brojSale);
-        let salaIzOdgovoraID = response.data.sale.map((e) => e.id);
         setSaleAll(response.data.sale);
         setSaleFilma(salaIzOdgovora);
-        setSaleFilmaId(salaIzOdgovoraID);
-        setIzabraneSaleId(response.data.sale.map((e) => e.id));
         fetchSjedistaOdabraneSale(salaIzOdgovora[0]);
       } catch (error) {
         console.error("Failed to fetch movies:", error);
@@ -132,7 +126,6 @@ const Ticket = () => {
   const handleChangeSala = (event) => {
     setIzabranaSala(event.target.value);
     setIzabranaSalaId(saleAll.find(sala => sala.brojSale === event.target.value).id);
-    console.log(izabranaSalaId);
     fetchSjedistaOdabraneSale(event.target.value);
   };
 
@@ -140,33 +133,14 @@ const Ticket = () => {
     fetchSjedistaOdabraneSale(izabranaSala);
     setOdabrana([]);
     setReservationSuccess(false);
-    //PROVJERITI!
-    // Close the reservation success message
-    /*fetch("http://localhost:8081/sjedista")
-      .then((res) => res.json())
-      .then((result) => {
-        setSjedista(result.map((el) => el.brojSjedista));
-      });
-    setOdabrana([]);
-    setReservationSuccess(false);*/
   };
 
   const handleCloseSuccess = () => {
     fetchSjedistaOdabraneSale(izabranaSala);
-    console.log(izabranaSala);
     //setOdabrana([]);
     setReservationSuccess(false);
 
     window.location.href="/moviesUser"
-    //PROVJERITI!
-    // Close the reservation success message
-    /*fetch("http://localhost:8081/sjedista")
-      .then((res) => res.json())
-      .then((result) => {
-        setSjedista(result.map((el) => el.brojSjedista));
-      });
-    setOdabrana([]);
-    setReservationSuccess(false);*/
   };
 
   return (
