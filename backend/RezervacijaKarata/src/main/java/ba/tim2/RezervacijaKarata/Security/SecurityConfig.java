@@ -19,6 +19,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static ba.tim2.RezervacijaKarata.Entity.Auth.Role.ADMIN;
+import static ba.tim2.RezervacijaKarata.Entity.Auth.Role.USER;
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration
@@ -34,23 +36,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors()
+                .and().csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(OPTIONS, "/**").permitAll()
                 .requestMatchers("/auth/**").permitAll()
+                /*
                 // ClanarinaController
                 .requestMatchers(GET, "/clanarine/").permitAll()
                 .requestMatchers(GET, "/clanarine/{id}").permitAll()
                 .requestMatchers(POST, "/clanarine/dodaj").permitAll()
                 .requestMatchers(PUT, "/azuriraj/{id}").permitAll()
                 .requestMatchers(DELETE, "/obrisi/{id}").permitAll()
+                */
                 // FilmController
-                .requestMatchers(POST, "/dodajFilm").permitAll()
+                .requestMatchers(POST, "/dodajFilm").hasRole(ADMIN.name())
+                .requestMatchers(GET, "/films").hasAnyRole(ADMIN.name())
                 .requestMatchers(GET, "/filmovi").permitAll()
-                .requestMatchers(GET, "/films").permitAll()
                 .requestMatchers(GET, "/film/{id}").permitAll()
-                .requestMatchers(PUT, "/azurirajFilm").permitAll()
-                .requestMatchers(DELETE, "/deleteFilm/{id}").permitAll()
+                .requestMatchers(PUT, "/azurirajFilm").hasRole(ADMIN.name())
+                .requestMatchers(DELETE, "/deleteFilm/{id}").hasRole(ADMIN.name())
                 // KartaController
                 .requestMatchers(POST, "/dodajKartu/{korisnik_id}/{film_id}/{sala_id}/{brojSjedista}").permitAll()
                 .requestMatchers(GET, "/karte").permitAll()
@@ -59,12 +64,12 @@ public class SecurityConfig {
                 .requestMatchers(GET, "/karte/{id}").permitAll()
                 .requestMatchers(DELETE, "/obrisiKartu/{id}").permitAll()
                 // KorisnikController
-                .requestMatchers(POST, "/dodajKorisnika").permitAll()
-                .requestMatchers(GET, "/korisnici").permitAll()
-                .requestMatchers(GET, "/korisnik/{id}").permitAll()
-                .requestMatchers(GET, "/korisnik/email/{email}").permitAll()
-                .requestMatchers(PUT, "/azurirajKorisnika/{id}").permitAll()
-                .requestMatchers(DELETE, "/obrisiKorisnika/{id}").permitAll()
+                .requestMatchers(POST, "/dodajKorisnika").hasRole(ADMIN.name())
+                .requestMatchers(GET, "/korisnici").hasRole(ADMIN.name())
+                .requestMatchers(GET, "/korisnik/{id}").hasRole(ADMIN.name())
+                .requestMatchers(GET, "/korisnik/email/{email}").hasAnyRole(ADMIN.name(), USER.name())
+                .requestMatchers(PUT, "/azurirajKorisnika/{id}").hasRole(ADMIN.name())
+                .requestMatchers(DELETE, "/obrisiKorisnika/{id}").hasRole(ADMIN.name())
                 // PopustController
                 .requestMatchers(GET, "/popusti/").permitAll()
                 .requestMatchers(GET, "/popusti/{id}").permitAll()
@@ -96,6 +101,8 @@ public class SecurityConfig {
                 // ZanrController
                 .requestMatchers(GET, "/zanrovi/").permitAll()
                 .requestMatchers(PUT, "/zanrovi/film/{id}").permitAll()
+                // Logout
+                .requestMatchers("/auth/logout").hasAnyRole(ADMIN.name(), USER.name())
                 .anyRequest()
                 .authenticated()
                 .and()
