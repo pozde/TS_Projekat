@@ -24,9 +24,7 @@ function HomeOverviewUser() {
     checkAdminRole();
   }, []);
 
-  const returnToHomepage = () => {
-    window.location.href = "/";
-  };
+  
 
   return (
     <>
@@ -37,7 +35,7 @@ function HomeOverviewUser() {
         ) : (
           <div style={{ textAlign: "center", margin: "20px" }}>
             <p>Nemate pristup. Kontaktirajte administratora.</p>
-            <button onClick={returnToHomepage}>Return to Homepage</button>
+            <button  onClick={() => window.location.href = "/homeUser"}>Return to Homepage</button>
           </div>
         )
       ) : (
