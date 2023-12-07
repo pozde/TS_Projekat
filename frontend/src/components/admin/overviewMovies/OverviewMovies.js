@@ -1,10 +1,14 @@
+// OverviewMovies.js
+
 import React, { useEffect, useState } from "react";
 import { Container, Paper, Button } from "@mui/material";
 import axios from "axios";
+import jwt_decode from 'jwt-decode';
 
 export default function OverviewMovies() {
   const paperStyle = { padding: "50px 20px", width: 600, margin: "20px auto" };
   const [filmovi, setFilmovi] = useState([]);
+  const [isLogged, setIsLogged] = useState(true); // Track whether the user is logged in
 
   const handleObrisi = async (idFilma) => {
     // Optimistically update the local state
@@ -29,17 +33,21 @@ export default function OverviewMovies() {
   };
 
   useEffect(() => {
-    /* fetch("http://localhost:8081/films")
-      .then((res) => res.json())
-      .then((result) => {
-        setFilmovi(result);
-      }); */
-
     const fetchFilmovi = async () => {
       const token = localStorage.getItem("access_token");
+
+      // Check if the token is empty
+      if (!token) {
+        setIsLogged(false);
+        return;
+      }
+
+      const decodedToken = jwt_decode(token);
+
+      // You can add more conditions here based on the user's role if needed
+
       try {
-        const BASE_URL =
-          process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
         const response = await axios.get(`${BASE_URL}/films`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -53,47 +61,31 @@ export default function OverviewMovies() {
   }, []);
 
   return (
-    <Container>
-      <h1 style={{ color: "white" }}>Filmovi</h1>
-      <Paper elevation={3} style={paperStyle}>
-        {filmovi.map((film) => (
-          <Paper
-            elevation={6}
-            style={{ margin: "10px", padding: "15px", textAlign: "left" }}
-            key={film.id}
-          >
-            Id: {film.id} <br />
-            Naziv: {film.nazivFilma} <br />
-            Trajanje: {film.trajanje} <br />
-            Opis: {film.opis} <br />
-            URL slike:{" "}
-            <a
-              href={film.posterPath}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "block",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-                maxWidth: "100%",
-              }}
-            >
-              {film.posterPath}
-            </a>{" "}
-            <br />
-            Zanrovi: {film.zanrovi.map((zanr) => zanr.nazivZanra).join(", ")}
-            <Button
-              variant="contained"
-              color="error"
-              style={{ width: "100%", marginTop: "15px" }}
-              onClick={() => handleObrisi(film.id)}
-            >
-              OBRISI
-            </Button>
+    <>
+      {isLogged && (
+        <Container>
+          <h1 style={{ color: "white" }}>Filmovi</h1>
+          <Paper elevation={3} style={paperStyle}>
+            {filmovi.map((film) => (
+              <Paper elevation={6} style={{ margin: "10px", padding: "15px", textAlign: "left" }} key={film.id}>
+                Id: {film.id} <br />
+                Naziv: {film.nazivFilma} <br />
+                Trajanje: {film.trajanje} <br />
+                Opis: {film.opis} <br />
+                URL slike:{" "}
+                <a href={film.posterPath} target="_blank" rel="noopener noreferrer" style={{ display: "block", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "100%" }}>
+                  {film.posterPath}
+                </a>{" "}
+                <br />
+                Zanrovi: {film.zanrovi.map((zanr) => zanr.nazivZanra).join(", ")}
+                <Button variant="contained" color="error" style={{ width: "100%", marginTop: "15px" }} onClick={() => handleObrisi(film.id)}>
+                  OBRISI
+                </Button>
+              </Paper>
+            ))}
           </Paper>
-        ))}
-      </Paper>
-    </Container>
+        </Container>
+      )}
+    </>
   );
 }

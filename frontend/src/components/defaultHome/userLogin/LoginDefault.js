@@ -48,6 +48,10 @@ function LoginDefault() {
     }
   };
 
+  const handleRedirect = () => {
+    window.location.href = "/register";
+  };
+
   return (
     <div className="login-page">
       <div className="frameLogIn">
@@ -90,12 +94,9 @@ function LoginDefault() {
           Prijava
         </button>
         <div>{error && <p className="error-message">{error}</p>}</div>
-        <div className="links">
-          <a className="link" href="#">
-            Izgubljena lozinka?
-          </a>
-          <Button className="buttonLink" onClick={() => navigate("/register")}>
-            Nemaš nalog? <b>Registruj se.</b>
+        <div>
+          <Button style={{ color:"white"}} onClick={handleRedirect}>
+          <b>Nemate nalog? Registrujte se!</b>
           </Button>
         </div>
       </div>

@@ -2,6 +2,9 @@ import React, { useState, useRef } from "react";
 
 import "./RegisterDefault.css";
 
+
+import { useNavigate } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import { Button, Dialog, DialogTitle, DialogActions } from "@mui/material";
 
@@ -9,14 +12,12 @@ function RegisterDefault() {
   const [selectedOption, setSelectedOption] = useState("");
   const inputEmail = useRef(null);
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-
+  
+  const navigate = useNavigate();
   const [reservationSuccess, setReservationSuccess] = useState(false);
   const [reservationFail, setReservationFail] = useState(false);
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  
 
   const handleClose = () => {
     setReservationSuccess(false);
@@ -28,6 +29,10 @@ function RegisterDefault() {
     setReservationFail(false);
 
     window.location.href = "/";
+  };
+
+  const handleRedirect = () => {
+    window.location.href = "/login";
   };
 
   function validateInput(input) {
@@ -245,6 +250,12 @@ function RegisterDefault() {
         <button className="register-button" onClick={handleRegister}>
           Registracija
         </button>
+        <div>
+          <Button style={{ color:"white"}} onClick={handleRedirect}>
+          <b> Imate nalog? Prijavite se!</b>
+          </Button>
+        </div>
+        
         <Dialog open={reservationSuccess && !reservationFail} onClose={handleClose}>
           <DialogTitle variant="h5" fontWeight="bold">
             Uspješno ste se registrovali
@@ -267,11 +278,7 @@ function RegisterDefault() {
             </Button>
           </DialogActions>
         </Dialog>
-        <div className="links">
-          <button className="register-button" onClick={handleCloseNavMenu} component={Link} to="/login">
-            Imaš nalog? <b>Prijavi se.</b>
-          </button>
-        </div>
+        
       </div>
     </div>
   );
