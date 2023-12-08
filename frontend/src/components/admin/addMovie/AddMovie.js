@@ -55,12 +55,12 @@ export default function AddMovie() {
         id: zanr.id,
         nazivZanra: zanr.nazivZanra,
       }));
-      const response2 = await axios.put(`${BASE_URL}/rezervacija-karata/sale/film/${response.data.id}`, selectedSale, {
+      const response2 = await axios.put(`${BASE_URL}/sale/film/${response.data.id}`, selectedSale, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const response1 = await axios.put(
-        `${BASE_URL}/rezervacija-karata/zanrovi/film/${response.data.id}`,
+        `${BASE_URL}/zanrovi/film/${response.data.id}`,
 
         zahtjevZanrovi,
 
