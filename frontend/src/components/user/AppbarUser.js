@@ -65,7 +65,7 @@ function AppbarUser() {
               <MenuItem onClick={handleCloseNavMenu} component={Link} to="/eventsUser">
                 <Typography textAlign="center">Događaji</Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu} component={Link} to="/aboutusUser">
+              <MenuItem onClick={handleCloseNavMenu} component={Link} to="/aboutUsUser">
                 <Typography textAlign="center">O nama</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu} component={Link} to="/forYou">
@@ -81,7 +81,7 @@ function AppbarUser() {
             <Button onClick={handleCloseNavMenu} component={Link} to="/eventsUser" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
               Događaji
             </Button>
-            <Button onClick={handleCloseNavMenu} component={Link} to="/aboutusUser" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
+            <Button onClick={handleCloseNavMenu} component={Link} to="/aboutUsUser" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
               O nama
             </Button>
             <Button onClick={handleCloseNavMenu} component={Link} to="/forYou" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
@@ -89,8 +89,6 @@ function AppbarUser() {
             </Button>
           </Box>
           <Box style={{ display: "flex" }}>
-            
-
             <Button onClick={handleCloseNavMenu} component={Link} to="/profile" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
               Profil
             </Button>

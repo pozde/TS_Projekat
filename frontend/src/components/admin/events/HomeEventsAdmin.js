@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import AppbarDefault from "../AppbarDefault";
-import NewsDefault from "./NewsDefault";
+import AppbarAdmin from "../AppbarAdmin";
+import EventsAdmin from "./EventsAdmin";
 
 import notFoundImage from "../../../images/notFound.png";
 import jwt_decode from "jwt-decode";
 
-function HomeNewsDefault() {
+function HomeEventsAdmin() {
   const [isLogged, setIsLogged] = useState(true); // Track whether the user is logged in
-  const [isUser, setIsUser] = useState(false); // Track whether the user has admin role
+  const [isAdmin, setIsAdmin] = useState(false); // Track whether the user has admin role
 
   useEffect(() => {
     const checkLoginStatus = () => {
@@ -21,23 +21,24 @@ function HomeNewsDefault() {
 
       const decodedToken = jwt_decode(token);
 
-      // Check if the user has the user role
-      setIsUser(decodedToken.role === "ROLE_USER");
+      // Check if the user has the admin role
+      setIsAdmin(decodedToken.role === "ROLE_ADMIN");
 
       setIsLogged(true);
     };
 
     checkLoginStatus();
   }, []);
+
   return (
     <>
-      {isLogged && isUser && <AppbarUser />}
+      {isLogged && isAdmin && <AppbarAdmin />}
       {isLogged ? (
-        isUser ? (
-          <NewsDefault />
+        isAdmin ? (
+          <EventsAdmin />
         ) : (
           <div style={{ textAlign: "center", margin: "20px" }}>
-            <p className="no-permission-title">Nemate pristup korisničkim stranicama.</p>
+            <p className="no-permission-title">Nemate pristup. Kontaktirajte administratora.</p>
             <img src={notFoundImage} alt="notFound" />
             <button className="no-permission-button" onClick={() => (window.location.href = "/homeUser")}>
               Return to Homepage
@@ -58,4 +59,4 @@ function HomeNewsDefault() {
   );
 }
 
-export default HomeNewsDefault;
+export default HomeEventsAdmin;

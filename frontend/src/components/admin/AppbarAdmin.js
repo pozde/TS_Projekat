@@ -58,6 +58,14 @@ function AppbarAdmin() {
                 display: { xs: "block", md: "none" },
               }}
             >
+              <MenuItem onClick={handleCloseNavMenu} component={Link} to="/eventsAdmin">
+                <Typography textAlign="center">Događaji</Typography>
+              </MenuItem>
+
+              <MenuItem onClick={handleCloseNavMenu} component={Link} to="/aboutUsAdmin">
+                <Typography textAlign="center">O nama</Typography>
+              </MenuItem>
+
               <MenuItem onClick={handleCloseNavMenu} component={Link} to="/addMovie">
                 <Typography textAlign="center">Dodavanje filma</Typography>
               </MenuItem>
@@ -91,6 +99,14 @@ function AppbarAdmin() {
             HOME
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Button onClick={handleCloseNavMenu} component={Link} to="/eventsAdmin" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
+              Događaji
+            </Button>
+
+            <Button onClick={handleCloseNavMenu} component={Link} to="/aboutUsAdmin" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
+              O nama
+            </Button>
+
             <Button onClick={handleCloseNavMenu} component={Link} to="/addMovie" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
               Dodavanje filma
             </Button>
