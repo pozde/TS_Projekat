@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import AppbarAdmin from "../AppbarAdmin";
 import OverviewUser from "./OverviewUser";
 import jwt_decode from 'jwt-decode';
+import "./UserOverview.css";
+import notFoundImage from "../../../images/notFound.png";
 
 function HomeOverviewUser() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -34,15 +36,17 @@ function HomeOverviewUser() {
           <OverviewUser />
         ) : (
           <div style={{ textAlign: "center", margin: "20px" }}>
-            <p>Nemate pristup. Kontaktirajte administratora.</p>
-            <button  onClick={() => window.location.href = "/homeUser"}>Return to Homepage</button>
+            <p className="no-permission-title">Nemate pristup. Kontaktirajte administratora.</p>
+            <img src={notFoundImage} alt="notFound" />
+            <button  className="no-permission-button" onClick={() => window.location.href = "/homeUser"}>Return to Homepage</button>
           </div>
         )
       ) : (
         <div style={{ textAlign: "center", margin: "20px" }}>
-          <p>Morate biti prijavljeni da biste pristupili ovom sadržaju.</p>
+          <p className="no-permission-title">Morate biti prijavljeni da biste pristupili ovom sadržaju.</p>
           {/* Add a link or button to navigate to the login page */}
-          <button onClick={() => window.location.href = "/login"}>Go to Login</button>
+          <img src={notFoundImage} alt="notFound" />
+          <button className="no-permission-button" onClick={() => window.location.href = "/login"}>Go to Login</button>
         </div>
       )}
     </>

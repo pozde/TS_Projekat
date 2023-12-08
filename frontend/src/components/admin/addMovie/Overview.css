@@ -1,0 +1,26 @@
+.no-permission-button {
+    background-color: white;
+    padding: 10px 40px;
+    border-radius: 5px;
+    margin: 10px auto;
+    display: block;
+    cursor: pointer;
+    border: 1px solid #0058b8;
+    font-size: 18px;
+    color: #0058b8;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .no-permission-button:hover {
+    background-color: #0058b8;
+    color: white;
+  }
+
+  .no-permission-title {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
