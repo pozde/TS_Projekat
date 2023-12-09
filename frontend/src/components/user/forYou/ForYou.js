@@ -58,6 +58,26 @@ const ForYou = () => {
     }
   };
 
+/*   useEffect(() => {
+    const fetchData = async () => {
+      await fetchKorisnik();
+      console.log('koris await');
+      fetchFilmovi();
+      console.log('filmovi');
+    };
+
+    fetchData().then( () => {
+    console.log('fetch data');
+    fetchFilms().then(() => {
+        console.log('fetch films');
+      filterMovies();
+      console.log('filter movies');
+    });
+    } );
+
+    //filterMovies();
+  }, [searchTerm, selectedGenres, filmovi, nazivZanraArray, films]); */
+
   useEffect(() => {
     const fetchData = async () => {
       await fetchKorisnik();
@@ -65,12 +85,15 @@ const ForYou = () => {
     };
 
     fetchData();
-    fetchFilms().then(() => {
-      filterMovies();
-    });
+  }, [searchTerm, selectedGenres]);
 
-    //filterMovies();
-  }, [searchTerm, selectedGenres, filmovi, nazivZanraArray, films]);
+  useEffect(() => {
+    fetchFilms();
+  }, [filmovi, korisnik]);
+
+  useEffect(() => {
+    filterMovies();
+  }, [nazivZanraArray, films]);
 
   const filterMovies = () => {
     const filteredMovies = filmovi.filter((movie) => {
