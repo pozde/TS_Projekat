@@ -3,6 +3,8 @@ package ba.tim2.RezervacijaKarata.Service;
 import ba.tim2.RezervacijaKarata.Entity.Korisnik;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.ErrorHandling.VecPostojiException;
+import ba.tim2.RezervacijaKarata.Repository.Auth.TokenRepository;
+import ba.tim2.RezervacijaKarata.Repository.Auth.UserRepository;
 import ba.tim2.RezervacijaKarata.Repository.KorisnikRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +22,11 @@ public class KorisnikServiceImpl implements KorisnikService {
     @Autowired
     private KorisnikRepository korisnikRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TokenRepository tokenRepository;
 
     @EventListener
     public void appReady(ApplicationReadyEvent event) {
@@ -85,7 +92,12 @@ public class KorisnikServiceImpl implements KorisnikService {
     public ResponseEntity obrisiKorisnika(int id) {
         if(korisnikRepository.existsById(id)){
             JSONObject objekat = new JSONObject();
+            var user = userRepository.findByID(id + 1);
+            for(int i = 0; i < user.getTokens().toArray().length; i++){
+                tokenRepository.delete(user.getTokens().get(i));
+            }
             korisnikRepository.deleteById(id);
+            userRepository.deleteById(id + 1);
             try {
                 objekat.put("message", "Korisnik je uspješno obrisan!");
             } catch (JSONException e) {
