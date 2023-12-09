@@ -18,151 +18,148 @@ export default function AddMovie() {
   const [reservationSuccess, setReservationSuccess] = useState(false);
   const [reservationFail, setReservationFail] = useState(false);
 
-  function validateInput(input){
+  function validateInput(input) {
     const id = input.id;
     const value = input.value;
     const errorText = document.getElementById(`errorText-${id}`);
 
     if (id === "email") {
-        //email format
-        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  
-        if (!value.match(emailRegex)) {
-          if (errorText) {
-            errorText.style.display = "block";
-          }
-          input.classList.add("error-field");
-          return false;
-        } else {
-          if (errorText) {
-            errorText.style.display = "none";
-          }
-          input.classList.remove("error-field");
-          return true;
+      //email format
+      const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+      if (!value.match(emailRegex)) {
+        if (errorText) {
+          errorText.style.display = "block";
         }
-      } else if (id === "brojTelefona") {
-        // broj sa minimalno 6 cifri
-        const phoneNumberRegex = /^\d{6,}$/;
-  
-        if (!value.match(phoneNumberRegex)) {
-          if (errorText) {
-            errorText.style.display = "block";
-          }
-          input.classList.add("error-field");
-          return false;
-        } else {
-          if (errorText) {
-            errorText.style.display = "none";
-          }
-          input.classList.remove("error-field");
-          return true;
+        input.classList.add("error-field");
+        return false;
+      } else {
+        if (errorText) {
+          errorText.style.display = "none";
         }
-      } else if (id === "spol") {
-        // iskljucivo "M" ili "Z"
-        const validGenders = ["M", "Z"];
-  
-        if (!validGenders.includes(value.toUpperCase())) {
-          if (errorText) {
-            errorText.style.display = "block";
-          }
-          input.classList.add("error-field");
-          return false;
-        } else {
-          if (errorText) {
-            errorText.style.display = "none";
-          }
-          input.classList.remove("error-field");
-          return true;
-        }
-      } else if (id === "datumRodjenja") {
-        // format datuma dd.mm.yyyy.
-        const dateRegex = /^\d{2}\.\d{2}\.\d{4}\.$/;
-  
-        if (!value.match(dateRegex)) {
-          if (errorText) {
-            errorText.style.display = "block";
-          }
-          input.classList.add("error-field");
-          return false;
-        } else {
-          if (errorText) {
-            errorText.style.display = "none";
-          }
-          input.classList.remove("error-field");
-          return true;
-        }
+        input.classList.remove("error-field");
+        return true;
       }
-  
-      return true;
+    } else if (id === "brojTelefona") {
+      // broj sa minimalno 6 cifri
+      const phoneNumberRegex = /^\d{6,}$/;
+
+      if (!value.match(phoneNumberRegex)) {
+        if (errorText) {
+          errorText.style.display = "block";
+        }
+        input.classList.add("error-field");
+        return false;
+      } else {
+        if (errorText) {
+          errorText.style.display = "none";
+        }
+        input.classList.remove("error-field");
+        return true;
+      }
+    } else if (id === "spol") {
+      // iskljucivo "M" ili "Z"
+      const validGenders = ["M", "Z"];
+
+      if (!validGenders.includes(value.toUpperCase())) {
+        if (errorText) {
+          errorText.style.display = "block";
+        }
+        input.classList.add("error-field");
+        return false;
+      } else {
+        if (errorText) {
+          errorText.style.display = "none";
+        }
+        input.classList.remove("error-field");
+        return true;
+      }
+    } else if (id === "datumRodjenja") {
+      // format datuma dd.mm.yyyy.
+      const dateRegex = /^\d{2}\.\d{2}\.\d{4}\.$/;
+
+      if (!value.match(dateRegex)) {
+        if (errorText) {
+          errorText.style.display = "block";
+        }
+        input.classList.add("error-field");
+        return false;
+      } else {
+        if (errorText) {
+          errorText.style.display = "none";
+        }
+        input.classList.remove("error-field");
+        return true;
+      }
+    }
+
+    return true;
   }
 
   const handleClick = async (e) => {
     const isEmailValid = validateInput(document.getElementById("email"));
     const isBrojTelefonaValid = validateInput(document.getElementById("brojTelefona"));
     const isSpolValid = validateInput(document.getElementById("spol"));
-   
+
     const isDatumRodjenjaValid = validateInput(document.getElementById("datumRodjenja"));
 
     if (isEmailValid && isBrojTelefonaValid && isSpolValid && isDatumRodjenjaValid) {
-     
-    const ime = document.getElementById("ime").value;
-    const prezime = document.getElementById("prezime").value;
-    const email = document.getElementById("email").value;
-    
-    const datumRodjenja = document.getElementById("datumRodjenja").value;
-    const brojTelefona = document.getElementById("brojTelefona").value;
-    const spol = document.getElementById("spol").value;
-    const role = "USER"; // since role is always "USER"
+      const ime = document.getElementById("ime").value;
+      const prezime = document.getElementById("prezime").value;
+      const email = document.getElementById("email").value;
 
-    const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-    const response = await fetch(`${BASE_URL}/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ime: ime,
-        prezime: prezime,
-        email: email,
-        datumRodjenja: datumRodjenja,
-        brojTelefona: brojTelefona,
-        password: password,
-        spol: spol,
-        role: role,
-      }),
-    });
+      const datumRodjenja = document.getElementById("datumRodjenja").value;
+      const brojTelefona = document.getElementById("brojTelefona").value;
+      const spol = document.getElementById("spol").value;
+      const role = "USER"; // since role is always "USER"
 
-    //provjeriti radi li za 201
-    if (response.status === "201" || response.ok) {
-      // if HTTP status is 200-299
-      // get the response data
-      setReservationSuccess(true);
-      const data = await response.json();
+      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+      const response = await fetch(`${BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ime: ime,
+          prezime: prezime,
+          email: email,
+          datumRodjenja: datumRodjenja,
+          brojTelefona: brojTelefona,
+          password: password,
+          spol: spol,
+          role: role,
+        }),
+      });
 
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("refresh_token", data.refresh_token);
+      //provjeriti radi li za 201
+      if (response.status === "201" || response.ok) {
+        // if HTTP status is 200-299
+        // get the response data
+        setReservationSuccess(true);
+        const data = await response.json();
 
-      // Rest of the registration processing code
-      // history.push('/choose-pollingstation');
-    } else if (response.status === 409) {
-      setReservationFail(true);
-      // if status is 409 Conflict
-      // handle email already existing...
-      const data = await response.json();
-      console.error("Error:", data.message);
-      alert(data.message);
+        //localStorage.setItem("access_token", data.access_token);
+        //localStorage.setItem("refresh_token", data.refresh_token);
+
+        // Rest of the registration processing code
+        // history.push('/choose-pollingstation');
+      } else if (response.status === 409) {
+        setReservationFail(true);
+        // if status is 409 Conflict
+        // handle email already existing...
+        const data = await response.json();
+        console.error("Error:", data.message);
+        alert(data.message);
+      } else {
+        setReservationFail(true);
+        console.error("Error:", response.status, response.statusText);
+        // handle other errors...
+      }
     } else {
-      setReservationFail(true);
-      console.error("Error:", response.status, response.statusText);
-      // handle other errors...
-    }
-}else {
-    // Handle other invalid inputs
-    let errorMessage = "Provjerite unesene podatke za polja:\n";
+      // Handle other invalid inputs
+      let errorMessage = "Provjerite unesene podatke za polja:\n";
 
-    
-
-    if (!isEmailValid) {
+      if (!isEmailValid) {
         errorMessage += "- Email mora biti u formatu ime@primjer.com.\n";
       }
 
@@ -174,19 +171,15 @@ export default function AddMovie() {
         errorMessage += "- Spol isključivo može biti 'M' ili 'Z'.\n";
       }
 
-
       if (!isDatumRodjenjaValid) {
         errorMessage += "- Datum rođenja mora biti oblika 'dd.mm.yyyy'.\n";
       }
-   
 
-    alert(errorMessage);
-    return;
-  }
+      alert(errorMessage);
+      return;
+    }
+  };
 
-};
-    
-  
   const handleClose = () => {
     setReservationSuccess(false);
     setReservationFail(false);
@@ -195,7 +188,7 @@ export default function AddMovie() {
   const handleCloseSuccess = () => {
     setReservationSuccess(false);
     setReservationFail(false);
-    window.location.href="/overviewUser"
+    window.location.href = "/overviewUser";
   };
 
   return (

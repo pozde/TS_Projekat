@@ -41,7 +41,7 @@ export default function AddMovie() {
       nazivFilma,
       trajanje,
       opis,
-      posterPath
+      posterPath,
     };
 
     const token = localStorage.getItem("access_token");
@@ -135,6 +135,12 @@ export default function AddMovie() {
   const handleClose = () => {
     setReservationSuccess(false);
     setReservationFail(false);
+  };
+
+  const handleCloseSuccess = () => {
+    setReservationSuccess(false);
+    setReservationFail(false);
+    window.location.href = "/overviewMovies";
   };
 
   return (
@@ -245,7 +251,7 @@ export default function AddMovie() {
             </DialogTitle>
 
             <DialogActions style={{ justifyContent: "center" }}>
-              <Button variant="contained" size="large" style={{ fontWeight: "bold", backgroundColor: "#2d2d2d" }} onClick={handleClose}>
+              <Button variant="contained" size="large" style={{ fontWeight: "bold", backgroundColor: "#2d2d2d" }} onClick={handleCloseSuccess}>
                 OK
               </Button>
             </DialogActions>

@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 
 import "./RegisterDefault.css";
 
-
 import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
@@ -12,12 +11,9 @@ function RegisterDefault() {
   const [selectedOption, setSelectedOption] = useState("");
   const inputEmail = useRef(null);
 
-  
   const navigate = useNavigate();
   const [reservationSuccess, setReservationSuccess] = useState(false);
   const [reservationFail, setReservationFail] = useState(false);
-
-  
 
   const handleClose = () => {
     setReservationSuccess(false);
@@ -172,8 +168,8 @@ function RegisterDefault() {
         setReservationSuccess(true);
         const data = await response.json();
 
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("refresh_token", data.refresh_token);
+        //localStorage.setItem("access_token", data.access_token);
+        //localStorage.setItem("refresh_token", data.refresh_token);
 
         // Rest of the registration processing code
         // history.push('/choose-pollingstation');
@@ -251,11 +247,11 @@ function RegisterDefault() {
           Registracija
         </button>
         <div>
-          <Button style={{ color:"white"}} onClick={handleRedirect}>
-          <b> Imate nalog? Prijavite se!</b>
+          <Button style={{ color: "white" }} onClick={handleRedirect}>
+            <b> Imate nalog? Prijavite se!</b>
           </Button>
         </div>
-        
+
         <Dialog open={reservationSuccess && !reservationFail} onClose={handleClose}>
           <DialogTitle variant="h5" fontWeight="bold">
             Uspješno ste se registrovali
@@ -278,7 +274,6 @@ function RegisterDefault() {
             </Button>
           </DialogActions>
         </Dialog>
-        
       </div>
     </div>
   );
