@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import AppbarAdmin from "../AppbarAdmin";
 import OverviewMovies from "./OverviewMovies";
-import jwt_decode from 'jwt-decode';
+import jwt_decode from "jwt-decode";
 import "./HomeOverviewButton.css";
 import notFoundImage from "../../../images/notFound.png";
 
@@ -24,7 +24,7 @@ function HomeOverviewMovies() {
       const decodedToken = jwt_decode(token);
 
       // Check if the user has the admin role
-      setIsAdmin(decodedToken.role === 'ROLE_ADMIN');
+      setIsAdmin(decodedToken.role === "ROLE_ADMIN");
 
       setIsLogged(true);
     };
@@ -34,7 +34,7 @@ function HomeOverviewMovies() {
 
   return (
     <>
-      {isLogged && (isAdmin && <AppbarAdmin />)}
+      {isLogged && isAdmin && <AppbarAdmin />}
       {isLogged ? (
         isAdmin ? (
           <OverviewMovies />
@@ -42,7 +42,9 @@ function HomeOverviewMovies() {
           <div style={{ textAlign: "center", margin: "20px" }}>
             <p className="no-permission-title">Nemate pristup. Kontaktirajte administratora.</p>
             <img src={notFoundImage} alt="notFound" />
-            <button className="no-permission-button" onClick={() => window.location.href = "/homeUser"}>Return to Homepage</button>
+            <button className="no-permission-button" onClick={() => (window.location.href = "/homeUser")}>
+              Return to Homepage
+            </button>
           </div>
         )
       ) : (
@@ -50,7 +52,9 @@ function HomeOverviewMovies() {
           <p className="no-permission-title">Morate biti prijavljeni da biste pristupili ovom sadržaju.</p>
           <img src={notFoundImage} alt="notFound" />
           {/* Add a link or button to navigate to the login page */}
-          <button className="no-permission-button" onClick={() => window.location.href = "/login"}>Go to Login</button>
+          <button className="no-permission-button" onClick={() => (window.location.href = "/login")}>
+            Go to Login
+          </button>
         </div>
       )}
     </>

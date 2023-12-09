@@ -1,13 +1,13 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import AppbarAdmin from "../AppbarAdmin";
 import AddUser from "./AddUser";
 import "./Overview.css";
 import notFoundImage from "../../../images/notFound.png";
 
-import jwt_decode from 'jwt-decode';
+import jwt_decode from "jwt-decode";
 
 function HomeAddUser() {
-    const [isLogged, setIsLogged] = useState(true); // Track whether the user is logged in
+  const [isLogged, setIsLogged] = useState(true); // Track whether the user is logged in
   const [isAdmin, setIsAdmin] = useState(false); // Track whether the user has admin role
 
   useEffect(() => {
@@ -23,7 +23,7 @@ function HomeAddUser() {
       const decodedToken = jwt_decode(token);
 
       // Check if the user has the admin role
-      setIsAdmin(decodedToken.role === 'ROLE_ADMIN');
+      setIsAdmin(decodedToken.role === "ROLE_ADMIN");
 
       setIsLogged(true);
     };
@@ -31,28 +31,32 @@ function HomeAddUser() {
     checkLoginStatus();
   }, []);
 
-
-  return ( <>
-    {isLogged && (isAdmin && <AppbarAdmin />)}
-    {isLogged ? (
-      isAdmin ? (
-        <AddUser />
+  return (
+    <>
+      {isLogged && isAdmin && <AppbarAdmin />}
+      {isLogged ? (
+        isAdmin ? (
+          <AddUser />
+        ) : (
+          <div style={{ textAlign: "center", margin: "20px" }}>
+            <p className="no-permission-title">Nemate pristup. Kontaktirajte administratora.</p>
+            <img src={notFoundImage} alt="notFound" />
+            <button className="no-permission-button" onClick={() => (window.location.href = "/homeUser")}>
+              Return to Homepage
+            </button>
+          </div>
+        )
       ) : (
         <div style={{ textAlign: "center", margin: "20px" }}>
-          <p className="no-permission-title">Nemate pristup. Kontaktirajte administratora.</p>
+          <p className="no-permission-title">Morate biti prijavljeni da biste pristupili ovom sadržaju.</p>
           <img src={notFoundImage} alt="notFound" />
-          <button className="no-permission-button" onClick={() => window.location.href = "/homeUser"}>Return to Homepage</button>
+          {/* Add a link or button to navigate to the login page */}
+          <button className="no-permission-button" onClick={() => (window.location.href = "/login")}>
+            Go to Login
+          </button>
         </div>
-      )
-    ) : (
-      <div style={{ textAlign: "center", margin: "20px" }}>
-        <p className="no-permission-title">Morate biti prijavljeni da biste pristupili ovom sadržaju.</p>
-        <img src={notFoundImage} alt="notFound" />
-        {/* Add a link or button to navigate to the login page */}
-        <button className="no-permission-button" onClick={() => window.location.href = "/login"}>Go to Login</button>
-      </div>
-    )}
-  </>
+      )}
+    </>
   );
 }
 

@@ -40,7 +40,7 @@ function HomeTicket() {
           <div style={{ textAlign: "center", margin: "20px" }}>
             <p className="no-permission-title">Nemate pristup korisničkim stranicama.</p>
             <img src={notFoundImage} alt="notFound" />
-            <button className="no-permission-button" onClick={() => (window.location.href = "/homeUser")}>
+            <button className="no-permission-button" onClick={() => (window.location.href = "/homeAdmin")}>
               Return to Homepage
             </button>
           </div>
