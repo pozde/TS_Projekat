@@ -45,8 +45,11 @@ const Ticket = () => {
           response.data.sale.map((e) => e.id)
         );
         let salaIzOdgovora = response.data.sale.map((e) => e.brojSale);
+        let idSaleIzOdgovora = response.data.sale.map((e) => e.id);
         setSaleAll(response.data.sale);
         setSaleFilma(salaIzOdgovora);
+        setIzabranaSala(salaIzOdgovora[0]);
+        setIzabranaSalaId(idSaleIzOdgovora[0]);
         fetchSjedistaOdabraneSale(salaIzOdgovora[0]);
       } catch (error) {
         console.error("Failed to fetch movies:", error);
@@ -125,7 +128,7 @@ const Ticket = () => {
 
   const handleChangeSala = (event) => {
     setIzabranaSala(event.target.value);
-    setIzabranaSalaId(saleAll.find(sala => sala.brojSale === event.target.value).id);
+    setIzabranaSalaId(saleAll.find((sala) => sala.brojSale === event.target.value).id);
     fetchSjedistaOdabraneSale(event.target.value);
   };
 
@@ -140,7 +143,7 @@ const Ticket = () => {
     //setOdabrana([]);
     setReservationSuccess(false);
 
-    window.location.href="/moviesUser"
+    window.location.href = "/moviesUser";
   };
 
   return (

@@ -15,6 +15,8 @@ const ForYou = () => {
   let [films, setFilms] = useState([]);
   const [nazivZanraArray, setNazivZanraArray] = useState([]);
 
+  const [filteredFilms, setFilteredFilms] = useState([]);
+
   const fetchKorisnik = async () => {
     const token = localStorage.getItem("access_token");
     try {
@@ -44,11 +46,16 @@ const ForYou = () => {
   const fetchFilms = async () => {
     if (filmovi.length > 0) {
       setFilms(korisnik.karte.map((karta) => karta.film));
+      console.log("FILMS", films);
 
-      if (films && films.length > 0) {
+      // Filter out null values from films array
+      const filteredFilms = films.filter((film) => film !== null);
+      setFilteredFilms(filteredFilms);
+
+      if (filteredFilms.length > 0) {
         setNazivZanraArray(
-          films.flatMap((film) => {
-            if (film.zanrovi && film.zanrovi.length > 0) {
+          filteredFilms.flatMap((film) => {
+            if (film && film.zanrovi && film.zanrovi.length > 0) {
               return film.zanrovi.map((zanr) => zanr.nazivZanra);
             }
             return [];
@@ -58,7 +65,7 @@ const ForYou = () => {
     }
   };
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     const fetchData = async () => {
       await fetchKorisnik();
       console.log('koris await');
@@ -99,16 +106,16 @@ const ForYou = () => {
     const filteredMovies = filmovi.filter((movie) => {
       // Filter based on selected genres
       if (nazivZanraArray.length > 0) {
-        const allGenresCurr = movie.zanrovi.map((el) => el.nazivZanra);
-        const hasCommonElement = allGenresCurr.some((genre) => nazivZanraArray.includes(genre));
+        const allGenresCurr = movie.zanrovi?.map((el) => el.nazivZanra) || [];
+        const hasCommonGenre = nazivZanraArray.some((genre) => allGenresCurr.includes(genre));
 
-        if (!hasCommonElement) {
+        if (!hasCommonGenre) {
           return false;
         }
       }
 
-      // Filter out movies from the `films` array
-      const hasMovie = films.some((film) => film.nazivFilma === movie.nazivFilma);
+      // Filter out movies from the `filteredFilms` array
+      const hasMovie = filteredFilms.some((film) => film && film.nazivFilma === movie.nazivFilma);
       if (hasMovie) {
         return false;
       }
