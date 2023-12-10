@@ -96,7 +96,7 @@ public class FilmServiceImpl implements FilmService {
 
             List<Karta> karte = kartaRepository.findAll();
             for (Karta karta : karte) {
-                if (karta.getFilm().equals(film)) {
+                if (karta.getFilm() != null && karta.getFilm().equals(film)) {
                     karta.setFilm(null);
                 }
             }
