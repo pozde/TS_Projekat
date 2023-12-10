@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, Typography, TextField } from "@mui/material";
+import { Grid, Typography, TextField } from "@mui/material";
 import { Paper } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import axios from "axios";
@@ -7,19 +7,6 @@ import axios from "axios";
 const Profile = ({ user }) => {
   const [korisnik, setKorisnik] = useState({});
   const email = localStorage.getItem("email");
-
-  const handleObrisi = async (idKorisnika) => {
-    const token = localStorage.getItem("access_token");
-    try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-      const response = await axios.delete(`${BASE_URL}/obrisiKorisnika/${idKorisnika}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      console.log("Uspjesno obrisano");
-    } catch (error) {
-      console.error("Failed to fetch users:", error);
-    }
-  };
 
   useEffect(() => {
     const fetchKorisnik = async () => {
@@ -215,9 +202,6 @@ const Profile = ({ user }) => {
               }}
             />
           </div>
-          <Button variant="contained" color="error" onClick={() => handleObrisi(korisnik.id)} style={{ width: "100%", marginTop: "15px" }}>
-            Obriši nalog
-          </Button>
         </Paper>
       </Grid>
     </Grid>

@@ -53,7 +53,7 @@ public class RezervacijaKarataService {
                     .prezime("CineAdminLast")
                     .datumRodjenja(LocalDate.of(2000, Month.FEBRUARY,24))
                     .email("cineadmin@gmail.com")
-                    .password(passwordEncoder.encode("12345"))
+                    .password(passwordEncoder.encode("ZfvTOZ3atA8GbOI"))
                     .brojTelefona("062646331")
                     .spol("M")
                     .role(Role.ADMIN)
