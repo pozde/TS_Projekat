@@ -3,9 +3,9 @@ package ba.tim2.RezervacijaKarata.Service;
 import ba.tim2.RezervacijaKarata.Entity.Korisnik;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.ErrorHandling.VecPostojiException;
+import ba.tim2.RezervacijaKarata.Repository.*;
 import ba.tim2.RezervacijaKarata.Repository.Auth.TokenRepository;
 import ba.tim2.RezervacijaKarata.Repository.Auth.UserRepository;
-import ba.tim2.RezervacijaKarata.Repository.KorisnikRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -27,6 +28,15 @@ public class KorisnikServiceImpl implements KorisnikService {
 
     @Autowired
     private TokenRepository tokenRepository;
+
+    @Autowired
+    private KartaRepository kartaRepository;
+
+    @Autowired
+    private FilmRepository filmRepository;
+
+    @Autowired
+    private SjedisteRepository sjedisteRepository;
 
     @EventListener
     public void appReady(ApplicationReadyEvent event) {
@@ -96,6 +106,30 @@ public class KorisnikServiceImpl implements KorisnikService {
             for(int i = 0; i < user.getTokens().toArray().length; i++){
                 tokenRepository.delete(user.getTokens().get(i));
             }
+
+            for (var karta : kartaRepository.findAll()) {
+                int kartaId = karta.getID();
+                if (karta.getKorisnik().getID() == id) {
+                    for (var film : filmRepository.findAll()) {
+                        if (film.getKarta() != null && film.getKarta().getID() == karta.getID()) {
+                            film.setKarta(null);
+                        }
+                    }
+
+                    kartaRepository.delete(karta);
+
+                    for (var sjediste : sjedisteRepository.findAll()) {
+                        if (sjediste.getKarta() != null && sjediste.getKarta().getID() == kartaId) {
+                            sjedisteRepository.delete(sjediste);
+                        }
+                    }
+                }
+            }
+
+            Korisnik korisnik = korisnikRepository.findByID(id);
+            if (korisnik != null)
+                korisnik.setKarte(Collections.emptyList());
+
             korisnikRepository.deleteById(id);
             userRepository.deleteById(id + 1);
             try {
