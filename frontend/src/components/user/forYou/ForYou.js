@@ -65,26 +65,6 @@ const ForYou = () => {
     }
   };
 
-  /*   useEffect(() => {
-    const fetchData = async () => {
-      await fetchKorisnik();
-      console.log('koris await');
-      fetchFilmovi();
-      console.log('filmovi');
-    };
-
-    fetchData().then( () => {
-    console.log('fetch data');
-    fetchFilms().then(() => {
-        console.log('fetch films');
-      filterMovies();
-      console.log('filter movies');
-    });
-    } );
-
-    //filterMovies();
-  }, [searchTerm, selectedGenres, filmovi, nazivZanraArray, films]); */
-
   useEffect(() => {
     const fetchData = async () => {
       await fetchKorisnik();
@@ -122,8 +102,10 @@ const ForYou = () => {
 
       return true;
     });
-
-    setFilteredMovies(filteredMovies);
+    if(filteredMovies.length !== filmovi.length )
+        setFilteredMovies(filteredMovies);
+    else
+        setFilteredMovies([]);
   };
 
   //const filteredContent = selectedGenres.length > 0 ? filteredMovies : filmovi;
