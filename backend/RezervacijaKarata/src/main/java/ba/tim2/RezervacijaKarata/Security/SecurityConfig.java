@@ -63,6 +63,7 @@ public class SecurityConfig {
                 .requestMatchers(GET, "/korisnici").hasRole(ADMIN.name())
                 .requestMatchers(GET, "/korisnik/{id}").hasRole(ADMIN.name())
                 .requestMatchers(GET, "/korisnik/email/{email}").hasAnyRole(ADMIN.name(), USER.name())
+                .requestMatchers(GET, "/user/email/{email}").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers(PUT, "/azurirajKorisnika/{id}").hasRole(ADMIN.name())
                 .requestMatchers(DELETE, "/obrisiKorisnika/{id}").hasRole(ADMIN.name())
                 // SalaController

@@ -41,6 +41,11 @@ public class KorisnikController {
         return service.getKorisnikByEmail(email);
     }
 
+    @GetMapping(value = "/user/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getUserByEmail(@PathVariable String email) {
+        return service.getUserByEmail(email);
+    }
+
     @PutMapping(value = "/azurirajKorisnika/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity azuzirajKorisnika(@PathVariable int id, @RequestBody Korisnik korisnik) {
         return service.azurirajKorisnika(id, korisnik);

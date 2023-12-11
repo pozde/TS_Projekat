@@ -1,5 +1,6 @@
 package ba.tim2.RezervacijaKarata.Service;
 
+import ba.tim2.RezervacijaKarata.Entity.Auth.User;
 import ba.tim2.RezervacijaKarata.Entity.Korisnik;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.ErrorHandling.VecPostojiException;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class KorisnikServiceImpl implements KorisnikService {
@@ -47,6 +49,15 @@ public class KorisnikServiceImpl implements KorisnikService {
     public ResponseEntity getKorisnikByEmail(String email) {
         if (korisnikRepository.existsByEmail(email)) {
             return new ResponseEntity(korisnikRepository.findByEmail(email), HttpStatus.OK);
+        } else {
+            throw new NePostojiException("Korisnik sa email-om " + email + " ne postoji!");
+        }
+    }
+
+    @Override
+    public ResponseEntity getUserByEmail(String email) {
+        if (korisnikRepository.existsByEmail(email)) {
+            return new ResponseEntity(userRepository.findByEmail(email), HttpStatus.OK);
         } else {
             throw new NePostojiException("Korisnik sa email-om " + email + " ne postoji!");
         }
@@ -209,4 +220,38 @@ public class KorisnikServiceImpl implements KorisnikService {
         }
         return new ResponseEntity<>(korisnik, HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity azurirajPasswordKorisnika(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            // Now you can work with the user
+        } else {
+            // User with the given email not found
+        }
+
+        /*<Korisnik> sviKorisnici = korisnikRepository.findAll();
+        for (int i = 0; i < sviKorisnici.size(); i++) {
+            Korisnik k = sviKorisnici.get(i);
+            if (korisnik.getEmail().equals(k.getEmail())) {
+                throw new VecPostojiException("Korisnik sa tim email-om već postoji!");
+            }
+        }
+        korisnikRepository.save(korisnik);
+        JSONObject objekat = new JSONObject();
+        try {
+            objekat.put("message", "Korisnik je uspješno dodan!");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Korisnik> request = new HttpEntity<>(korisnik, headers);
+        //restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/korisnici/dodaj", request, Korisnik.class);
+        return new ResponseEntity(korisnik, HttpStatus.CREATED);*/
+        return null;
+    }
+
+
 }
