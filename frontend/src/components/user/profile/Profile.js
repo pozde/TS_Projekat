@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Button, Grid, Typography, TextField, Modal, Box } from "@mui/material";
-import { Paper } from "@mui/material";
+import { Button, Grid, Typography, TextField, Modal, Box, Paper } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import axios from "axios";
+import PasswordChangeResultModal from "./PasswordChangeResultModal"; // Import the new modal
 
-const PasswordChangeModal = ({ open, onClose, user }) => {
+const PasswordChangeModal = ({ open, onClose }) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(null);
 
   const handlePasswordChange = async () => {
     const token = localStorage.getItem("access_token");
@@ -14,92 +17,78 @@ const PasswordChangeModal = ({ open, onClose, user }) => {
     const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
 
     try {
-      const response = await fetch(
-        `${BASE_URL}/auth/reset-password/${email}/${currentPassword}/${newPassword}`,
+      const response = await fetch(`${BASE_URL}/auth/reset-password/${email}/${currentPassword}/${newPassword}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      // Check the response status to determine success or failure
+      if (response.ok) {
+        setIsSuccess(response.ok);
+        setSuccessMessage("Password changed successfully!");
+      } else {
+        setIsSuccess(false);
+        setErrorMessage("Failed to change password. Please try again.");
+      }
     } catch (error) {
+      setIsSuccess(false);
       console.error("Error while setting password!", error);
+      setErrorMessage("An error occurred. Please try again later.");
+    } finally {
+      onClose();
     }
-    onClose();
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 300,
-          bgcolor: "white", // Set background color
-          borderRadius: "8px", // Add border radius for a rounded appearance
-          boxShadow: 24,
-          p: 4,
-        }}
-      >
-        <Typography
-          variant="h6"
-          component="div"
-          gutterBottom
-          sx={{ color: "black" }}
-        >
-          Promijeni šifru
-        </Typography>
-        <TextField
-          label="Trenutni password"
-          type="password"
-          fullWidth
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          margin="normal"
+    <>
+      <PasswordChangeResultModal open={isSuccess !== null} onClose={() => setIsSuccess(null)} isSuccess={isSuccess} />
+      <Modal open={open} onClose={onClose}>
+        <Box
           sx={{
-            mb: 2, // Add margin bottom
-            "& .MuiInputLabel-root": { color: "rgba(0, 0, 0, 255)" }, // Adjust label color
-            "& .MuiInputBase-input": { color: "rgba(0, 0, 0, 255)" }, // Adjust input text color
-            "& .MuiInput-underline:before": {
-              borderBottomColor: "rgba(0, 0, 0, 0.42)",
-            }, // Adjust underline color
-            "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-              borderBottomColor: "rgba(0, 0, 0, 0.87)",
-            }, // Adjust underline hover color
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 300,
+            bgcolor: "white",
+            borderRadius: "8px",
+            boxShadow: 24,
+            p: 4,
           }}
-        />
-
-        <TextField
-          label="Novi password"
-          type="password"
-          fullWidth
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          margin="normal"
-          sx={{
-            mb: 2, // Add margin bottom
-            "& .MuiInputLabel-root": { color: "rgba(0, 0, 0, 255)" }, // Adjust label color
-            "& .MuiInputBase-input": { color: "rgba(0, 0, 0, 255)" }, // Adjust input text color
-            "& .MuiInput-underline:before": {
-              borderBottomColor: "rgba(0, 0, 0, 0.42)",
-            }, // Adjust underline color
-            "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-              borderBottomColor: "rgba(0, 0, 0, 0.87)",
-            }, // Adjust underline hover color
-          }} // Add margin bottom
-        />
-        <Button
-          variant="contained"
-          onClick={handlePasswordChange}
-          color="primary"
-          fullWidth
         >
-          Potvrdi
-        </Button>
-      </Box>
-    </Modal>
+          <Typography variant="h6" component="div" gutterBottom sx={{ color: "black" }}>
+            Promijeni šifru
+          </Typography>
+
+          <TextField
+            label="Trenutni password"
+            type="password"
+            fullWidth
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            margin="normal"
+            sx={{
+              mb: 2,
+            }}
+          />
+
+          <TextField
+            label="Novi password"
+            type="password"
+            fullWidth
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            margin="normal"
+            sx={{
+              mb: 2,
+            }}
+          />
+          <Button variant="contained" onClick={handlePasswordChange} color="primary" fullWidth>
+            Potvrdi
+          </Button>
+        </Box>
+      </Modal>
+    </>
   );
 };
 
@@ -112,8 +101,7 @@ const Profile = () => {
     const fetchUser = async () => {
       const token = localStorage.getItem("access_token");
       try {
-        const BASE_URL =
-          process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
         const response = await axios.get(`${BASE_URL}/user/email/${email}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -161,6 +149,7 @@ const Profile = () => {
             <span style={{ marginRight: "10px" }}>Profil</span>
             <PersonIcon fontSize="large" />
           </Typography>
+
           <div
             style={{
               display: "flex",
@@ -347,23 +336,15 @@ const Profile = () => {
               }}
             />
           </div>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleOpenPasswordModal}
-            sx={{ color: "white" }}
-          >
+
+          <Button fullWidth variant="contained" color="primary" onClick={handleOpenPasswordModal} sx={{ color: "white" }}>
             Promijeni šifru
           </Button>
         </Paper>
       </Grid>
 
       {/* PasswordChangeModal component */}
-      <PasswordChangeModal
-        open={openPasswordModal}
-        onClose={handleClosePasswordModal}
-      />
+      <PasswordChangeModal open={openPasswordModal} onClose={handleClosePasswordModal} />
     </Grid>
   );
 };
