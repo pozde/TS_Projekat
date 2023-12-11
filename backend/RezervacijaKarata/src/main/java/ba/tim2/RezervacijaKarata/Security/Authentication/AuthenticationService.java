@@ -166,10 +166,10 @@ public class AuthenticationService {
     public void resetPassword(String email, String oldPassword, String newPassword) throws Exception {
         var user = userRepository.findByEmail(email).orElseThrow();
 
-        if (!passwordEncoder.encode(oldPassword).equals(user.getPassword()))
+        if (!passwordEncoder.matches(oldPassword, user.getPassword()))
             throw new Exception("Wrong current password!");
 
-        userRepository.delete(user);
+        //userRepository.delete(user);
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }

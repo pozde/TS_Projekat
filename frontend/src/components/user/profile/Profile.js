@@ -11,43 +11,21 @@ const PasswordChangeModal = ({ open, onClose, user }) => {
   const handlePasswordChange = async () => {
     const token = localStorage.getItem("access_token");
     const email = localStorage.getItem("email");
+    const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
 
     try {
-      const BASE_URL =
-        process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-
-      const response = await axios.post(
+      const response = await fetch(
         `${BASE_URL}/auth/reset-password/${email}/${currentPassword}/${newPassword}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      console.log("Promijenjeno", response);
     } catch (error) {
       console.error("Error while setting password!", error);
     }
-  };
-
-  /*
-  const handlePasswordChange = async () => {
-    const sendPassword = async () => {
-      const token = localStorage.getItem("access_token");
-      try {
-        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-        // /reset-password/{email}/{oldPassword}/{newPassword}
-        const response = await axios.get(`${BASE_URL}/reset-password/${email}/${currentPassword}/${newPassword}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        console.log("Uspjesno promijenjen password!");
-        //setUser(response.data);
-      } catch (error) {
-        console.error("Wrong password", error);
-      }
-    };
-    sendPassword();
-
-
     onClose();
-    
-  };*/
+  };
 
   return (
     <Modal open={open} onClose={onClose}>

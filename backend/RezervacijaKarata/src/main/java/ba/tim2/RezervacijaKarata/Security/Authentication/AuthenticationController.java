@@ -4,10 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -33,7 +30,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset-password/{email}/{oldPassword}/{newPassword}")
-    public void resetPassword(String email, String oldPassword, String newPassword) throws Exception {
+    public void resetPassword(@PathVariable String email,
+                              @PathVariable String oldPassword,
+                              @PathVariable String newPassword) throws Exception {
         authenticationService.resetPassword(email, oldPassword, newPassword);
     }
 }
