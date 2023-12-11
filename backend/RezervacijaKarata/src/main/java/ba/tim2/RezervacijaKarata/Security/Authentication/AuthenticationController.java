@@ -30,9 +30,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset-password/{email}/{oldPassword}/{newPassword}")
-    public void resetPassword(@PathVariable String email,
+    public ResponseEntity<String> resetPassword(@PathVariable String email,
                               @PathVariable String oldPassword,
-                              @PathVariable String newPassword) throws Exception {
-        authenticationService.resetPassword(email, oldPassword, newPassword);
+                              @PathVariable String newPassword) {
+        return authenticationService.resetPassword(email, oldPassword, newPassword);
     }
 }

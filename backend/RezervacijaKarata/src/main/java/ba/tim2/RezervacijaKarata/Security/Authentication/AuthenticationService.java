@@ -14,10 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -163,14 +160,18 @@ public class AuthenticationService {
         }
     }
 
-    public void resetPassword(String email, String oldPassword, String newPassword) throws Exception {
-        var user = userRepository.findByEmail(email).orElseThrow();
+    public ResponseEntity<String> resetPassword(String email, String oldPassword, String newPassword) {
+        try {
+            var user = userRepository.findByEmail(email).orElseThrow(() -> new NePostojiException("User not found"));
 
-        if (!passwordEncoder.matches(oldPassword, user.getPassword()))
-            throw new Exception("Wrong current password!");
+            if (!passwordEncoder.matches(oldPassword, user.getPassword()))
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong current password!");
 
-        //userRepository.delete(user);
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            return ResponseEntity.ok("Password reset successfully");
+        } catch (NePostojiException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
     }
 }
