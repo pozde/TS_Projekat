@@ -9,8 +9,45 @@ const PasswordChangeModal = ({ open, onClose, user }) => {
   const [newPassword, setNewPassword] = useState("");
 
   const handlePasswordChange = async () => {
-    onClose();
+    const token = localStorage.getItem("access_token");
+    const email = localStorage.getItem("email");
+
+    try {
+      const BASE_URL =
+        process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+
+      const response = await axios.post(
+        `${BASE_URL}/auth/reset-password/${email}/${currentPassword}/${newPassword}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log("Promijenjeno", response);
+    } catch (error) {
+      console.error("Error while setting password!", error);
+    }
   };
+
+  /*
+  const handlePasswordChange = async () => {
+    const sendPassword = async () => {
+      const token = localStorage.getItem("access_token");
+      try {
+        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+        // /reset-password/{email}/{oldPassword}/{newPassword}
+        const response = await axios.get(`${BASE_URL}/reset-password/${email}/${currentPassword}/${newPassword}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log("Uspjesno promijenjen password!");
+        //setUser(response.data);
+      } catch (error) {
+        console.error("Wrong password", error);
+      }
+    };
+    sendPassword();
+
+
+    onClose();
+    
+  };*/
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -27,7 +64,12 @@ const PasswordChangeModal = ({ open, onClose, user }) => {
           p: 4,
         }}
       >
-        <Typography variant="h6" component="div" gutterBottom sx={{ color: "black" }}>
+        <Typography
+          variant="h6"
+          component="div"
+          gutterBottom
+          sx={{ color: "black" }}
+        >
           Promijeni šifru
         </Typography>
         <TextField
@@ -41,8 +83,12 @@ const PasswordChangeModal = ({ open, onClose, user }) => {
             mb: 2, // Add margin bottom
             "& .MuiInputLabel-root": { color: "rgba(0, 0, 0, 255)" }, // Adjust label color
             "& .MuiInputBase-input": { color: "rgba(0, 0, 0, 255)" }, // Adjust input text color
-            "& .MuiInput-underline:before": { borderBottomColor: "rgba(0, 0, 0, 0.42)" }, // Adjust underline color
-            "& .MuiInput-underline:hover:not(.Mui-disabled):before": { borderBottomColor: "rgba(0, 0, 0, 0.87)" }, // Adjust underline hover color
+            "& .MuiInput-underline:before": {
+              borderBottomColor: "rgba(0, 0, 0, 0.42)",
+            }, // Adjust underline color
+            "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+              borderBottomColor: "rgba(0, 0, 0, 0.87)",
+            }, // Adjust underline hover color
           }}
         />
 
@@ -57,11 +103,20 @@ const PasswordChangeModal = ({ open, onClose, user }) => {
             mb: 2, // Add margin bottom
             "& .MuiInputLabel-root": { color: "rgba(0, 0, 0, 255)" }, // Adjust label color
             "& .MuiInputBase-input": { color: "rgba(0, 0, 0, 255)" }, // Adjust input text color
-            "& .MuiInput-underline:before": { borderBottomColor: "rgba(0, 0, 0, 0.42)" }, // Adjust underline color
-            "& .MuiInput-underline:hover:not(.Mui-disabled):before": { borderBottomColor: "rgba(0, 0, 0, 0.87)" }, // Adjust underline hover color
+            "& .MuiInput-underline:before": {
+              borderBottomColor: "rgba(0, 0, 0, 0.42)",
+            }, // Adjust underline color
+            "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+              borderBottomColor: "rgba(0, 0, 0, 0.87)",
+            }, // Adjust underline hover color
           }} // Add margin bottom
         />
-        <Button variant="contained" onClick={handlePasswordChange} color="primary" fullWidth>
+        <Button
+          variant="contained"
+          onClick={handlePasswordChange}
+          color="primary"
+          fullWidth
+        >
           Potvrdi
         </Button>
       </Box>
@@ -78,7 +133,8 @@ const Profile = () => {
     const fetchUser = async () => {
       const token = localStorage.getItem("access_token");
       try {
-        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+        const BASE_URL =
+          process.env.REACT_APP_BASE_URL || "http://localhost:8081";
         const response = await axios.get(`${BASE_URL}/user/email/${email}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -126,7 +182,13 @@ const Profile = () => {
             <span style={{ marginRight: "10px" }}>Profil</span>
             <PersonIcon fontSize="large" />
           </Typography>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
             <Typography
               variant="body1"
               sx={{
@@ -151,7 +213,13 @@ const Profile = () => {
               }}
             />
           </div>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
             <Typography
               variant="body1"
               sx={{
@@ -176,7 +244,13 @@ const Profile = () => {
               }}
             />
           </div>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
             <Typography
               variant="body1"
               sx={{
@@ -201,7 +275,13 @@ const Profile = () => {
               }}
             />
           </div>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
             <Typography
               variant="body1"
               sx={{
@@ -226,7 +306,13 @@ const Profile = () => {
               }}
             />
           </div>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
             <Typography
               variant="body1"
               sx={{
@@ -251,7 +337,13 @@ const Profile = () => {
               }}
             />
           </div>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
             <Typography
               variant="body1"
               sx={{
@@ -276,14 +368,23 @@ const Profile = () => {
               }}
             />
           </div>
-          <Button fullWidth variant="contained" color="primary" onClick={handleOpenPasswordModal} sx={{ color: "white" }}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleOpenPasswordModal}
+            sx={{ color: "white" }}
+          >
             Promijeni šifru
           </Button>
         </Paper>
       </Grid>
 
       {/* PasswordChangeModal component */}
-      <PasswordChangeModal open={openPasswordModal} onClose={handleClosePasswordModal} />
+      <PasswordChangeModal
+        open={openPasswordModal}
+        onClose={handleClosePasswordModal}
+      />
     </Grid>
   );
 };

@@ -31,4 +31,9 @@ public class AuthenticationController {
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         authenticationService.refreshToken(request, response);
     }
+
+    @PostMapping("/reset-password/{email}/{oldPassword}/{newPassword}")
+    public void resetPassword(String email, String oldPassword, String newPassword) throws Exception {
+        authenticationService.resetPassword(email, oldPassword, newPassword);
+    }
 }

@@ -5,6 +5,7 @@ import ba.tim2.RezervacijaKarata.Entity.Auth.Token;
 import ba.tim2.RezervacijaKarata.Entity.Auth.TokenType;
 import ba.tim2.RezervacijaKarata.Entity.Auth.User;
 import ba.tim2.RezervacijaKarata.Entity.Korisnik;
+import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.Repository.Auth.TokenRepository;
 import ba.tim2.RezervacijaKarata.Repository.Auth.UserRepository;
 import ba.tim2.RezervacijaKarata.Repository.KorisnikRepository;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -159,5 +161,16 @@ public class AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    public void resetPassword(String email, String oldPassword, String newPassword) throws Exception {
+        var user = userRepository.findByEmail(email).orElseThrow();
+
+        if (!passwordEncoder.encode(oldPassword).equals(user.getPassword()))
+            throw new Exception("Wrong current password!");
+
+        userRepository.delete(user);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }
