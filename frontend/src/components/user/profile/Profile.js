@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Grid, Typography, TextField, Modal, Box, Paper } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import axios from "axios";
+import "./Profile.css";
 import PasswordChangeResultModal from "./PasswordChangeResultModal"; // Import the new modal
 
 const PasswordChangeModal = ({ open, onClose }) => {
@@ -12,30 +13,48 @@ const PasswordChangeModal = ({ open, onClose }) => {
   const [isSuccess, setIsSuccess] = useState(null);
 
   const handlePasswordChange = async () => {
-    const token = localStorage.getItem("access_token");
-    const email = localStorage.getItem("email");
-    const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-
-    try {
-      const response = await fetch(`${BASE_URL}/auth/reset-password/${email}/${currentPassword}/${newPassword}`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      // Check the response status to determine success or failure
-      if (response.ok) {
-        setIsSuccess(response.ok);
-        setSuccessMessage("Password changed successfully!");
+    let checkPassword = document.getElementById("novi-password");
+    let isPasswordValid = false;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!checkPassword.value.match(passwordRegex)) {
+        checkPassword.classList.add("error-field");
+        isPasswordValid = false;
       } else {
-        setIsSuccess(false);
-        setErrorMessage("Failed to change password. Please try again.");
+        checkPassword.classList.remove("error-field");
+        isPasswordValid = true;
       }
-    } catch (error) {
-      setIsSuccess(false);
-      console.error("Error while setting password!", error);
-      setErrorMessage("An error occurred. Please try again later.");
-    } finally {
-      onClose();
+      
+    if(isPasswordValid){
+        const token = localStorage.getItem("access_token");
+        const email = localStorage.getItem("email");
+        const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+
+        try {
+        const response = await fetch(`${BASE_URL}/auth/reset-password/${email}/${currentPassword}/${newPassword}`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        // Check the response status to determine success or failure
+        if (response.ok) {
+            setIsSuccess(response.ok);
+            setSuccessMessage("Password changed successfully!");
+        } else {
+            setIsSuccess(false);
+            setErrorMessage("Failed to change password. Please try again.");
+        }
+        } catch (error) {
+        setIsSuccess(false);
+        console.error("Error while setting password!", error);
+        setErrorMessage("An error occurred. Please try again later.");
+        } finally {
+        onClose();
+        }
+    }
+    else{
+        let errorMessage = "Provjerite unesene podatke za polja:\n- Password se mora sastojati od minimalno 8 karaktera te bar jednog velikog slova i bar jednog broja.\n";
+        alert(errorMessage);
+        return;
     }
   };
 
@@ -75,6 +94,7 @@ const PasswordChangeModal = ({ open, onClose }) => {
           <TextField
             label="Novi password"
             type="password"
+            id = "novi-password"
             fullWidth
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
