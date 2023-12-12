@@ -21,6 +21,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.SecureRandom;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +37,79 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    public static String generateRandomPassword(int length) {
+        if (length < 3) {
+            throw new IllegalArgumentException("Password length must be at least 3");
+        }
+
+        String uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+        String digits = "0123456789";
+        String specialCharacters = "!@#$%^&*()-_=+";
+        String allCharacters = uppercaseLetters + lowercaseLetters + digits + specialCharacters;
+
+        SecureRandom secureRandom = new SecureRandom();
+        StringBuilder password = new StringBuilder();
+
+        // Ensure at least one capital letter
+        password.append(uppercaseLetters.charAt(secureRandom.nextInt(uppercaseLetters.length())));
+
+        // Ensure at least one digit
+        password.append(digits.charAt(secureRandom.nextInt(digits.length())));
+
+        // Fill the remaining characters
+        for (int i = 2; i < length; i++) {
+            int randomIndex = secureRandom.nextInt(allCharacters.length());
+            password.append(allCharacters.charAt(randomIndex));
+        }
+
+        return password.toString();
+    }
+
+    public ResponseEntity<String> sendPasswordViaEmail(String email) {
+        try {
+            var user = userRepository.findByEmail(email).orElseThrow(() -> new NePostojiException("User not found"));
+
+            String randomPassword = generateRandomPassword(16);
+            // Send the email with user information
+            sendPasswordEmail(user.getEmail(), randomPassword);
+            user.setPassword(passwordEncoder.encode(randomPassword));
+            userRepository.save(user);
+
+            return ResponseEntity.ok("Password sent successfully");
+        } catch (NePostojiException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+
+    private void sendPasswordEmail(String email, String randomPassword) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("Cineflexx - forgotten password");
+        message.setText("Your email address: " + email + "\nYour temporary password: " + randomPassword + "\n\n" + "Please change this password when you log in to the site!");
+
+        // Send the email
+        javaMailSender.send(message);
+    }
+
+    public ResponseEntity<String> resetPassword(String email, String oldPassword, String newPassword) {
+        try {
+            var user = userRepository.findByEmail(email).orElseThrow(() -> new NePostojiException("User not found"));
+
+            if (!passwordEncoder.matches(oldPassword, user.getPassword()))
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong current password!");
+
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            return ResponseEntity.ok("Password reset successfully");
+        } catch (NePostojiException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
 
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -160,18 +239,5 @@ public class AuthenticationService {
         }
     }
 
-    public ResponseEntity<String> resetPassword(String email, String oldPassword, String newPassword) {
-        try {
-            var user = userRepository.findByEmail(email).orElseThrow(() -> new NePostojiException("User not found"));
 
-            if (!passwordEncoder.matches(oldPassword, user.getPassword()))
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong current password!");
-
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
-            return ResponseEntity.ok("Password reset successfully");
-        } catch (NePostojiException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-    }
 }

@@ -14,6 +14,12 @@ import java.io.IOException;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
+    @PostMapping("/forgot-password/{email}")
+    public ResponseEntity<String> forgotPassword(@PathVariable String email) {
+        authenticationService.sendPasswordViaEmail(email);
+        return ResponseEntity.ok("Password reset email sent successfully");
+    }
+
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
