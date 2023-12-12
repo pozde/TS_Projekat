@@ -23,13 +23,13 @@ const PasswordChangeModal = ({ open, onClose }) => {
         checkPassword.classList.remove("error-field");
         isPasswordValid = true;
       }
-      
+
     if(isPasswordValid){
+        try {
+            
         const token = localStorage.getItem("access_token");
         const email = localStorage.getItem("email");
         const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-
-        try {
         const response = await fetch(`${BASE_URL}/auth/reset-password/${email}/${currentPassword}/${newPassword}`, {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
