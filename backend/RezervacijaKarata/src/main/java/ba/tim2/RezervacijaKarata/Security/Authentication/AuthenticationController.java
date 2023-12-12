@@ -30,6 +30,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.login(request));
     }
 
+    @PostMapping("/logout/{email}")
+    public void logout(@PathVariable String email) {
+        authenticationService.logout(email);
+    }
+
     @PostMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         authenticationService.refreshToken(request, response);

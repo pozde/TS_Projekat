@@ -11,14 +11,23 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 import MovieIcon from "@mui/icons-material/Movie";
+import axios from "axios";
 
 function AppbarUser() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-  const handleLogout = () => {
-    // Don't forget to clear the access tokens when logging out
+  const handleLogout = async (e) => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
+    const token = localStorage.getItem("access_token");
+    const email = localStorage.getItem("email");
+
+    await axios.post(`${BASE_URL}/auth/logout/${email}`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    window.location.href = "/";
   };
 
   const handleOpenNavMenu = (event) => {
@@ -92,7 +101,7 @@ function AppbarUser() {
             <Button onClick={handleCloseNavMenu} component={Link} to="/profile" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
               Profil
             </Button>
-            <Button onClick={handleLogout} component={Link} to="/" sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
+            <Button onClick={handleLogout} sx={{ my: 2, color: "white", display: "block", marginLeft: "50px", fontWeight: "bold", fontSize: "16px" }}>
               Odjavi se
             </Button>
           </Box>

@@ -240,4 +240,16 @@ public class AuthenticationService {
     }
 
 
+    public void logout(String email) {
+        System.out.println("Usao 00");
+        var user = userRepository.findByEmail(email);
+        if(user != null){
+            var allUserTokens = user.get().getTokens();
+            for(var token : allUserTokens){
+                token.setExpired(true);
+                token.setRevoked(true);
+                tokenRepository.delete(token);
+            }
+        }
+    }
 }

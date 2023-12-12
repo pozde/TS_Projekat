@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/forgot-password/{email}").permitAll()
                 .requestMatchers("/auth/login").permitAll()
                 .requestMatchers("/auth/register").permitAll()
-                .requestMatchers("/auth/logout").hasAnyRole(ADMIN.name(), USER.name())
+                .requestMatchers("/auth/logout/{email}").permitAll()
                 // FilmController
                 .requestMatchers(POST, "/dodajFilm").hasRole(ADMIN.name())
                 .requestMatchers(GET, "/films").hasAnyRole(ADMIN.name())
@@ -95,11 +95,11 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout()
-                .logoutUrl("/auth/logout")
-                .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()));
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//                .logout()
+//                .logoutUrl("/auth/logout")
+//                .addLogoutHandler(logoutHandler)
+//                .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()));
         return http.build();
     }
 
