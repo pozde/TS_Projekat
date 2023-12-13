@@ -1,5 +1,6 @@
 package ba.tim2.RezervacijaKarata.Security.Authentication;
 
+import ba.tim2.RezervacijaKarata.Entity.Auth.Reset;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +41,15 @@ public class AuthenticationController {
         authenticationService.refreshToken(request, response);
     }
 
-    @PostMapping("/reset-password/{email}/{oldPassword}/{newPassword}")
-    public ResponseEntity<String> resetPassword(@PathVariable String email,
-                              @PathVariable String oldPassword,
-                              @PathVariable String newPassword) {
-        return authenticationService.resetPassword(email, oldPassword, newPassword);
+//    @PostMapping("/reset-password/{email}/{oldPassword}/{newPassword}")
+//    public ResponseEntity<String> resetPassword(@PathVariable String email,
+//                              @PathVariable String oldPassword,
+//                              @PathVariable String newPassword) {
+//        return authenticationService.resetPassword(email, oldPassword, newPassword);
+//    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody Reset request) {
+        return authenticationService.resetPassword(request);
     }
 }

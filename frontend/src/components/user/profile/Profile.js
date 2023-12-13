@@ -30,9 +30,20 @@ const PasswordChangeModal = ({ open, onClose }) => {
         const token = localStorage.getItem("access_token");
         const email = localStorage.getItem("email");
         const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-        const response = await fetch(`${BASE_URL}/auth/reset-password/${email}/${currentPassword}/${newPassword}`, {
+
+        const requestBody = {
+            email: email,
+            oldPassword: currentPassword,
+            newPassword: newPassword,
+          };
+
+        const response = await fetch(`${BASE_URL}/auth/reset-password`, {
             method: "POST",
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { 
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
         });
 
         // Check the response status to determine success or failure

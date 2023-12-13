@@ -1,9 +1,6 @@
 package ba.tim2.RezervacijaKarata.Security.Authentication;
 
-import ba.tim2.RezervacijaKarata.Entity.Auth.Role;
-import ba.tim2.RezervacijaKarata.Entity.Auth.Token;
-import ba.tim2.RezervacijaKarata.Entity.Auth.TokenType;
-import ba.tim2.RezervacijaKarata.Entity.Auth.User;
+import ba.tim2.RezervacijaKarata.Entity.Auth.*;
 import ba.tim2.RezervacijaKarata.Entity.Korisnik;
 import ba.tim2.RezervacijaKarata.ErrorHandling.NePostojiException;
 import ba.tim2.RezervacijaKarata.Repository.Auth.TokenRepository;
@@ -96,20 +93,37 @@ public class AuthenticationService {
         javaMailSender.send(message);
     }
 
-    public ResponseEntity<String> resetPassword(String email, String oldPassword, String newPassword) {
+//    public ResponseEntity<String> resetPassword(String email, String oldPassword, String newPassword) {
+//        try {
+//            var user = userRepository.findByEmail(email).orElseThrow(() -> new NePostojiException("User not found"));
+//
+//            if (!passwordEncoder.matches(oldPassword, user.getPassword()))
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong current password!");
+//
+//            user.setPassword(passwordEncoder.encode(newPassword));
+//            userRepository.save(user);
+//            return ResponseEntity.ok("Password reset successfully");
+//        } catch (NePostojiException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+//        }
+//    }
+
+    public ResponseEntity<String> resetPassword(Reset request) {
         try {
-            var user = userRepository.findByEmail(email).orElseThrow(() -> new NePostojiException("User not found"));
+            var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new NePostojiException("User not found"));
 
-            if (!passwordEncoder.matches(oldPassword, user.getPassword()))
+            if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong current password!");
+            }
 
-            user.setPassword(passwordEncoder.encode(newPassword));
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
             userRepository.save(user);
             return ResponseEntity.ok("Password reset successfully");
         } catch (NePostojiException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
+
 
 
     public AuthenticationResponse register(RegisterRequest request) {

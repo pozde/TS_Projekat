@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(OPTIONS, "/**").permitAll()
                 // Auth
-                .requestMatchers("/auth/reset-password/{email}/{oldPassword}/{newPassword}").permitAll()
+                .requestMatchers("/auth/reset-password").permitAll()
                 .requestMatchers("/auth/forgot-password/{email}").permitAll()
                 .requestMatchers("/auth/login").permitAll()
                 .requestMatchers("/auth/register").permitAll()
