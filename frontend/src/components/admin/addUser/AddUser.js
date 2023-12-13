@@ -1,9 +1,28 @@
 import React, { useState } from "react";
-import { Container, Paper, Button, Box, TextField, Dialog, DialogTitle, DialogActions } from "@mui/material";
+import { Container, Paper, Button, Box, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import axios from "axios";
+
+const CustomAlert = ({ open, onClose, title, message, buttonText }) => {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle style={{ fontWeight: "bold", backgroundColor: "#2196F3", color: "white" }}>{title}</DialogTitle>
+      <DialogContent dangerouslySetInnerHTML={{ __html: message }} />
+
+      <DialogActions>
+        <Button onClick={onClose} color="primary" style={{ fontWeight: "bold", backgroundColor: "#2196F3", color: "white" }}>
+          {buttonText || "OK"}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default function AddMovie() {
   const paperStyle = { padding: "50px 20px", width: 600, margin: "20px auto" };
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const [ime, setIme] = useState("");
   const [prezime, setPrezime] = useState("");
@@ -175,34 +194,44 @@ export default function AddMovie() {
         const data = await response.json();
         console.error("Error:", data.message);
         alert(data.message);
+        setIsButtonDisabled(false);
       } else {
         setReservationFail(true);
+        setIsButtonDisabled(false);
         console.error("Error:", response.status, response.statusText);
         // handle other errors...
       }
     } else {
       // Handle other invalid inputs
-      let errorMessage = "Provjerite unesene podatke za polja:\n";
+      let errorMessage = "Provjerite unesene podatke za polja:<br>";
 
       if (!isEmailValid) {
-        errorMessage += "- Email mora biti u formatu ime@primjer.com.\n";
+        errorMessage += "- Email mora biti u formatu ime@primjer.com.<br>";
       }
 
       if (!isBrojTelefonaValid) {
-        errorMessage += "- Broj telefona mora biti broj od minimalno 6 cifara.\n";
+        errorMessage += "- Broj telefona mora biti broj od minimalno 6 cifara.<br>";
       }
 
       if (!isSpolValid) {
-        errorMessage += "- Spol isključivo može biti 'M' ili 'Z'.\n";
+        errorMessage += "- Spol isključivo može biti 'M' ili 'Z'.<br>";
       }
 
       if (!isDatumRodjenjaValid) {
-        errorMessage += "- Datum rođenja mora biti oblika 'dd.mm.yyyy'.\n";
+        errorMessage += "- Datum rođenja mora biti oblika 'dd.mm.yyyy'.<br>";
       }
 
-      alert(errorMessage);
+      setAlertTitle("Neispravan unos");
+      setAlertMessage(errorMessage);
+      setShowAlert(true);
+      setIsButtonDisabled(false);
       return;
     }
+  };
+
+  const handleCloseAlert = () => {
+    setIsButtonDisabled(false);
+    setShowAlert(false);
   };
 
   const handleClose = () => {
@@ -330,6 +359,7 @@ export default function AddMovie() {
           >
             Dodaj
           </Button>
+          <CustomAlert open={showAlert} onClose={handleCloseAlert} title={alertTitle} message={alertMessage} />
           <Dialog open={reservationSuccess && !reservationFail} onClose={handleClose}>
             <DialogTitle variant="h5" fontWeight="bold">
               Uspješno ste dodali korisnika !
