@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/forgot-password/{email}").permitAll()
                 .requestMatchers("/auth/login").permitAll()
                 .requestMatchers("/auth/register").permitAll()
+                .requestMatchers("/auth/addUser").permitAll()
                 .requestMatchers("/auth/logout/{email}").permitAll()
                 // FilmController
                 .requestMatchers(POST, "/dodajFilm").hasRole(ADMIN.name())

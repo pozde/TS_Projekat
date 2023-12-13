@@ -265,7 +265,7 @@ function RegisterDefault() {
         </Dialog>
         <Dialog open={reservationFail} onClose={handleClose}>
           <DialogTitle variant="h5" fontWeight="bold">
-            Registracija korisnika nije uspjela! Unijeli ste neispravne parametre!
+            Registracija korisnika nije uspjela! Unijeli ste neispravne parametre ili email koji je već u upotrebi!
           </DialogTitle>
 
           <DialogActions style={{ justifyContent: "center" }}>

@@ -86,8 +86,8 @@ public class AuthenticationService {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject("Cineflexx - forgotten password");
-        message.setText("Your email address: " + email + "\nYour temporary password: " + randomPassword + "\n\n" + "Please change this password when you log in to the site!");
+        message.setSubject("Cineflexx - zaboravljeni password");
+        message.setText("Vaša email adresa: " + email + "\nVaš privremeni password: " + randomPassword + "\n\n" + "Molimo Vas promijenite šifru nakon što se prijavite na stranicu!");
 
         // Send the email
         javaMailSender.send(message);
@@ -127,6 +127,11 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new NePostojiException("Email adresa je već u upotrebi");
+        }
+
+
         var user = User.builder()
                 .ime(request.getIme())
                 .prezime(request.getPrezime())
@@ -172,6 +177,77 @@ public class AuthenticationService {
         //restTemplate.postForObject("http://rezervacija-karata/dodajKorisnika", headerForRest, User.class);
 
         //GrpcClient.log(user.getId(),"AuthService","register","Success");
+
+        return AuthenticationResponse.builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+    public AuthenticationResponse addUser(RegisterRequest request) {
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new NePostojiException("Email adresa je već u upotrebi");
+        }
+
+
+        var user = User.builder()
+                .ime(request.getIme())
+                .prezime(request.getPrezime())
+                .datumRodjenja(request.getDatumRodjenja())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .brojTelefona(request.getBrojTelefona())
+                .spol(request.getSpol())
+                .role(request.getRole())
+                .build();
+
+        var korisnik = new Korisnik();
+        korisnik.setIme(request.getIme());
+        korisnik.setPrezime(request.getPrezime());
+        korisnik.setSpol(request.getSpol());
+        korisnik.setDatumRodjenja(request.getDatumRodjenja());
+        korisnik.setBrojTelefona(request.getBrojTelefona());
+        korisnik.setEmail(request.getEmail());
+
+        var savedUser = userRepository.save(user);
+        var saveKorisnik = korisnikRepository.save(korisnik);
+
+        var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+
+        saveUserToken(savedUser, jwtToken);
+
+        var restUser = new User();
+        restUser.setIme(request.getIme());
+        restUser.setPrezime(request.getPrezime());
+        restUser.setDatumRodjenja(request.getDatumRodjenja());
+        restUser.setBrojTelefona(request.getBrojTelefona());
+        restUser.setEmail(request.getEmail());
+        restUser.setRole(Role.USER);
+        restUser.setSpol(request.getSpol());
+
+        var token = tokenRepository.findAllValidTokenByUser(user.getID()).get(0).token;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Bearer " + token);
+        HttpEntity<User> headerForRest = new HttpEntity<>(restUser, headers);
+        //restTemplate.postForObject("http://preporucivanje-sadrzaja-pogodnosti/korisnici/dodaj", headerForRest, User.class);
+        //restTemplate.postForObject("http://rezervacija-karata/dodajKorisnika", headerForRest, User.class);
+
+        //GrpcClient.log(user.getId(),"AuthService","register","Success");
+
+
+
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(request.getEmail());
+        message.setSubject("Cineflexx - registracija");
+        message.setText("Vaši korisnički podaci: \n" + "email: " + request.getEmail() + "\npassword: " + request.getPassword() + "\n\n" + "Molimo Vas promijenite šifru nakon što se prijavite na stranicu!");
+
+            // Send the email
+        javaMailSender.send(message);
+
 
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)

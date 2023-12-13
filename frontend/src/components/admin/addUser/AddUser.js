@@ -11,12 +11,36 @@ export default function AddMovie() {
   const [email, setEmail] = useState("");
   const [datumRodjenja, setDatumRodjenja] = useState("");
   const [brojTelefona, setBrojTelefona] = useState("");
-  const [password, setPassword] = useState("PocetniPass123!");
+  const [password, setPassword] = useState("");
   const [spol, setSpol] = useState("");
   const [role, setRole] = useState("USER");
 
   const [reservationSuccess, setReservationSuccess] = useState(false);
   const [reservationFail, setReservationFail] = useState(false);
+
+  const generateRandomPassword = () => {
+    const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+    const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbers = "0123456789";
+
+    const getRandomChar = (pool) => {
+      const randomIndex = Math.floor(Math.random() * pool.length);
+      return pool.charAt(randomIndex);
+    };
+
+    let password = "";
+
+    // Ensure at least one uppercase letter
+    password += getRandomChar(uppercaseLetters);
+
+    // Generate random characters
+    for (let i = 1; i < 16; i++) {
+      const pool = `${lowercaseLetters}${uppercaseLetters}${numbers}`;
+      password += getRandomChar(pool);
+    }
+
+    return password;
+  };
 
   function validateInput(input) {
     const id = input.id;
@@ -114,7 +138,7 @@ export default function AddMovie() {
       const role = "USER"; // since role is always "USER"
 
       const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8081";
-      const response = await fetch(`${BASE_URL}/auth/register`, {
+      const response = await fetch(`${BASE_URL}/auth/addUser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +149,7 @@ export default function AddMovie() {
           email: email,
           datumRodjenja: datumRodjenja,
           brojTelefona: brojTelefona,
-          password: password,
+          password: generateRandomPassword(),
           spol: spol,
           role: role,
         }),
@@ -308,7 +332,7 @@ export default function AddMovie() {
           </Dialog>
           <Dialog open={reservationFail} onClose={handleClose}>
             <DialogTitle variant="h5" fontWeight="bold">
-              Dodavanje korisnika nije uspjelo! Unijeli ste neispravne parametre!
+              Dodavanje korisnika nije uspjelo! Unijeli ste neispravne parametre ili email koji je već u upotrebi!
             </DialogTitle>
 
             <DialogActions style={{ justifyContent: "center" }}>
