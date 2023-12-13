@@ -5,7 +5,6 @@ import axios from "axios";
 export default function AddMovie() {
   const paperStyle = { padding: "50px 20px", width: 600, margin: "20px auto" };
 
-  //deklaracina
   const [ime, setIme] = useState("");
   const [prezime, setPrezime] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +16,8 @@ export default function AddMovie() {
 
   const [reservationSuccess, setReservationSuccess] = useState(false);
   const [reservationFail, setReservationFail] = useState(false);
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const generateRandomPassword = () => {
     const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
@@ -207,11 +208,14 @@ export default function AddMovie() {
   const handleClose = () => {
     setReservationSuccess(false);
     setReservationFail(false);
+    setIsButtonDisabled(false);
   };
 
   const handleCloseSuccess = () => {
     setReservationSuccess(false);
     setReservationFail(false);
+    setIsButtonDisabled(false);
+
     window.location.href = "/overviewUser";
   };
 
@@ -316,7 +320,14 @@ export default function AddMovie() {
             }}
           />
 
-          <Button onClick={handleClick} style={{ display: "block", backgroundColor: "#2d2d2d", color: "white", marginTop: "15px", width: "100%" }}>
+          <Button
+            onClick={() => {
+              handleClick();
+              setIsButtonDisabled(true);
+            }}
+            disabled={isButtonDisabled}
+            style={{ display: "block", backgroundColor: "#2d2d2d", color: "white", marginTop: "15px", width: "100%" }}
+          >
             Dodaj
           </Button>
           <Dialog open={reservationSuccess && !reservationFail} onClose={handleClose}>

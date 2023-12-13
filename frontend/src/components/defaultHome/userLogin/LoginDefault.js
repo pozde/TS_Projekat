@@ -13,7 +13,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 
-const ResetPasswordModal = ({ open, onClose, onConfirm, emailReset, setEmailReset }) => {
+const ResetPasswordModal = ({ open, onClose, onConfirm, emailReset, setEmailReset, isButtonDisabled, setIsButtonDisabled }) => {
+  //const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   //const [emailReset, setEmailReset] = useState("");
 
   const handleEmailChange = (e) => {
@@ -30,7 +31,15 @@ const ResetPasswordModal = ({ open, onClose, onConfirm, emailReset, setEmailRese
         <Button onClick={onClose} color="primary" style={{ fontWeight: "bold" }}>
           Prekini
         </Button>
-        <Button onClick={() => onConfirm(emailReset)} color="primary" style={{ fontWeight: "bold" }}>
+        <Button
+          onClick={() => {
+            onConfirm(emailReset);
+            setIsButtonDisabled(true);
+          }}
+          color="primary"
+          style={{ fontWeight: "bold" }}
+          disabled={isButtonDisabled}
+        >
           Potvrdi
         </Button>
       </DialogActions>
@@ -38,7 +47,7 @@ const ResetPasswordModal = ({ open, onClose, onConfirm, emailReset, setEmailRese
   );
 };
 
-const ResetPasswordSuccessModal = ({ open, onClose }) => {
+const ResetPasswordSuccessModal = ({ open, onClose, isButtonDisabled, setIsButtonDisabled }) => {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle style={{ fontWeight: "bold", backgroundColor: "#2196F3", color: "white" }}>Povrat passworda</DialogTitle>
@@ -60,6 +69,7 @@ function LoginDefault() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [emailReset, setEmailReset] = useState(""); // Declare emailReset in the state
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const navigate = useNavigate();
 
   const [isResetSuccessModalOpen, setIsResetSuccessModalOpen] = useState(false);
@@ -168,10 +178,16 @@ function LoginDefault() {
           </Button>
         </div>
         <div>
-          <Button style={{ color: "white" }} onClick={handleForgotPassword}>
+          <Button
+            style={{ color: "white" }}
+            onClick={() => {
+              handleForgotPassword();
+              setIsButtonDisabled(false);
+            }}
+          >
             <b>Zaboravili ste password?</b>
           </Button>
-          <ResetPasswordModal open={isModalOpen} onClose={handleCloseModal} onConfirm={handleResetPassword} emailReset={emailReset} setEmailReset={setEmailReset} />
+          <ResetPasswordModal open={isModalOpen} onClose={handleCloseModal} onConfirm={handleResetPassword} emailReset={emailReset} setEmailReset={setEmailReset} isButtonDisabled={isButtonDisabled} setIsButtonDisabled={setIsButtonDisabled} />
           <ResetPasswordSuccessModal open={isResetSuccessModalOpen} onClose={() => setIsResetSuccessModalOpen(false)} />
         </div>
       </div>
